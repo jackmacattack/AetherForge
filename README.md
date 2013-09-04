@@ -1,2 +1,2 @@
-GameeOfSwords
+GameOfSwords
 =============

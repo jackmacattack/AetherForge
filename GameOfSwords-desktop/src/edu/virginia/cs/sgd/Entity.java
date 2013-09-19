@@ -36,7 +36,14 @@ public class Entity {
 
 	public Entity()
 	{
-		
+		xpos = 0;
+		ypos = 0;
 	}
+	public Entity(int x, int y)
+	{
+		xpos = x;
+		ypos = y;
+	}
+	
 	
 }

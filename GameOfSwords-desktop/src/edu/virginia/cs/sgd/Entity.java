@@ -1,5 +1,5 @@
 package edu.virginia.cs.sgd;
-
+import java.awt.Point;
 /**
  * @author Mitchell
  *
@@ -7,10 +7,8 @@ package edu.virginia.cs.sgd;
 
 public class Entity {
 
-	//the x position of an Entity
-	int xpos;
-	//the y position of an Entity
-	int ypos;
+	//the position of the Entity
+	Point p;
 	
 	
 	//probably not accessed, just set to some standard width and height of the grid
@@ -21,41 +19,44 @@ public class Entity {
 	//sprite Sprite
 	public static double distance(Entity a, Entity b)
 	{
-		double one = Math.pow(a.xpos - b.xpos, 2);
-		double two = Math.pow(a.ypos - b.ypos, 2);
+		double one = Math.pow((double)(a.p.x - b.p.x), 2);
+		double two = Math.pow((double)(a.p.y - b.p.y), 2);
 		return Math.sqrt(one+two);
 	}
 	
 	
 	public int getXpos() {
-		return xpos;
+		return p.x;
 	}
 	public void setXpos(int xpos) {
-		this.xpos = xpos;
+		this.p.x = xpos;
 	}
 	public int getYpos() {
-		return ypos;
+		return p.y;
 	}
 	public void setYpos(int ypos) {
-		this.ypos = ypos;
+		this.p.y = ypos;
 	}
-	public int[] getCenter()
+	public Point getPos()
 	{
-		int[] rvalue = new int[2];
-		rvalue[0] = getXpos();
-		rvalue[1] = getYpos();
-		return rvalue;	
+		return p;
+	}
+	public void setPos(Point p)
+	{
+		this.p = p;
+	}
+	public Point getCenter()
+	{
+		Point t = new Point(p);
+		t.translate(width/2, height/2);
+		return t;
 	}
 	public Entity()
 	{
-		xpos = 0;
-		ypos = 0;
+		p = new Point(0,0);
 	}
 	public Entity(int x, int y)
 	{
-		xpos = x;
-		ypos = y;
-	}
-	
-	
+		p = new Point(x,y);
+	}	
 }

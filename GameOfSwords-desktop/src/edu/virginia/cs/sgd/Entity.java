@@ -19,6 +19,13 @@ public class Entity {
 	
 	//the image that is displayed
 	//sprite Sprite
+	public static double distance(Entity a, Entity b)
+	{
+		double one = Math.pow(a.xpos - b.xpos, 2);
+		double two = Math.pow(a.ypos - b.ypos, 2);
+		return Math.sqrt(one+two);
+	}
+	
 	
 	public int getXpos() {
 		return xpos;
@@ -32,8 +39,13 @@ public class Entity {
 	public void setYpos(int ypos) {
 		this.ypos = ypos;
 	}
-
-
+	public int[] getCenter()
+	{
+		int[] rvalue = new int[2];
+		rvalue[0] = getXpos();
+		rvalue[1] = getYpos();
+		return rvalue;	
+	}
 	public Entity()
 	{
 		xpos = 0;

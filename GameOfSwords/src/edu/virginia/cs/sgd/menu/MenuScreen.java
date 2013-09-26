@@ -19,18 +19,14 @@ public class MenuScreen extends AbstractScreen {
 	public MenuScreen(GameOfSwords game) {
 		super(game);
 	}
-
-	@Override
-	public void resize(int width, int height) {
-	}
-
+	
 	@Override
 	public void show() {
 		super.show();
 		
 		// retrieve the default table actor
         Table table = super.getTable();
-        table.add( "Welcome to Sword Art Offline!" ).spaceBottom( 50 );
+        table.add( "Welcome to GameOfSwords (WIP)" ).spaceBottom( 50 );
         table.row();
         
         //start game
@@ -42,30 +38,6 @@ public class MenuScreen extends AbstractScreen {
         TextButton optionsButton = new TextButton( "Options", getSkin() );
         table.add( optionsButton ).uniform().fill().spaceBottom( 10 );
         table.row();
-	}
-
-	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

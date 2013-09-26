@@ -29,11 +29,11 @@ public class MenuScreen extends AbstractScreen {
 
 	@Override
 	public void show() {
+		super.show();
 		// retrieve the default table actor
-		Table table = new Table();
-		TextButton startGameButton = new TextButton("Start game", getSkin());
-		table.add(startGameButton).size(300, 60).uniform().spaceBottom(10);
-		table.row();
+		Table table = super.getTable();
+        table.add( "Welcome to Sword Art Offline" ).spaceBottom( 50 );
+        table.row();
 
 	}
 

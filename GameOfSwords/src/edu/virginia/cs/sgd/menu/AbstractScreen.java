@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-
 /**
  * The base class for all game screens.
  */
@@ -25,7 +24,7 @@ public abstract class AbstractScreen implements Screen {
 	protected final Stage stage;
 
 	private BitmapFont font;
-	private SpriteBatch batch;
+	protected SpriteBatch batch;
 	private Skin skin;
 	private TextureAtlas atlas;
 	private Table table;
@@ -64,8 +63,7 @@ public abstract class AbstractScreen implements Screen {
 
 	public TextureAtlas getAtlas() {
 		if (atlas == null) {
-			atlas = new TextureAtlas(
-					Gdx.files.internal("image-atlases/pages.atlas"));
+			atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
 		}
 		return atlas;
 	}

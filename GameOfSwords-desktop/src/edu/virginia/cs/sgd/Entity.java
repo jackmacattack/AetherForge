@@ -1,19 +1,22 @@
 package edu.virginia.cs.sgd;
 import java.awt.Point;
+import java.util.UUID;
+import java.util.ArrayList;
+
 /**
  * @author Mitchell
  *
  */
 
 public class Entity {
+	
+	
+	private static ArrayList<UUID> idList = new ArrayList<UUID>();
 
 	//the position of the Entity
-	Point p;
+	private Point p;
+	private UUID id;
 	
-	
-	//probably not accessed, just set to some standard width and height of the grid
-	int width;
-	int height;
 	
 	//the image that is displayed
 	//sprite Sprite
@@ -24,7 +27,10 @@ public class Entity {
 		return Math.sqrt(one+two);
 	}
 	
-	
+	public UUID getID()
+	{
+		return id;
+	}
 	public int getXpos() {
 		return p.x;
 	}
@@ -45,18 +51,25 @@ public class Entity {
 	{
 		this.p = p;
 	}
-	public Point getCenter()
+
+	public void setup()
 	{
-		Point t = new Point(p);
-		t.translate(width/2, height/2);
-		return t;
+		id = UUID.randomUUID();
+		idList.add(id);
 	}
 	public Entity()
 	{
 		p = new Point(0,0);
+		setup();
 	}
 	public Entity(int x, int y)
 	{
 		p = new Point(x,y);
+		setup();
 	}	
+	public Entity(Point po)
+	{
+		p = po;
+		setup();
+	}
 }

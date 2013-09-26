@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,6 +19,7 @@ public class GameOfSwords extends Game {
 	private SpriteBatch batch;
 	private Texture texture;
 	private Sprite sprite;
+	public static AssetManager manager = new AssetManager();
 
 
 	public static final String LOG = GameOfSwords.class.getSimpleName();

@@ -33,7 +33,6 @@ public class SplashScreen extends AbstractScreen {
 
 		super.show();
 
-		System.out.println("is this being called?");
 		// load the splash image and create the texture region
 		splashTexture = new Texture(Gdx.files.internal("data/libgdx.png"));
 		TextureRegion tr = new TextureRegion(splashTexture);

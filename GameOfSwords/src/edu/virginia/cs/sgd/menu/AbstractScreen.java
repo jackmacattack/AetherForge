@@ -3,13 +3,18 @@ package edu.virginia.cs.sgd.menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 /**
  * The base class for all game screens.
@@ -63,15 +68,16 @@ public abstract class AbstractScreen implements Screen {
 
 	public TextureAtlas getAtlas() {
 		if (atlas == null) {
-			atlas = new TextureAtlas(Gdx.files.internal("uiskin.atlas"));
+			atlas = new TextureAtlas(Gdx.files.internal("data/uiskin.atlas"));
 		}
 		return atlas;
 	}
 
 	protected Skin getSkin() {
 		if (skin == null) {
-			FileHandle skinFile = Gdx.files.internal("uiskin.json");
-			skin = new Skin(skinFile);
+			game.manager.load("data/uiskin.json", Skin.class);
+			game.manager.finishLoading();
+            skin = game.manager.get("data/uiskin.json");
 		}
 		return skin;
 	}

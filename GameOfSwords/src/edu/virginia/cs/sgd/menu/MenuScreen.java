@@ -22,19 +22,26 @@ public class MenuScreen extends AbstractScreen {
 
 	@Override
 	public void resize(int width, int height) {
-		final float buttonX = (width - BUTTON_WIDTH) / 2;
-		float currentY = 280f;
-
 	}
 
 	@Override
 	public void show() {
 		super.show();
+		
 		// retrieve the default table actor
-		Table table = super.getTable();
-        table.add( "Welcome to Sword Art Offline" ).spaceBottom( 50 );
+        Table table = super.getTable();
+        table.add( "Welcome to Sword Art Offline!" ).spaceBottom( 50 );
+        table.row();
+        
+        //start game
+        TextButton startGameButton = new TextButton( "Start game", getSkin() );
+        table.add( startGameButton ).size( 300, 60 ).uniform().spaceBottom( 10 );
         table.row();
 
+        // register the button "options"
+        TextButton optionsButton = new TextButton( "Options", getSkin() );
+        table.add( optionsButton ).uniform().fill().spaceBottom( 10 );
+        table.row();
 	}
 
 	@Override

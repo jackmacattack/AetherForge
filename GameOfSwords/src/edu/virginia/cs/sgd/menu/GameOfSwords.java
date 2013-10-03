@@ -13,6 +13,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import edu.virginia.cs.sgd.MenuScreen;
+
 
 public class GameOfSwords extends Game {
 	private OrthographicCamera camera;

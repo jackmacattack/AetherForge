@@ -18,7 +18,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 
-import edu.virginia.cs.sgd.MenuScreen;
+import edu.virginia.cs.sgd.GameOfSwords;
+
 
 public class SplashScreen extends AbstractScreen {
 	private Texture splashTexture;

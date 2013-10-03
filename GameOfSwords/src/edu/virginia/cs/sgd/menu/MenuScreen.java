@@ -1,4 +1,4 @@
-package edu.virginia.cs.sgd;
+package edu.virginia.cs.sgd.menu;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -9,8 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.InputAdapter;
 
-import edu.virginia.cs.sgd.menu.AbstractScreen;
-import edu.virginia.cs.sgd.menu.GameOfSwords;
+import edu.virginia.cs.sgd.GameOfSwords;
+
 
 
 public class MenuScreen extends AbstractScreen {

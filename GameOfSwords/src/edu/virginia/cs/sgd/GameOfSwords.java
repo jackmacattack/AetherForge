@@ -1,4 +1,4 @@
-package edu.virginia.cs.sgd.menu;
+package edu.virginia.cs.sgd;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
@@ -13,7 +13,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import edu.virginia.cs.sgd.MenuScreen;
+import edu.virginia.cs.sgd.menu.MenuScreen;
+import edu.virginia.cs.sgd.menu.SplashScreen;
+
 
 
 public class GameOfSwords extends Game {

@@ -77,9 +77,9 @@ public abstract class AbstractScreen implements Screen {
 
 	protected Skin getSkin() {
 		if (skin == null) {
-			game.manager.load("data/uiskin.json", Skin.class);
-			game.manager.finishLoading();
-            skin = game.manager.get("data/uiskin.json");
+			GameOfSwords.manager.load("data/uiskin.json", Skin.class);
+			GameOfSwords.manager.finishLoading();
+            skin = GameOfSwords.manager.get("data/uiskin.json");
 		}
 		return skin;
 	}

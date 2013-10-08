@@ -18,7 +18,8 @@ import edu.virginia.cs.sgd.menu.SplashScreen;
 
 
 
-public class GameOfSwords extends Game {
+public class GameOfSwords extends Game implements ApplicationListener {
+	
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private Texture texture;
@@ -42,8 +43,8 @@ public class GameOfSwords extends Game {
         return new MenuScreen( this );
     }
 
-
 	@Override
+
 	public void create() {
 		/*float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
@@ -60,12 +61,11 @@ public class GameOfSwords extends Game {
 		sprite.setSize(0.9f, 0.9f * sprite.getHeight() / sprite.getWidth());
 		sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
 		sprite.setPosition(-sprite.getWidth() / 2, -sprite.getHeight() / 2);*/
+
 	}
 
 	@Override
 	public void dispose() {
-		batch.dispose();
-		texture.dispose();
 	}
 
 	@Override
@@ -88,9 +88,11 @@ public class GameOfSwords extends Game {
 
 	@Override
 	public void pause() {
+		super.pause();
 	}
 
 	@Override
 	public void resume() {
+		super.resume();
 	}
 }

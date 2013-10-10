@@ -34,4 +34,8 @@ public class LevelRenderer {
 		m_Camera = new OrthographicCamera();
 		
 	}
+	
+	public void onTouch(int x, int y) {
+		
+	}
 }

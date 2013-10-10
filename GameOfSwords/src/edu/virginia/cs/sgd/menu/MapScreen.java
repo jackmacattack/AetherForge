@@ -46,6 +46,5 @@ public class MapScreen extends AbstractScreen {
 
 		renderer.show();
 	}
-
-
+	
 }

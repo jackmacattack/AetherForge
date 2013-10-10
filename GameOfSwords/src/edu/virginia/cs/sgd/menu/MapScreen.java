@@ -1,15 +1,21 @@
-package edu.virginia.cs.sgd;
+package edu.virginia.cs.sgd.menu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.tiled.*;
-import com.badlogic.gdx.maps.tiled.renderers.*;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+
+import edu.virginia.cs.sgd.GameOfSwords;
 
 
-public class MapScreen implements Screen {
+public class MapScreen extends AbstractScreen {
+
+	public MapScreen(GameOfSwords game) {
+		super(game);
+	}
 
 	private TiledMap m_Map;
 	private OrthogonalTiledMapRenderer m_Renderer;
@@ -46,28 +52,5 @@ public class MapScreen implements Screen {
 		m_Camera = new OrthographicCamera();
 	}
 
-	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-
-	}
 
 }

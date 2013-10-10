@@ -1,13 +1,9 @@
 package edu.virginia.cs.sgd.menu;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import edu.virginia.cs.sgd.GameOfSwords;
 
@@ -34,6 +30,14 @@ public class MenuScreen extends AbstractScreen {
         
         //start game
         TextButton startGameButton = new TextButton( "Start game", getSkin() );
+        startGameButton.addListener( new ClickListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button)
+            {
+            	game.setScreen( game.getMapScreen() );
+            }
+        } );
+        
         table.add( startGameButton ).size( 300, 60 ).uniform().spaceBottom( 10 );
         table.row();
 

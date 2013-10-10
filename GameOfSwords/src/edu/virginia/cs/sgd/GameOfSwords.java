@@ -2,17 +2,14 @@ package edu.virginia.cs.sgd;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import edu.virginia.cs.sgd.menu.MapScreen;
 import edu.virginia.cs.sgd.menu.MenuScreen;
 import edu.virginia.cs.sgd.menu.SplashScreen;
 
@@ -25,7 +22,6 @@ public class GameOfSwords extends Game implements ApplicationListener {
 	private Texture texture;
 	private Sprite sprite;
 	public static AssetManager manager = new AssetManager();
-
 
 	public static final String LOG = GameOfSwords.class.getSimpleName();
 
@@ -42,9 +38,13 @@ public class GameOfSwords extends Game implements ApplicationListener {
     {
         return new MenuScreen( this );
     }
+	
+	public MapScreen getMapScreen()
+    {
+        return new MapScreen( this );
+    }
 
 	@Override
-
 	public void create() {
 		/*float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();

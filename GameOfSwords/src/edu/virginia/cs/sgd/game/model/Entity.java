@@ -1,4 +1,4 @@
-package edu.virginia.cs.sgd.game;
+package edu.virginia.cs.sgd.game.model;
 import java.awt.Point;
 import java.util.UUID;
 import java.util.ArrayList;

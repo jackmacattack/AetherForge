@@ -5,9 +5,6 @@ import java.awt.Point;
 public class Actor extends Dynamic {
 	String name;
 
-	public Actor()
-	{
-		
-	}
+	public Actor(Point p, int health, ArrayList<Stat> stats)
 
 }

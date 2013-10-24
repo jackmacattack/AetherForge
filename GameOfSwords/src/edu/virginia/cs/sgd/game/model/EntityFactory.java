@@ -21,4 +21,35 @@ public class EntityFactory {
 		
 		return e;
 	}
+	public static Entity createTile(World world, int x, int y, boolean pass, int [][]map)
+	{
+		
+		
+		Entity e = world.createEntity();
+		
+		
+		map[x][y] = e.getId();
+		
+		e.addComponent(new Passable(pass));
+		e.addComponent(new MapPosition(x,y));
+		
+		e.addToWorld();
+		
+		return e;
+	}
+	public static Entity createDestrutable(World world, int x, int y, int [][]map)
+	{
+		
+		Entity e = world.createEntity();
+		
+		
+		map[x][y] = e.getId();
+		
+		e.addComponent(new Passable(false));
+		e.addComponent(new MapPosition(x,y));
+		
+		e.addToWorld();
+		
+		return e;
+	}
 }

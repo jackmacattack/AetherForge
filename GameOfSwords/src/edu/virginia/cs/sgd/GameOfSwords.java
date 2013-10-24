@@ -13,6 +13,8 @@ import edu.virginia.cs.sgd.menu.MapScreen;
 import edu.virginia.cs.sgd.menu.MenuScreen;
 import edu.virginia.cs.sgd.menu.SplashScreen;
 import edu.virginia.cs.sgd.game.model.*;
+import edu.virginia.cs.sgd.game.model.components.MapPosition;
+import edu.virginia.cs.sgd.game.model.components.Stats;
 
 import com.artemis.Component;
 import com.artemis.Entity;
@@ -51,11 +53,11 @@ public class GameOfSwords extends Game implements ApplicationListener {
 
 	@Override
 	public void create() {
-		int[][] map = new int[5][5];
+		int[][] actorMap = new int[5][5];
 		initialize_world();
-		Entity e = EntityFactory.createActor(world,0,0, map);
+		Entity e = EntityFactory.createActor(world,0,0, actorMap);
 		
-		System.out.println(map[0][0]);
+		System.out.println(actorMap[0][0]);
 		
 		Stats s = e.getComponent(Stats.class);
 		

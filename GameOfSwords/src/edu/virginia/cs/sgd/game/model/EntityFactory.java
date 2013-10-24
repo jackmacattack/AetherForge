@@ -2,7 +2,10 @@ package edu.virginia.cs.sgd.game.model;
 
 import com.artemis.World;
 import com.artemis.Entity;
-import edu.virginia.cs.sgd.game.model.Stats;
+
+import edu.virginia.cs.sgd.game.model.components.MapPosition;
+import edu.virginia.cs.sgd.game.model.components.Passable;
+import edu.virginia.cs.sgd.game.model.components.Stats;
 public class EntityFactory {
 
 	

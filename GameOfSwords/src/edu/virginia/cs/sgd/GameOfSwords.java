@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import edu.virginia.cs.sgd.menu.MapScreen;
 import edu.virginia.cs.sgd.menu.MenuScreen;
 import edu.virginia.cs.sgd.menu.SplashScreen;
+import edu.virginia.cs.sgd.game.model.*;
 
 import com.artemis.Component;
 import com.artemis.Entity;
@@ -50,9 +51,15 @@ public class GameOfSwords extends Game implements ApplicationListener {
 
 	@Override
 	public void create() {
-		
+		int[][] map = new int[5][5];
 		initialize_world();
+		Entity e = EntityFactory.createActor(world,0,0, map);
 		
+		System.out.println(map[0][0]);
+		
+		Stats s = e.getComponent(Stats.class);
+		
+		System.out.println(s.getDefense());
 
 	}
 

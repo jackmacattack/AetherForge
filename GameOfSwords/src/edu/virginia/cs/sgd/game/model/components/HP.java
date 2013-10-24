@@ -19,6 +19,19 @@ public HP()
 	setMax_HP(getHP());
 }
 
+public boolean isOutOfHealth()
+{
+	return hp<=0;
+}
+
+public void loseHealth(int dmg)
+{
+	hp-=dmg;
+}
+public void gainHealth(int heal)
+{
+	hp+=heal;
+}
 /**
  * @return the hp
  */

@@ -28,4 +28,9 @@ public class MapPosition extends Component {
 		this.y = y;
 	}
 	
+	public String toString(){
+	return "("+x+", "+y+")";
+	}
+	
+	
 }

@@ -67,7 +67,11 @@ public class GameOfSwords extends Game implements ApplicationListener {
 		System.out.println(s.getDefense());
 		s = e.getComponent(Stats.class);
 		System.out.println(s.getDefense());
-
+		
+		
+		MapPosition m = e.getComponent(MapPosition.class);
+		System.out.println(m);
+		
 	}
 
 	private void initialize_world() {

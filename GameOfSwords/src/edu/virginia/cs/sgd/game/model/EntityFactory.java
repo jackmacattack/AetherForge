@@ -11,9 +11,11 @@ public class EntityFactory {
 		
 		Entity e = world.createEntity();
 		
+		
 		map[x][y] = e.getId();
 		
 		e.addComponent(new Stats());
+		e.addComponent(new MapPosition(x,y));
 		
 		e.addToWorld();
 		

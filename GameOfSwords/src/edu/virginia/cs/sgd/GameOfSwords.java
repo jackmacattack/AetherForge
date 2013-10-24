@@ -59,6 +59,13 @@ public class GameOfSwords extends Game implements ApplicationListener {
 		
 		Stats s = e.getComponent(Stats.class);
 		
+		
+		System.out.println(s.getDefense());
+		
+		s.setDefense(s.getDefense()+1);
+		
+		System.out.println(s.getDefense());
+		s = e.getComponent(Stats.class);
 		System.out.println(s.getDefense());
 
 	}

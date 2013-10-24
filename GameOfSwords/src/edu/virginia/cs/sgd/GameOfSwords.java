@@ -13,6 +13,9 @@ import edu.virginia.cs.sgd.menu.MapScreen;
 import edu.virginia.cs.sgd.menu.MenuScreen;
 import edu.virginia.cs.sgd.menu.SplashScreen;
 
+import com.artemis.Component;
+import com.artemis.Entity;
+import com.artemis.World;
 
 
 public class GameOfSwords extends Game implements ApplicationListener {
@@ -21,6 +24,7 @@ public class GameOfSwords extends Game implements ApplicationListener {
 	private SpriteBatch batch;
 	private Texture texture;
 	private Sprite sprite;
+	public World world;
 	public static AssetManager manager = new AssetManager();
 
 	public static final String LOG = GameOfSwords.class.getSimpleName();
@@ -46,22 +50,19 @@ public class GameOfSwords extends Game implements ApplicationListener {
 
 	@Override
 	public void create() {
-		/*float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
+		
+		initialize_world();
+		
 
-		camera = new OrthographicCamera(1, h / w);
-		batch = new SpriteBatch();
-	
-		texture = new Texture(Gdx.files.internal("data/libgdx.png"));
-		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+	}
 
-		TextureRegion region = new TextureRegion(texture, 0, 0, 512, 275);
-
-		sprite = new Sprite(region);
-		sprite.setSize(0.9f, 0.9f * sprite.getHeight() / sprite.getWidth());
-		sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
-		sprite.setPosition(-sprite.getWidth() / 2, -sprite.getHeight() / 2);*/
-
+	private void initialize_world() {
+		world = new World();
+		
+		
+		world.initialize();
+		System.out.println("The world is initialized");
+		
 	}
 
 	@Override
@@ -95,4 +96,12 @@ public class GameOfSwords extends Game implements ApplicationListener {
 	public void resume() {
 		super.resume();
 	}
+	
+	
+    public void addComponent(Component component, int entityId) {
+        if (entityId < 0) return;
+        Entity e = world.getEntity(entityId);
+        e.addComponent(component);
+        e.changedInWorld();
+}
 }

@@ -24,6 +24,7 @@ public class DamageSystem extends EntityProcessingSystem {
 	}
 	@Override
 	protected void process(Entity e) {
+		System.out.println("Processing entity "+e.getId());
 		Damage d = dm.get(e);
 		HP health = hp.get(e);
 		if (health == null)

@@ -6,6 +6,7 @@ import com.artemis.Entity;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.model.components.Passable;
 import edu.virginia.cs.sgd.game.model.components.Stats;
+import edu.virginia.cs.sgd.game.model.exceptions.MapPositionException;
 public class EntityFactory {
 
 	
@@ -14,6 +15,8 @@ public class EntityFactory {
 		
 		Entity e = world.createEntity();
 		
+		if (map[x][y] != 0)
+			throw new MapPositionException("Spot ("+x+", "+y+") is occupied");
 		
 		map[x][y] = e.getId();
 		
@@ -30,7 +33,8 @@ public class EntityFactory {
 		
 		Entity e = world.createEntity();
 		
-		
+		if (map[x][y] != 0)
+			throw new MapPositionException("Spot ("+x+", "+y+") is occupied");
 		map[x][y] = e.getId();
 		
 		e.addComponent(new Passable(pass));
@@ -45,7 +49,8 @@ public class EntityFactory {
 		
 		Entity e = world.createEntity();
 		
-		
+		if (map[x][y] != 0)
+			throw new MapPositionException("Spot ("+x+", "+y+") is occupied");
 		map[x][y] = e.getId();
 		
 		e.addComponent(new Passable(false));
@@ -55,4 +60,5 @@ public class EntityFactory {
 		
 		return e;
 	}
+
 }

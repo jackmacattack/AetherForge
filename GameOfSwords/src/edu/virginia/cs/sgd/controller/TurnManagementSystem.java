@@ -1,35 +1,51 @@
 package edu.virginia.cs.sgd.controller;
 
 import com.artemis.Aspect;
+import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
+import com.artemis.annotations.Mapper;
 import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.utils.Array;
 
+import edu.virginia.cs.sgd.model.Stats;
+
 public class TurnManagementSystem extends EntitySystem{
+	@Mapper ComponentMapper<Stats> sm;
 
-	private Array<Integer> unitOrder;
+	private Array<Integer> units;
 
+	@SuppressWarnings("unchecked")
 	public TurnManagementSystem(Array<Integer> unitOrder) {
-        super(Aspect.getAspectFor(null, null));
+        super(Aspect.getAspectForAll(Stats.class));
         
-        this.unitOrder = unitOrder;
+        this.units= unitOrder;
 	}
-
+	
 	@Override
 	protected boolean checkProcessing() {
 		return true;
 	}
 
 	@Override
-	protected void processEntities(ImmutableBag<Entity> arg0) {
+	protected void processEntities(ImmutableBag<Entity> entities) {
 		// Get the ID of the last entity to move - because they will get reset to 0
         // To be safe, first assume that this is the first turn, so that oldEntity = -1
         int oldEntity = -1;
         
-        // Then, if there is a list for unitOrder, the first entity was the one that
+        // Then, if there is a list for units, the first entity was the one that
         // moved last turn
-        if (unitOrder.size > 0) oldEntity = unitOrder.get(0);
+        //If not, create a list for the units in no particular order
+        if (units.size > 0) {
+        	oldEntity = units.get(0);
+        }else{  	
+        	for (int i = 0; i < entities.size(); i++){
+        		Entity e = entities.get(i);
+        		Stats stats = sm.get(e);
+        		if(stats.hasTakenTurn == false)
+        			units.add(e.getId());
+        	}
+        }
 		
 	}
         

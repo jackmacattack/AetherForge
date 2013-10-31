@@ -10,13 +10,11 @@ import edu.virginia.cs.sgd.GameOfSwords;
 
 
 public class MenuScreen extends AbstractScreen {
+	private Menu menu;
 
-	private static final float BUTTON_WIDTH = 300f;
-	private static final float BUTTON_HEIGHT = 60f;
-	private static final float BUTTON_SPACING = 10f;
-
-	public MenuScreen(GameOfSwords game) {
-		super(game);
+	public MenuScreen(Menu m) {
+		super();
+		menu = m;
 	}
 	
 	@Override
@@ -34,7 +32,7 @@ public class MenuScreen extends AbstractScreen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button)
             {
-            	game.setScreen( game.getMapScreen() );
+            	menu.setScreen( menu.getMapscreen() );
             }
         } );
         

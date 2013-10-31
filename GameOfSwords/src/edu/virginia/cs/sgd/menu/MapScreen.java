@@ -12,9 +12,11 @@ import edu.virginia.cs.sgd.GameOfSwords;
 
 
 public class MapScreen extends AbstractScreen {
+	private Menu menu;
 
-	public MapScreen(GameOfSwords game) {
-		super(game);
+	public MapScreen(Menu m) {
+		super();
+		menu = m;
 	}
 
 	private TiledMap m_Map;
@@ -51,6 +53,4 @@ public class MapScreen extends AbstractScreen {
 		m_Renderer = new OrthogonalTiledMapRenderer(m_Map, 1);		
 		m_Camera = new OrthographicCamera();
 	}
-
-
 }

@@ -27,7 +27,7 @@ public abstract class AbstractScreen implements Screen {
 	public static final int MENU_VIEWPORT_WIDTH = 800,
 			MENU_VIEWPORT_HEIGHT = 480;
 
-	protected final GameOfSwords game;
+
 	protected final Stage stage;
 
 	private BitmapFont font;
@@ -36,8 +36,7 @@ public abstract class AbstractScreen implements Screen {
 	private TextureAtlas atlas;
 	private Table table;
 
-	public AbstractScreen(GameOfSwords game) {
-		this.game = game;
+	public AbstractScreen() {
 		int width = (isGameScreen() ? GAME_VIEWPORT_WIDTH : MENU_VIEWPORT_WIDTH);
 		int height = (isGameScreen() ? GAME_VIEWPORT_HEIGHT
 				: MENU_VIEWPORT_HEIGHT);

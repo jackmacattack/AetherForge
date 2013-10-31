@@ -9,8 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import edu.virginia.cs.sgd.menu.MapScreen;
-import edu.virginia.cs.sgd.menu.MenuScreen;
+import edu.virginia.cs.sgd.menu.Menu;
 import edu.virginia.cs.sgd.menu.SplashScreen;
 
 
@@ -21,6 +20,7 @@ public class GameOfSwords extends Game implements ApplicationListener {
 	private SpriteBatch batch;
 	private Texture texture;
 	private Sprite sprite;
+	private Menu menu;
 	public static AssetManager manager = new AssetManager();
 
 	public static final String LOG = GameOfSwords.class.getSimpleName();
@@ -28,21 +28,6 @@ public class GameOfSwords extends Game implements ApplicationListener {
 	public GameOfSwords() {
 
 	}
-	
-	public SplashScreen getSplashScreen()
-    {
-        return new SplashScreen( this );
-    }
-	
-	public MenuScreen getMenuScreen()
-    {
-        return new MenuScreen( this );
-    }
-	
-	public MapScreen getMapScreen()
-    {
-        return new MapScreen( this );
-    }
 
 	@Override
 	public void create() {
@@ -61,6 +46,8 @@ public class GameOfSwords extends Game implements ApplicationListener {
 		sprite.setSize(0.9f, 0.9f * sprite.getHeight() / sprite.getWidth());
 		sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
 		sprite.setPosition(-sprite.getWidth() / 2, -sprite.getHeight() / 2);*/
+		
+		menu = new Menu(this);
 
 	}
 
@@ -77,7 +64,7 @@ public class GameOfSwords extends Game implements ApplicationListener {
 	public void resize(int width, int height) {
 		super.resize(width, height);
 		if (getScreen() == null) {
-			setScreen(new SplashScreen(this));
+			setScreen(menu.getSplashscreen());
 
 		}
 	}

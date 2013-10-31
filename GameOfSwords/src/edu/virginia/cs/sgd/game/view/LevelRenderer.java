@@ -1,8 +1,10 @@
 package edu.virginia.cs.sgd.game.view;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
+import edu.virginia.cs.sgd.GameOfSwords;
 import edu.virginia.cs.sgd.game.Level;
 
 public class LevelRenderer {
@@ -17,6 +19,7 @@ public class LevelRenderer {
 	public LevelRenderer(Level level) {
 		this.level = level;
 		manager = new SpriteManager();
+		manager.addSprite(new Sprite(GameOfSwords.manager.get("", TextureRegion.class), 0));
 	}
 	
 	public void render() {
@@ -25,6 +28,7 @@ public class LevelRenderer {
 		m_Renderer.setView(m_Camera);
 		m_Renderer.render();
 		
+		manager.draw();
 	}
 
 	public void resize(int width, int height) {

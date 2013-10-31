@@ -1,12 +1,14 @@
 package edu.virginia.cs.sgd.game.view;
 
+import java.awt.Point;
 import java.util.Map;
 import java.util.TreeMap;
 
-import edu.virginia.cs.sgd.game.Level;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class SpriteManager {
 
+	private SpriteBatch batch;
 	private Map<Integer, Sprite> sprites;
 	
 	public SpriteManager() {
@@ -21,15 +23,15 @@ public class SpriteManager {
 		sprites.remove(id);
 	}
 	
-	public void update() {
+	public void draw() {//Map<Integer, Point> positions) {
+	
+		batch.begin();
 		
-	}
-	
-	public void draw() {
-	
 		for(Sprite s : sprites.values()) {
-			s.draw();
+			Point pos = new Point(40, 40); //positions.get(s.getModelId());
+			batch.draw(s.getImage(), (float) pos.getX(), (float) pos.getY());
 		}
 		
+		batch.end();
 	}
 }

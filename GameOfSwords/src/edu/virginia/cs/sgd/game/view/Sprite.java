@@ -28,9 +28,5 @@ public class Sprite {
 	public void setModelId(int modelId) {
 		this.modelId = modelId;
 	}
-
-	public void draw() {
-		
-	}
 	
 }

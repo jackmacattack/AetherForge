@@ -27,6 +27,8 @@ public class MapScreen extends AbstractScreen {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		renderer.render();
+		
+		
 	}
 
 	@Override

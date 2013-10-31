@@ -8,18 +8,19 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
+import edu.cs.virginia.sgd.game.view.LevelRenderer;
 import edu.virginia.cs.sgd.GameOfSwords;
 
 
 public class MapScreen extends AbstractScreen {
 
+	private LevelRenderer renderer;
+	
 	public MapScreen(GameOfSwords game) {
 		super(game);
+		
+		renderer = new LevelRenderer();
 	}
-
-	private TiledMap m_Map;
-	private OrthogonalTiledMapRenderer m_Renderer;
-	private OrthographicCamera m_Camera;
 	
 
 	@Override
@@ -28,18 +29,14 @@ public class MapScreen extends AbstractScreen {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
-		m_Camera.update();
-		m_Renderer.setView(m_Camera);
-		m_Renderer.render();
+		renderer.render();
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
-		m_Camera.setToOrtho(true, width, height);
-
-		m_Camera.update();
-		System.out.println(width + "," + height);
+		
+		renderer.resize(width, height);
 	}
 
 	@Override
@@ -47,10 +44,7 @@ public class MapScreen extends AbstractScreen {
 		// TODO Auto-generated method stub
 		Texture.setEnforcePotImages(false);
 
-		m_Map = new TmxMapLoader().load("data/sample_map.tmx");
-		m_Renderer = new OrthogonalTiledMapRenderer(m_Map, 1);		
-		m_Camera = new OrthographicCamera();
+		renderer.show();
 	}
-
-
+	
 }

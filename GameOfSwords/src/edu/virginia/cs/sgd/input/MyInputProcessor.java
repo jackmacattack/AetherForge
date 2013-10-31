@@ -3,52 +3,60 @@ package edu.virginia.cs.sgd.input;
 import com.badlogic.gdx.InputProcessor;
 
 public class MyInputProcessor implements InputProcessor {
+	
+	private Input myInput;
+	
+	public MyInputProcessor(Input a){
+		myInput = a;
+	}
 
 	@Override
 	public boolean keyDown(int keycode) {
-		Input.keyDown(keycode);
+		// when a key was pressed
+		myInput.keyDown(keycode);
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
-		Input.keyUp(keycode);
+		// when a key was released
+		myInput.keyUp(keycode);
 		return false;
 	}
 
 	@Override
 	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
+		// Input.keyTyped(character);
 		return false;
 	}
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		Input.touchDown(screenX, screenY);
+		myInput.touchDown(screenX, screenY);
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		Input.touchUp(screenX, screenY);
+		myInput.touchUp(screenX, screenY);
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
+		// when a finger or the mouse was dragged
 		return false;
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
+		myInput.mouseMoved(screenX, screenY);
 		return false;
 	}
 
 	@Override
 	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
+		myInput.scrolled(amount);
 		return false;
 	}
 

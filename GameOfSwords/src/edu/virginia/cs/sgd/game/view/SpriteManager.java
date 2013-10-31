@@ -3,11 +3,14 @@ package edu.virginia.cs.sgd.game.view;
 import java.util.Map;
 import java.util.TreeMap;
 
+import edu.virginia.cs.sgd.game.Level;
+
 public class SpriteManager {
 
 	private Map<Integer, Sprite> sprites;
+	private Level level;
 	
-	public SpriteManager() {
+	public SpriteManager(Level level) {
 		sprites = new TreeMap<Integer, Sprite>();
 	}
 
@@ -26,7 +29,7 @@ public class SpriteManager {
 	public void draw() {
 	
 		for(Sprite s : sprites.values()) {
-			
+			s.draw();
 		}
 		
 	}

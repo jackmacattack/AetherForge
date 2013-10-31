@@ -41,6 +41,7 @@ public class Menu {
 		game.manager.finishLoading();
 		Music theme = game.manager.get("data/GoS+Main+Theme.mp3", Music.class);	
 		theme.play();
+		theme.setLooping(true);
 	}
 	
 	public void setScreen(Screen screen){

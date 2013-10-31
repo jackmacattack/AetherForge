@@ -21,6 +21,14 @@ public class Stats extends HP {
 		next = 40;
 	}
 
+	public boolean isHasTakenTurn() {
+		return hasTakenTurn;
+	}
+
+	public void setHasTakenTurn(boolean hasTakenTurn) {
+		this.hasTakenTurn = hasTakenTurn;
+	}
+
 	public int getResolve() {
 		return resolve;
 	}

@@ -8,9 +8,8 @@ import edu.virginia.cs.sgd.game.Level;
 public class SpriteManager {
 
 	private Map<Integer, Sprite> sprites;
-	private Level level;
 	
-	public SpriteManager(Level level) {
+	public SpriteManager() {
 		sprites = new TreeMap<Integer, Sprite>();
 	}
 

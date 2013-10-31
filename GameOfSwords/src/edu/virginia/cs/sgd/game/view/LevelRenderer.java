@@ -1,15 +1,23 @@
-package edu.cs.virginia.sgd.game.view;
+package edu.virginia.cs.sgd.game.view;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+
+import edu.virginia.cs.sgd.game.Level;
 
 public class LevelRenderer {
 
-	private TiledMap m_Map;
+	private Level level;
+	
 	private OrthogonalTiledMapRenderer m_Renderer;
 	private OrthographicCamera m_Camera;
+	
+	private SpriteManager manager;
+	
+	public LevelRenderer(Level level) {
+		this.level = level;
+		manager = new SpriteManager();
+	}
 	
 	public void render() {
 
@@ -29,8 +37,7 @@ public class LevelRenderer {
 
 	public void show() {
 		
-		m_Map = new TmxMapLoader().load("data/sample_map.tmx");
-		m_Renderer = new OrthogonalTiledMapRenderer(m_Map, 1);		
+		m_Renderer = new OrthogonalTiledMapRenderer(level.getMap(), 1);		
 		m_Camera = new OrthographicCamera();
 		
 	}

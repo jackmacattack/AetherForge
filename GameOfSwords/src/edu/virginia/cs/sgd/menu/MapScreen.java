@@ -2,14 +2,11 @@ package edu.virginia.cs.sgd.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
-import edu.cs.virginia.sgd.game.view.LevelRenderer;
 import edu.virginia.cs.sgd.GameOfSwords;
+import edu.virginia.cs.sgd.game.Level;
+import edu.virginia.cs.sgd.game.view.LevelRenderer;
 
 
 public class MapScreen extends AbstractScreen {
@@ -19,7 +16,7 @@ public class MapScreen extends AbstractScreen {
 	public MapScreen(GameOfSwords game) {
 		super(game);
 		
-		renderer = new LevelRenderer();
+		renderer = new LevelRenderer(new Level());
 	}
 	
 

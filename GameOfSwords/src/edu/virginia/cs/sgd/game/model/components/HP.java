@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.virginia.cs.sgd.game.model;
+package edu.virginia.cs.sgd.game.model.components;
 
 import com.artemis.Component;
 import com.badlogic.gdx.math.MathUtils;
@@ -19,6 +19,19 @@ public HP()
 	setMax_HP(getHP());
 }
 
+public boolean isOutOfHealth()
+{
+	return hp<=0;
+}
+
+public void loseHealth(int dmg)
+{
+	hp-=dmg;
+}
+public void gainHealth(int heal)
+{
+	hp+=heal;
+}
 /**
  * @return the hp
  */

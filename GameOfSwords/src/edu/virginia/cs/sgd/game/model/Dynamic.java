@@ -1,6 +1,6 @@
 package edu.virginia.cs.sgd.game.model;
 import java.awt.Point;
-public class Dynamic extends Entity {
+public class Dynamic extends Entity_old {
 	
 	private int health;
 	private int max_health;

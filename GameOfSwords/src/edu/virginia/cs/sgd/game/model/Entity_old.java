@@ -8,7 +8,7 @@ import java.util.ArrayList;
  *
  */
 
-public class Entity {
+public class Entity_old {
 	
 	
 	private static ArrayList<UUID> idList = new ArrayList<UUID>();
@@ -20,7 +20,7 @@ public class Entity {
 	
 	//the image that is displayed
 	//sprite Sprite
-	public static double distance(Entity a, Entity b)
+	public static double distance(Entity_old a, Entity_old b)
 	{
 		double one = Math.pow((double)(a.p.x - b.p.x), 2);
 		double two = Math.pow((double)(a.p.y - b.p.y), 2);
@@ -57,17 +57,17 @@ public class Entity {
 		id = UUID.randomUUID();
 		idList.add(id);
 	}
-	public Entity()
+	public Entity_old()
 	{
 		p = new Point(0,0);
 		setup();
 	}
-	public Entity(int x, int y)
+	public Entity_old(int x, int y)
 	{
 		p = new Point(x,y);
 		setup();
 	}	
-	public Entity(Point po)
+	public Entity_old(Point po)
 	{
 		p = po;
 		setup();

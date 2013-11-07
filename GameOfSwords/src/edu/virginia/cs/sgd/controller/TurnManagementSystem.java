@@ -39,6 +39,7 @@ public class TurnManagementSystem extends EntitySystem{
         	oldEntity = units.get(0);
         	Entity en = entities.get(oldEntity);
         	en.getComponent(Stats.class).setHasTakenTurn(true);
+        	
         	units.removeIndex(0);
         }else{ 
         	for (int i = 0; i < entities.size(); i++){

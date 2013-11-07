@@ -11,8 +11,13 @@ public class Controller {
 	private TurnManagementSystem tms;
 	private MovementSystem ms;
 	private EntityFactory ef;
+	private boolean playerTurn;
+	private int activeEntity;
+	
 	public Array<Integer> units;
+	public Array<Integer> enemies;
 	public World zawarudo;
+	
 	
 	
 	public Controller(MapScreen map){
@@ -37,6 +42,7 @@ public class Controller {
 	
 	public void processTurn(){
 		tms.process();
+		activeEntity = units.get(0);
 		ms.process();
 		
 	}

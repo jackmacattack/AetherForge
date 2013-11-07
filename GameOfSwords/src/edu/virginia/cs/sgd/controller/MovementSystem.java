@@ -25,6 +25,7 @@ public class MovementSystem extends EntityProcessingSystem{
 	@Override
 	protected void process(Entity e) {
 		MapPosition	mp = e.getComponent(MapPosition.class);
+		int move = 3;
 		System.out.println(mp);
 		System.out.println("Yay I can move");
 	}

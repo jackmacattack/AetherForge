@@ -4,6 +4,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.utils.Array;
 
+import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.game.model.EntityFactory;
 import edu.virginia.cs.sgd.menu.MapScreen;
 
@@ -17,15 +18,17 @@ public class Controller {
 	public Array<Integer> units;
 	public Array<Integer> enemies;
 	public World zawarudo;
+	public Level level;
 	
 	
 	
-	public Controller(MapScreen map){
+	public Controller(MapScreen map, Level lv){
 		units = new Array<Integer>();
 		tms = new TurnManagementSystem(units);
-		ms = new MovementSystem(map);
+		ms = new MovementSystem(map, lv);
 		zawarudo = new World();
 		ef = new EntityFactory();
+		level = lv;
 	}
 	
 	public void run(){

@@ -35,7 +35,7 @@ public class Menu {
 	public Menu(GameOfSwords game){
 		menuscreen = new MenuScreen(this);
 		splashscreen = new SplashScreen(this);
-		mapscreen = new MapScreen(this);
+		mapscreen = new MapScreen(this, game);
 		this.game = game;
 		game.manager.load("data/GoS+Main+Theme.mp3", Music.class);
 		game.manager.finishLoading();

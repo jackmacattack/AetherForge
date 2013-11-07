@@ -1,6 +1,7 @@
 package edu.virginia.cs.sgd.game.view;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
@@ -18,8 +19,17 @@ public class LevelRenderer {
 	
 	public LevelRenderer(Level level) {
 		this.level = level;
-		manager = new SpriteManager();
-		manager.addSprite(new Sprite(GameOfSwords.manager.get("", TextureRegion.class), 0));
+
+		float scale = 1/32f;
+
+		m_Renderer = new OrthogonalTiledMapRenderer(level.getMap(), scale);		
+		m_Camera = new OrthographicCamera();
+		 
+		manager = new SpriteManager(m_Renderer.getSpriteBatch());
+		
+		TextureRegion tex = new TextureRegion(GameOfSwords.manager.get("data/samplesprite.png", Texture.class), 0, 0, 32, 32);
+		
+		manager.addSprite(new Sprite(tex, 0));
 	}
 	
 	public void render() {
@@ -27,22 +37,21 @@ public class LevelRenderer {
 		m_Camera.update();
 		m_Renderer.setView(m_Camera);
 		m_Renderer.render();
-		
-		manager.draw();
+
+		manager.draw(level);
 	}
 
 	public void resize(int width, int height) {
 
-		m_Camera.setToOrtho(true, width, height);
+//		m_Camera.setToOrtho(true, width, height);
 
+		m_Camera.setToOrtho(true, 15, 10);
 		m_Camera.update();
 		
+		System.out.println("Ortho-ed");
 	}
 
 	public void show() {
-		
-		m_Renderer = new OrthogonalTiledMapRenderer(level.getMap(), 1);		
-		m_Camera = new OrthographicCamera();
 		
 	}
 	

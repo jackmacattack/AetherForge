@@ -11,6 +11,8 @@ public class Sprite {
 		super();
 		this.image = image;
 		this.modelId = modelId;
+		
+		this.image.flip(false, true);
 	}
 	
 	public TextureRegion getImage() {
@@ -19,6 +21,8 @@ public class Sprite {
 	
 	public void setImage(TextureRegion image) {
 		this.image = image;
+		
+		this.image.flip(false, true);
 	}
 	
 	public int getModelId() {

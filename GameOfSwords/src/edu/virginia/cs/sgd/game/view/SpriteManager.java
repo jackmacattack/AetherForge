@@ -6,12 +6,15 @@ import java.util.TreeMap;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import edu.virginia.cs.sgd.game.Level;
+
 public class SpriteManager {
 
 	private SpriteBatch batch;
 	private Map<Integer, Sprite> sprites;
-	
-	public SpriteManager() {
+
+	public SpriteManager(SpriteBatch batch) {
+		this.batch = batch;
 		sprites = new TreeMap<Integer, Sprite>();
 	}
 
@@ -23,13 +26,15 @@ public class SpriteManager {
 		sprites.remove(id);
 	}
 	
-	public void draw() {//Map<Integer, Point> positions) {
+	public void draw(Level l) {//Map<Integer, Point> positions) {
 	
 		batch.begin();
 		
 		for(Sprite s : sprites.values()) {
-			Point pos = new Point(40, 40); //positions.get(s.getModelId());
-			batch.draw(s.getImage(), (float) pos.getX(), (float) pos.getY());
+			Point pos = l.getPosition(s.getModelId());
+			
+			batch.draw(s.getImage(), (float) pos.getX(), (float) pos.getY(),
+					0, 0, 32, 32, 1/32f, 1/32f, 0);
 		}
 		
 		batch.end();

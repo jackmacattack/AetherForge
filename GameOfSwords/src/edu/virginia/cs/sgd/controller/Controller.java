@@ -46,7 +46,7 @@ public class Controller {
 	public void processTurn(){
 		tms.process();
 		activeEntity = units.get(0);
-		ms.process();
+		ms.process(zawarudo.getEntity(activeEntity));
 		
 	}
 

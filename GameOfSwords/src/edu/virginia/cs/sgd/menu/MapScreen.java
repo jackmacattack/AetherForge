@@ -32,7 +32,9 @@ public class MapScreen extends AbstractScreen {
                 
                 level = new Level();
                 renderer = new LevelRenderer(level);
+                
                 c = new Controller(this, level);
+                c.run();
                 
         }
         

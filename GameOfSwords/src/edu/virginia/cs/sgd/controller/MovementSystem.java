@@ -38,8 +38,9 @@ public class MovementSystem extends EntityProcessingSystem{
 	}
 
 	private int getCell(int x, int y) {
-		MapLayer layer = level.getMap().getLayers().get("Collision");
+		MapLayer layer = level.getMap().getLayers().get("Tile Layer 1");
 		TiledMapTileLayer.Cell cell = ((TiledMapTileLayer)layer).getCell(x,y);
+		System.out.println(cell.getTile().getId());
 		return cell.getTile().getId();
 	}
 

@@ -1,4 +1,4 @@
-package edu.virginia.cs.sgd.model;
+package edu.virginia.cs.sgd.game.model;
 import com.badlogic.gdx.math.MathUtils;
 public class Stats extends HP {
 

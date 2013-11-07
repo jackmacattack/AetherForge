@@ -1,4 +1,4 @@
-package edu.virginia.cs.sgd.model;
+package edu.virginia.cs.sgd.game.model;
 
 public class MapPositionException extends RuntimeException
 {

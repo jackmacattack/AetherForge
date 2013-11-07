@@ -4,8 +4,8 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.utils.Array;
 
+import edu.virginia.cs.sgd.game.model.EntityFactory;
 import edu.virginia.cs.sgd.menu.MapScreen;
-import edu.virginia.cs.sgd.model.EntityFactory;
 
 public class Controller {
 	private TurnManagementSystem tms;

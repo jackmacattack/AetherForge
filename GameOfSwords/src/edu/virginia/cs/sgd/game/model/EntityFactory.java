@@ -1,12 +1,12 @@
-package edu.virginia.cs.sgd.model;
+package edu.virginia.cs.sgd.game.model;
 
 import com.artemis.World;
 import com.artemis.Entity;
 
-import edu.virginia.cs.sgd.model.MapPosition;
-import edu.virginia.cs.sgd.model.Passable;
-import edu.virginia.cs.sgd.model.Stats;
-import edu.virginia.cs.sgd.model.MapPositionException;
+import edu.virginia.cs.sgd.game.model.MapPosition;
+import edu.virginia.cs.sgd.game.model.MapPositionException;
+import edu.virginia.cs.sgd.game.model.Passable;
+import edu.virginia.cs.sgd.game.model.Stats;
 public class EntityFactory {
 
 	

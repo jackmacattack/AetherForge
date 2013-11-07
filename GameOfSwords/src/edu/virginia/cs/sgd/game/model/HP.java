@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.virginia.cs.sgd.model;
+package edu.virginia.cs.sgd.game.model;
 
 import com.artemis.Component;
 import com.badlogic.gdx.math.MathUtils;

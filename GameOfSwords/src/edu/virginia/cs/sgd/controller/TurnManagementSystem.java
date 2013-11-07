@@ -8,7 +8,7 @@ import com.artemis.annotations.Mapper;
 import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.utils.Array;
 
-import edu.virginia.cs.sgd.model.Stats;
+import edu.virginia.cs.sgd.game.model.Stats;
 
 public class TurnManagementSystem extends EntitySystem{
 	@Mapper ComponentMapper<Stats> sm;

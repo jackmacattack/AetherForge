@@ -8,8 +8,8 @@ import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.utils.ImmutableBag;
 
+import edu.virginia.cs.sgd.game.model.MapPosition;
 import edu.virginia.cs.sgd.menu.MapScreen;
-import edu.virginia.cs.sgd.model.MapPosition;
 
 public class MovementSystem extends EntityProcessingSystem{
 	@Mapper ComponentMapper<MapPosition> pos;

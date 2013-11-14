@@ -2,19 +2,13 @@ package edu.virginia.cs.sgd.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 import edu.virginia.cs.sgd.GameOfSwords;
 
@@ -27,7 +21,7 @@ public abstract class AbstractScreen implements Screen {
 	public static final int MENU_VIEWPORT_WIDTH = 800,
 			MENU_VIEWPORT_HEIGHT = 480;
 
-	protected final GameOfSwords game;
+
 	protected final Stage stage;
 
 	private BitmapFont font;
@@ -36,8 +30,7 @@ public abstract class AbstractScreen implements Screen {
 	private TextureAtlas atlas;
 	private Table table;
 
-	public AbstractScreen(GameOfSwords game) {
-		this.game = game;
+	public AbstractScreen() {
 		int width = (isGameScreen() ? GAME_VIEWPORT_WIDTH : MENU_VIEWPORT_WIDTH);
 		int height = (isGameScreen() ? GAME_VIEWPORT_HEIGHT
 				: MENU_VIEWPORT_HEIGHT);
@@ -77,9 +70,9 @@ public abstract class AbstractScreen implements Screen {
 
 	protected Skin getSkin() {
 		if (skin == null) {
-			GameOfSwords.manager.load("data/uiskin.json", Skin.class);
-			GameOfSwords.manager.finishLoading();
-            skin = GameOfSwords.manager.get("data/uiskin.json");
+			GameOfSwords.getManager().load("data/uiskin.json", Skin.class);
+			GameOfSwords.getManager().finishLoading();
+            skin = GameOfSwords.getManager().get("data/uiskin.json");
 		}
 		return skin;
 	}

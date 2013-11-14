@@ -14,6 +14,9 @@ public class LevelRenderer {
 
 	private Level level;
 	
+	private float zoomDelta = .2f;
+	
+	private float scale;
 	private OrthogonalTiledMapRenderer m_Renderer;
 	private OrthographicCamera m_Camera;
 	
@@ -24,7 +27,7 @@ public class LevelRenderer {
 	public LevelRenderer(Level level) {
 		this.level = level;
 
-		float scale = 1/32f;
+		scale = 1/32f;
 
 		m_Renderer = new OrthogonalTiledMapRenderer(level.getMap(), scale);		
 		m_Camera = new OrthographicCamera();
@@ -87,6 +90,27 @@ public class LevelRenderer {
 	}
 	
 	public void onTouch(int x, int y) {
+		
+	}
+
+	public Point getCoord(int screenX, int screenY) {
+		return new Point((int)(screenX * scale), (int)(screenY * scale));
+	}
+
+	public void zoomMap(boolean in) {
+		// TODO Auto-generated method stub
+		
+		if(in) {
+			m_Camera.zoom *= (1 + zoomDelta);
+		}
+		else {
+			m_Camera.zoom *= (1 - zoomDelta);
+		}
+		
+	}
+
+	public void moveMap(int deltaX, int deltaY) {
+		// TODO Auto-generated method stub
 		
 	}
 }

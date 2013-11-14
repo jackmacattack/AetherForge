@@ -1,9 +1,9 @@
 package edu.virginia.cs.sgd.menu;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 
 import edu.virginia.cs.sgd.GameOfSwords;
+import edu.virginia.cs.sgd.input.Input;
 
 
 
@@ -12,6 +12,13 @@ public class Menu {
 	private SplashScreen splashscreen;
 	private MapScreen mapscreen;
 	private GameOfSwords game;
+	
+	private Input input;
+	
+	public Menu() {
+		input = new Input();
+		System.out.println("Inputted");
+	}
 	
 	public MenuScreen getMenuscreen() {
 		return menuscreen;
@@ -33,6 +40,8 @@ public class Menu {
 	}
 
 	public Menu(GameOfSwords game){
+		this();
+		
 		menuscreen = new MenuScreen(this);
 		splashscreen = new SplashScreen(this);
 		mapscreen = new MapScreen(this, game);
@@ -44,7 +53,9 @@ public class Menu {
 		theme.setLooping(true);
 	}
 	
-	public void setScreen(Screen screen){
+	public void setScreen(AbstractScreen screen){
+		
+		input.setListener(screen);
 		game.setScreen(screen);
 		
 	}

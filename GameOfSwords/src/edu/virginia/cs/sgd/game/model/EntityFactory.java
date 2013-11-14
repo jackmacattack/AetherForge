@@ -25,8 +25,7 @@ public class EntityFactory {
 		e.addComponent(new MapPosition(x,y));
 		
 		e.addToWorld();
-		world.process();
-		
+
 		return e;
 	}
 	public static Entity createTile(World world, int x, int y, boolean pass, int [][]map)

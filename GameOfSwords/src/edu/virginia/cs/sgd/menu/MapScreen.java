@@ -1,5 +1,7 @@
 package edu.virginia.cs.sgd.menu;
 
+import java.awt.Point;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL10;
@@ -19,11 +21,11 @@ public class MapScreen extends AbstractScreen {
 	private Level level;
 	private Menu m;
 	private Controller c;
-
+	
 	public MapScreen(Menu m, GameOfSwords game) {
 		super();
 		this.m = m;
-
+		
 		GameOfSwords.getManager().load("data/samplesprite.png", Texture.class);
 		GameOfSwords.getManager().setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 		GameOfSwords.getManager().load("data/sample_map.tmx", TiledMap.class);
@@ -67,5 +69,48 @@ public class MapScreen extends AbstractScreen {
 
 	public void dispose() {
 		level.dispose();
+	}
+
+	@Override
+	public void keyDown(int keyCode) {
+		
+	}
+
+	@Override
+	public void keyUp(int keyCode) {
+		
+	}
+
+	@Override
+	public void touchDown(int screenX, int screenY, int pointer, int button) {
+		Point coords = renderer.getCoord(screenX, screenY);
+		
+		System.out.println(coords.x + ", " + coords.y);
+		
+		level.touchDown(coords, pointer, button);
+	}
+
+	@Override
+	public void touchUp(int screenX, int screenY, int pointer, int button, boolean dragging) {
+		
+		if(dragging) {
+			return;
+		}
+		
+		Point coords = renderer.getCoord(screenX, screenY);
+		
+		System.out.println(coords.x + ", " + coords.y);
+		
+		level.touchUp(coords, pointer, button);
+	}
+
+	@Override
+	public void scrolled(int amount) {
+		renderer.zoomMap(amount == 1);
+	}
+	
+	@Override
+	public void touchDragged(int screenX, int screenY, int pointer, int deltaX, int deltaY) {
+		renderer.moveMap(deltaX, deltaY);
 	}
 }

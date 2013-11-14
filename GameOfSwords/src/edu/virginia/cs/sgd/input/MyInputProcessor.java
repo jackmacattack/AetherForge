@@ -32,19 +32,19 @@ public class MyInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		myInput.touchDown(screenX, screenY);
+		myInput.touchDown(screenX, screenY, pointer, button);
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		myInput.touchUp(screenX, screenY);
+		myInput.touchUp(screenX, screenY, pointer, button);
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// when a finger or the mouse was dragged
+		myInput.touchDragged(screenX, screenY, pointer);
 		return false;
 	}
 

@@ -45,4 +45,14 @@ public class MenuScreen extends AbstractScreen {
         table.row();
 	}
 
+	@Override
+	public void touchDown(int screenX, int screenY, int pointer, int button) {
+		System.out.println("HEre");
+		stage.touchDown(screenX, screenY, pointer, button);
+	}
+
+	@Override
+	public void touchUp(int screenX, int screenY, int pointer, int button, boolean dragging) {
+		stage.touchUp(screenX, screenY, pointer, button);
+	}
 }

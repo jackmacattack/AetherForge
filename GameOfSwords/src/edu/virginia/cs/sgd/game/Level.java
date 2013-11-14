@@ -108,7 +108,7 @@ public class Level {
 
 	public void processSystems()
 	{
-		System.out.println("process");
+		//System.out.println("process");
 		damageSystem.process();
 	}
 	
@@ -119,4 +119,14 @@ public class Level {
         e.addComponent(component);
         e.changedInWorld();
     }
+
+	public void touchDown(Point coords, int pointer, int button) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void touchUp(Point coords, int pointer, int button) {
+		// TODO Auto-generated method stub
+		
+	}
 }

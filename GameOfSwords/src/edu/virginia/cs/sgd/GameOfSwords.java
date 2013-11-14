@@ -50,7 +50,7 @@ public class GameOfSwords extends Game implements ApplicationListener {
 	public void resize(int width, int height) {
 		super.resize(width, height);
 		if (getScreen() == null) {
-			setScreen(menu.getSplashscreen());
+			menu.setScreen(menu.getSplashscreen());
 
 		}
 	}

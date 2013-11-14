@@ -11,11 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import edu.virginia.cs.sgd.GameOfSwords;
+import edu.virginia.cs.sgd.input.Input;
+import edu.virginia.cs.sgd.input.InputListener;
 
 /**
  * The base class for all game screens.
  */
-public abstract class AbstractScreen implements Screen {
+public abstract class AbstractScreen implements Screen, InputListener {
 	public static final int GAME_VIEWPORT_WIDTH = 400,
 			GAME_VIEWPORT_HEIGHT = 240;
 	public static final int MENU_VIEWPORT_WIDTH = 800,
@@ -23,7 +25,8 @@ public abstract class AbstractScreen implements Screen {
 
 
 	protected final Stage stage;
-
+	private Input input;
+	
 	private BitmapFont font;
 	protected SpriteBatch batch;
 	private Skin skin;
@@ -93,13 +96,15 @@ public abstract class AbstractScreen implements Screen {
 		Gdx.app.log(GameOfSwords.LOG, "Showing screen: " + getName());
 
 		// set the stage as the input processor
-		Gdx.input.setInputProcessor(stage);
+		//Gdx.input.setInputProcessor(stage);
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		Gdx.app.log(GameOfSwords.LOG, "Resizing screen: " + getName() + " to: "
 				+ width + " x " + height);
+		
+		stage.setViewport(width, height, false);
 	}
 
 	@Override
@@ -160,5 +165,40 @@ public abstract class AbstractScreen implements Screen {
 			skin.dispose();
 		if (atlas != null)
 			atlas.dispose();
+	}
+
+	@Override
+	public void keyDown(int keyCode) {
+
+	}
+
+	@Override
+	public void keyUp(int keyCode) {
+		
+	}
+
+	@Override
+	public void touchDown(int screenX, int screenY, int pointer, int button) {
+		
+	}
+
+	@Override
+	public void touchUp(int screenX, int screenY, int pointer, int button, boolean dragging) {
+		
+	}
+
+	@Override
+	public void mouseMoved(int screenX, int screenY, int deltaX, int deltaY) {
+		
+	}
+
+	@Override
+	public void scrolled(int amount) {
+		
+	}
+	
+	@Override
+	public void touchDragged(int screenX, int screenY, int pointer, int deltaX, int deltaY) {
+		
 	}
 }

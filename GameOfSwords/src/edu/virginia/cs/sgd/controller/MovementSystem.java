@@ -31,6 +31,7 @@ public class MovementSystem extends EntityProcessingSystem{
 		MapPosition	mp = e.getComponent(MapPosition.class);
 		int move = 3;
 		int tileid = getCell(mp.getX(), mp.getY());
+		System.out.println("I am at " + tileid);
 		System.out.println(mp);
 		System.out.println("Yay I can move");
 	}
@@ -42,8 +43,17 @@ public class MovementSystem extends EntityProcessingSystem{
 		return cell.getTile().getId();
 	}
 
-	public int[][] createPath(int x, int y, int mv){
-		int[][] path = new int[mv][mv];
+	//Path algorithm. Start (x,y) and End (x,y) coordinates with move distance
+	//Basic tile path algorithm, by checking adjacent tiles.
+	public int[][] createPath(int xs, int xe, int ys, int ye, int mv){
+		//MapLayer layer = level.getMap().getLayers().get("Tile Layer 1");
+		int[][] path = new int[mv][2];
+		for(int i = 0; i < mv; i++){
+			for(int j = 0; j < path[i].length; j++){
+				
+			}
+		}
+		
 		return path;
 		
 		

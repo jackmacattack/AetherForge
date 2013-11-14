@@ -45,18 +45,19 @@ public class MovementSystem extends EntityProcessingSystem{
 
 	//Path algorithm. Start (x,y) and End (x,y) coordinates with move distance
 	//Basic tile path algorithm, by checking adjacent tiles.
+	//WIP
 	public int[][] createPath(int xs, int xe, int ys, int ye, int mv){
 		//MapLayer layer = level.getMap().getLayers().get("Tile Layer 1");
 		int[][] path = new int[mv][2];
+		path[0][0] = xs;
+		path[0][1] = ys;
 		for(int i = 0; i < mv; i++){
-			for(int j = 0; j < path[i].length; j++){
-				
-			}
+			
 		}
 		
 		return path;
 		
 		
 	}
-
+	
 }

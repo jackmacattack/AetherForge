@@ -8,7 +8,7 @@ import com.artemis.annotations.Mapper;
 import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.utils.Array;
 
-import edu.virginia.cs.sgd.game.model.Stats;
+import edu.virginia.cs.sgd.game.model.components.Stats;
 
 public class TurnManagementSystem extends EntitySystem{
 	@Mapper ComponentMapper<Stats> sm;
@@ -38,7 +38,7 @@ public class TurnManagementSystem extends EntitySystem{
         if (units.size > 0) {
         	oldEntity = units.get(0);
         	Entity en = entities.get(oldEntity);
-        	en.getComponent(Stats.class).setHasTakenTurn(true);
+        	//en.getComponent(Stats.class).setHasTakenTurn(true);
         	
         	units.removeIndex(0);
         }else{ 

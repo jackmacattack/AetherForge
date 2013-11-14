@@ -33,7 +33,7 @@ public class TextureRegionManager {
 	public TextureRegion getRegion(String name) {
 		Point p = bounds.get(name);
 		
-		Texture tex = GameOfSwords.manager.get(sheetName, Texture.class);
+		Texture tex = GameOfSwords.getManager().get(sheetName, Texture.class);
 		
 		return new TextureRegion(tex, p.x, p.y, p.x + width, p.y + height);
 	}

@@ -37,9 +37,9 @@ public class Menu {
 		splashscreen = new SplashScreen(this);
 		mapscreen = new MapScreen(this, game);
 		this.game = game;
-		game.manager.load("data/GoS+Main+Theme.mp3", Music.class);
-		game.manager.finishLoading();
-		Music theme = game.manager.get("data/GoS+Main+Theme.mp3", Music.class);	
+		GameOfSwords.getManager().load("data/GoS+Main+Theme.mp3", Music.class);
+		GameOfSwords.getManager().finishLoading();
+		Music theme = GameOfSwords.getManager().get("data/GoS+Main+Theme.mp3", Music.class);	
 		theme.play();
 		theme.setLooping(true);
 	}

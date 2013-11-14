@@ -3,6 +3,11 @@ package edu.virginia.cs.sgd.game.model;
 import com.artemis.Entity;
 import com.artemis.World;
 
+import edu.virginia.cs.sgd.game.model.components.MapPosition;
+import edu.virginia.cs.sgd.game.model.components.Passable;
+import edu.virginia.cs.sgd.game.model.components.Stats;
+import edu.virginia.cs.sgd.game.model.exceptions.MapPositionException;
+
 public class EntityFactory {
 
 	
@@ -20,6 +25,7 @@ public class EntityFactory {
 		e.addComponent(new MapPosition(x,y));
 		
 		e.addToWorld();
+		world.process();
 		
 		return e;
 	}

@@ -3,15 +3,13 @@ package edu.virginia.cs.sgd.controller;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.EntitySystem;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
-import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import edu.virginia.cs.sgd.game.Level;
-import edu.virginia.cs.sgd.game.model.MapPosition;
+import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.menu.MapScreen;
 
 public class MovementSystem extends EntityProcessingSystem{

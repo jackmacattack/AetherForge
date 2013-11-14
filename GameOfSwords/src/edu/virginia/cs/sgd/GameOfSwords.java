@@ -1,5 +1,8 @@
 package edu.virginia.cs.sgd;
 
+import com.artemis.Component;
+import com.artemis.Entity;
+import com.artemis.World;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
@@ -9,18 +12,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import edu.virginia.cs.sgd.menu.MapScreen;
-import edu.virginia.cs.sgd.menu.MenuScreen;
-import edu.virginia.cs.sgd.menu.SplashScreen;
-import edu.virginia.cs.sgd.game.model.*;
+import edu.virginia.cs.sgd.game.model.EntityFactory;
 import edu.virginia.cs.sgd.game.model.components.Damage;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.model.components.Stats;
-import edu.virginia.cs.sgd.game.model.systems.*;
-
-import com.artemis.Component;
-import com.artemis.Entity;
-import com.artemis.World;
+import edu.virginia.cs.sgd.game.model.systems.DamageSystem;
+import edu.virginia.cs.sgd.menu.MapScreen;
+import edu.virginia.cs.sgd.menu.MenuScreen;
+import edu.virginia.cs.sgd.menu.SplashScreen;
+import edu.virginia.cs.sgd.util.TextureRegionManager;
 
 
 public class GameOfSwords extends Game implements ApplicationListener {

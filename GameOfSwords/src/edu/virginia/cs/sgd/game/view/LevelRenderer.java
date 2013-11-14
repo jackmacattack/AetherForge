@@ -1,14 +1,15 @@
 package edu.virginia.cs.sgd.game.view;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 import edu.virginia.cs.sgd.GameOfSwords;
 import edu.virginia.cs.sgd.game.Level;
+import edu.virginia.cs.sgd.util.TextureRegionManager;
 
 public class LevelRenderer {
 
@@ -18,6 +19,7 @@ public class LevelRenderer {
 	private OrthographicCamera m_Camera;
 	
 	private SpriteManager manager;
+	private TextureRegionManager texManager;
 	
 	public LevelRenderer(Level level) {
 		this.level = level;
@@ -29,9 +31,8 @@ public class LevelRenderer {
 		 
 		manager = new SpriteManager(m_Renderer.getSpriteBatch());
 		
-		TextureRegion tex = new TextureRegion(GameOfSwords.manager.get("data/samplesprite.png", Texture.class), 0, 0, 32, 32);
-		
-		manager.addSprite(new Sprite(tex, 0));
+		texManager = new TextureRegionManager("data/samplesprite.png", 32, 32);
+		texManager.addRegion("sample", new Point(0,0));
 	}
 	
 	public void render() {
@@ -40,6 +41,7 @@ public class LevelRenderer {
 		m_Renderer.setView(m_Camera);
 		m_Renderer.render();
 
+		updateSprites();
 		manager.draw(level);
 	}
 
@@ -50,7 +52,6 @@ public class LevelRenderer {
 		m_Camera.setToOrtho(true, 15, 10);
 		m_Camera.update();
 		
-		System.out.println("Ortho-ed");
 	}
 
 	public void show() {
@@ -75,7 +76,7 @@ public class LevelRenderer {
 	}
 	
 	public void addSprite(int id, String img) {
-		Sprite sprite = new Sprite(GameOfSwords.manager.get(img, TextureRegion.class), id);
+		Sprite sprite = new Sprite(texManager.getRegion(img), id);
 		
 		manager.addSprite(sprite);
 	}

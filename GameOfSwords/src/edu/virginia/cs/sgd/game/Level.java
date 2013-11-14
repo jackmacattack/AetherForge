@@ -21,6 +21,8 @@ public class Level {
 		
 		addList = new ArrayList<SpriteMaker>();
 		removeList = new ArrayList<Integer>();
+		
+		addList.add(new SpriteMaker(0, "sample"));
 	}
 
 	public TiledMap getMap() {

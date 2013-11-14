@@ -19,6 +19,7 @@ import edu.virginia.cs.sgd.game.model.components.Stats;
 import edu.virginia.cs.sgd.game.model.systems.DamageSystem;
 import edu.virginia.cs.sgd.menu.MapScreen;
 import edu.virginia.cs.sgd.menu.MenuScreen;
+import edu.virginia.cs.sgd.menu.Menu;
 import edu.virginia.cs.sgd.menu.SplashScreen;
 import edu.virginia.cs.sgd.util.TextureRegionManager;
 
@@ -30,6 +31,8 @@ public class GameOfSwords extends Game implements ApplicationListener {
 	private Texture texture;
 	private Sprite sprite;
 	public World world;
+	public Menu menu;
+
 	public static AssetManager manager = new AssetManager();
 
 	public static final String LOG = GameOfSwords.class.getSimpleName();
@@ -41,21 +44,6 @@ public class GameOfSwords extends Game implements ApplicationListener {
 	public GameOfSwords() {
 
 	}
-	
-	public SplashScreen getSplashScreen()
-    {
-        return new SplashScreen( this );
-    }
-	
-	public MenuScreen getMenuScreen()
-    {
-        return new MenuScreen( this );
-    }
-	
-	public MapScreen getMapScreen()
-    {
-        return new MapScreen( this );
-    }
 
 	@Override
 	public void create() {
@@ -80,7 +68,8 @@ public class GameOfSwords extends Game implements ApplicationListener {
 		MapPosition m = e.getComponent(MapPosition.class);
 		e.addComponent(new Damage(30));
 		System.out.println(m);
-		
+
+		menu = new Menu(this);
 	}
 
 	private void initialize_world() {
@@ -89,7 +78,7 @@ public class GameOfSwords extends Game implements ApplicationListener {
 		
 		world.initialize();
 		System.out.println("The world is initialized");
-		
+
 	}
 
 	@Override
@@ -108,8 +97,7 @@ public class GameOfSwords extends Game implements ApplicationListener {
 	public void resize(int width, int height) {
 		super.resize(width, height);
 		if (getScreen() == null) {
-			//setScreen(new SplashScreen(this));
-			setScreen(new MapScreen(this));
+			setScreen(menu.getSplashscreen());
 
 		}
 	}

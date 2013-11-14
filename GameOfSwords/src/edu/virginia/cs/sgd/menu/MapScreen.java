@@ -8,50 +8,61 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 import edu.virginia.cs.sgd.GameOfSwords;
+import edu.virginia.cs.sgd.controller.Controller;
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.game.view.LevelRenderer;
 
 
 public class MapScreen extends AbstractScreen {
 
-	private LevelRenderer renderer;
-	
-	public MapScreen(GameOfSwords game) {
-		super(game);
+        private LevelRenderer renderer;
+        private Level level;
+        private Menu m;
+        private Controller c;
+        
+        public MapScreen(Menu m, GameOfSwords game) {
+                super();
+                this.m = m;
+                
+                GameOfSwords.manager.load("data/samplesprite.png", Texture.class);
+                GameOfSwords.manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+                GameOfSwords.manager.load("data/sample_map.tmx", TiledMap.class);
+                Texture.setEnforcePotImages(false);
+                GameOfSwords.manager.finishLoading();
+                
+                level = new Level();
+                renderer = new LevelRenderer(level);
+                
+                c = new Controller(this, level);
+                c.run();
+                
+        }
+        
 
-		GameOfSwords.manager.load("data/samplesprite.png", Texture.class);
-		GameOfSwords.manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-		GameOfSwords.manager.load("data/sample_map.tmx", TiledMap.class);
-		Texture.setEnforcePotImages(false);
-		GameOfSwords.manager.finishLoading();
-		
-		renderer = new LevelRenderer(new Level());
-	}
-	
+        @Override
+        public void render(float delta) {
+                // TODO Auto-generated method stub
+                Gdx.gl.glClearColor(1, 1, 1, 1);
+                Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+                
+                renderer.render();
+                
+                
+        }
 
-	@Override
-	public void render(float delta) {
-		// TODO Auto-generated method stub
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		
-		renderer.render();
-		
-		
-	}
+        @Override
+        public void resize(int width, int height) {
+                // TODO Auto-generated method stub
+                
+                renderer.resize(width, height);
+        }
 
-	@Override
-	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
-		renderer.resize(width, height);
-	}
+        @Override
+        public void show() {
+                // TODO Auto-generated method stub
+                Texture.setEnforcePotImages(false);
 
-	@Override
-	public void show() {
-		// TODO Auto-generated method stub
-
-		renderer.show();
-	}
-	
+                renderer.show();
+        }
+        
 }

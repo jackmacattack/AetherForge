@@ -26,9 +26,11 @@ public class SplashScreen extends AbstractScreen {
 	private TextureRegion splashTextureRegion;
 	private Sprite sprite;
 	private Image splashImage;
+	private Menu menu;
 
-	public SplashScreen(GameOfSwords game) {
-		super(game);
+	public SplashScreen(Menu m) {
+		super();
+		menu = m;
 	}
 
 	@Override
@@ -57,7 +59,7 @@ public class SplashScreen extends AbstractScreen {
 					public boolean act(float delta) { // the last action will
 														// move to the next
 														// screen
-						game.setScreen(new MenuScreen(game));
+						menu.setScreen(menu.getMenuscreen());
 						return true;
 					}
 				}));

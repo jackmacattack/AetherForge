@@ -4,12 +4,11 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
-import edu.virginia.cs.sgd.GameOfSwords;
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.util.TextureRegionManager;
+
 
 public class LevelRenderer {
 
@@ -19,6 +18,7 @@ public class LevelRenderer {
 	private OrthographicCamera m_Camera;
 	
 	private SpriteManager manager;
+
 	private TextureRegionManager texManager;
 	
 	public LevelRenderer(Level level) {
@@ -42,6 +42,7 @@ public class LevelRenderer {
 		m_Renderer.render();
 
 		updateSprites();
+
 		manager.draw(level);
 	}
 

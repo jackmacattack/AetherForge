@@ -1,5 +1,7 @@
 package edu.virginia.cs.sgd.game.view;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -53,6 +55,33 @@ public class LevelRenderer {
 
 	public void show() {
 		
+	}
+	
+	public void updateSprites() {
+		
+		ArrayList<Integer> removeList = level.getRemoveList();
+		
+		for(Integer remove : removeList) {
+			removeSprite(remove);
+		}
+		
+		ArrayList<SpriteMaker> addList = level.getAddList();
+		
+		for(SpriteMaker add : addList) {
+			addSprite(add.getId(), add.getImgSource());
+		}
+		
+		level.clearSpriteUpdates();
+	}
+	
+	public void addSprite(int id, String img) {
+		Sprite sprite = new Sprite(GameOfSwords.manager.get(img, TextureRegion.class), id);
+		
+		manager.addSprite(sprite);
+	}
+	
+	public void removeSprite(int id) {
+		manager.removeSprite(id);
 	}
 	
 	public void onTouch(int x, int y) {

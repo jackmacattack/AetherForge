@@ -26,7 +26,7 @@ public class SpriteManager {
 		sprites.remove(id);
 	}
 	
-	public void draw(Level l) {//Map<Integer, Point> positions) {
+	public void draw(Level l) {
 	
 		batch.begin();
 		

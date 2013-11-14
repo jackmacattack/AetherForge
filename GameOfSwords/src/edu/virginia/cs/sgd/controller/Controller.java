@@ -35,7 +35,7 @@ public class Controller {
 			System.out.println("Am I running?");
 			int[][] map = new int[10][10];
 			Entity e = ef.createActor(zawarudo, 0, 0, map);
-			Entity e1 = ef.createActor(zawarudo, 5, 5, map);
+			Entity e1 = ef.createActor(zawarudo, 0, 1, map);
 			zawarudo.setSystem(tms);
 			zawarudo.setSystem(ms);
 			zawarudo.process();

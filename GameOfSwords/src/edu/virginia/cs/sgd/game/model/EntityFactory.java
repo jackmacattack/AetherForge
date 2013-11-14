@@ -25,7 +25,6 @@ public class EntityFactory {
 		e.addComponent(new MapPosition(x,y));
 		
 		e.addToWorld();
-		world.process();
 		
 		return e;
 	}

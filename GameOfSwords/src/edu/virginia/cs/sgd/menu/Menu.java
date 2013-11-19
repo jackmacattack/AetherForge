@@ -17,7 +17,6 @@ public class Menu {
 	
 	public Menu() {
 		input = new Input();
-		System.out.println("Inputted");
 	}
 	
 	public MenuScreen getMenuscreen() {

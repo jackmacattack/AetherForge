@@ -47,7 +47,6 @@ public class MenuScreen extends AbstractScreen {
 
 	@Override
 	public void touchDown(int screenX, int screenY, int pointer, int button) {
-		System.out.println("HEre");
 		stage.touchDown(screenX, screenY, pointer, button);
 	}
 

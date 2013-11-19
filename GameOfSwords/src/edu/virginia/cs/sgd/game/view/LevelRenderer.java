@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.util.TextureRegionManager;
@@ -13,10 +14,14 @@ import edu.virginia.cs.sgd.util.TextureRegionManager;
 public class LevelRenderer {
 
 	private Level level;
-	
+
+	private float zoomMin = .2f;
+	private float zoomMax = 2f;
 	private float zoomDelta = .2f;
-	
+
+	private int size;
 	private float scale;
+	
 	private OrthogonalTiledMapRenderer m_Renderer;
 	private OrthographicCamera m_Camera;
 	
@@ -27,14 +32,15 @@ public class LevelRenderer {
 	public LevelRenderer(Level level) {
 		this.level = level;
 
-		scale = 1/32f;
+		size = 32;
+		scale = 1f;
 
 		m_Renderer = new OrthogonalTiledMapRenderer(level.getMap(), scale);		
 		m_Camera = new OrthographicCamera();
 		 
-		manager = new SpriteManager(m_Renderer.getSpriteBatch());
+		manager = new SpriteManager(size, scale, m_Renderer.getSpriteBatch());
 		
-		texManager = new TextureRegionManager("data/samplesprite.png", 32, 32);
+		texManager = new TextureRegionManager("data/samplesprite.png", size, size);
 		texManager.addRegion("sample", new Point(0,0));
 	}
 	
@@ -51,9 +57,10 @@ public class LevelRenderer {
 
 	public void resize(int width, int height) {
 
-//		m_Camera.setToOrtho(true, width, height);
+		m_Camera.setToOrtho(true, width * scale, height * scale);
 
-		m_Camera.setToOrtho(true, 15, 10);
+//		m_Camera.setToOrtho(true, 15, 10);
+		
 		m_Camera.update();
 		
 	}
@@ -88,13 +95,9 @@ public class LevelRenderer {
 	public void removeSprite(int id) {
 		manager.removeSprite(id);
 	}
-	
-	public void onTouch(int x, int y) {
-		
-	}
 
 	public Point getCoord(int screenX, int screenY) {
-		return new Point((int)(screenX * scale), (int)(screenY * scale));
+		return new Point((int)(screenX * scale / size), (int)(screenY * scale / size));
 	}
 
 	public void zoomMap(boolean in) {
@@ -110,7 +113,8 @@ public class LevelRenderer {
 	}
 
 	public void moveMap(int deltaX, int deltaY) {
-		// TODO Auto-generated method stub
+		
+		m_Camera.translate(new Vector2(-deltaX, -deltaY));
 		
 	}
 }

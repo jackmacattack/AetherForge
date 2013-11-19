@@ -102,12 +102,17 @@ public class LevelRenderer {
 
 	public void zoomMap(boolean in) {
 		// TODO Auto-generated method stub
+		float zoom = 0;
 		
 		if(in) {
-			m_Camera.zoom *= (1 + zoomDelta);
+			zoom = m_Camera.zoom * (1 + zoomDelta);
 		}
 		else {
-			m_Camera.zoom *= (1 - zoomDelta);
+			zoom = m_Camera.zoom * (1 - zoomDelta);
+		}
+		
+		if(zoom > zoomMin && zoom < zoomMax) {
+			m_Camera.zoom = zoom;
 		}
 		
 	}

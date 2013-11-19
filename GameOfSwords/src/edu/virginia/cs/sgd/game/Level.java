@@ -35,7 +35,7 @@ public class Level {
 		
 		addList.add(new SpriteMaker(0, "sample"));
 		
-		testDamage();
+//		testDamage();
 	}
 
 	public TiledMap getMap() {
@@ -103,13 +103,13 @@ public class Level {
 	
 	public void dispose() {
 
-		world.deleteSystem(damageSystem);
+//		world.deleteSystem(damageSystem);
 	}
 
 	public void processSystems()
 	{
 		//System.out.println("process");
-		damageSystem.process();
+//		damageSystem.process();
 	}
 	
     public void addComponent(Component component, int entityId)
@@ -120,13 +120,7 @@ public class Level {
         e.changedInWorld();
     }
 
-	public void touchDown(Point coords, int pointer, int button) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void touchUp(Point coords, int pointer, int button) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void select(Point coords) {
+    	System.out.println(coords.x + ", " + coords.y);
+    }
 }

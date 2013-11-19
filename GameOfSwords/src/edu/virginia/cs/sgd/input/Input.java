@@ -88,6 +88,8 @@ public class Input {
 		prevX = screenX;
 		prevY = screenY;
 		
+		dragging = true;
+		
 		if(listener != null) {
 			listener.touchDragged(screenX, screenY, pointer, deltaX, deltaY);
 		}

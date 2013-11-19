@@ -3,6 +3,7 @@ package edu.virginia.cs.sgd.menu;
 import java.awt.Point;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
@@ -83,11 +84,11 @@ public class MapScreen extends AbstractScreen {
 
 	@Override
 	public void touchDown(int screenX, int screenY, int pointer, int button) {
-		Point coords = renderer.getCoord(screenX, screenY);
+//		Point coords = renderer.getCoord(screenX, screenY);
 		
-		System.out.println(coords.x + ", " + coords.y);
+		//System.out.println(coords.x + ", " + coords.y);
 		
-		level.touchDown(coords, pointer, button);
+		//level.touchDown(coords, pointer, button);
 	}
 
 	@Override
@@ -99,9 +100,9 @@ public class MapScreen extends AbstractScreen {
 		
 		Point coords = renderer.getCoord(screenX, screenY);
 		
-		System.out.println(coords.x + ", " + coords.y);
-		
-		level.touchUp(coords, pointer, button);
+		if(button == Buttons.LEFT) {
+			level.select(coords);
+		}
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.util.TextureRegionManager;
@@ -37,7 +37,7 @@ public class LevelRenderer {
 
 		m_Renderer = new OrthogonalTiledMapRenderer(level.getMap(), scale);		
 		m_Camera = new OrthographicCamera();
-		 
+		
 		manager = new SpriteManager(size, scale, m_Renderer.getSpriteBatch());
 		
 		texManager = new TextureRegionManager("data/samplesprite.png", size, size);
@@ -97,7 +97,11 @@ public class LevelRenderer {
 	}
 
 	public Point getCoord(int screenX, int screenY) {
-		return new Point((int)(screenX * scale / size), (int)(screenY * scale / size));
+
+		Vector3 pos = new Vector3(screenX, screenY, 0);
+		m_Camera.unproject(pos);
+		
+		return new Point((int)(pos.x * scale / size), (int)(pos.y * scale / size));
 	}
 
 	public void zoomMap(boolean in) {
@@ -119,7 +123,13 @@ public class LevelRenderer {
 
 	public void moveMap(int deltaX, int deltaY) {
 		
-		m_Camera.translate(new Vector2(-deltaX, -deltaY));
+		Vector3 delta = new Vector3(-deltaX * m_Camera.zoom, -deltaY * m_Camera.zoom, 0);
+		
+		//m_Camera.unproject(delta);
+		
+//		System.out.println(deltaX + "," + deltaY + "->" + delta.x + ", " + delta.y);
+		
+		m_Camera.translate(delta);
 		
 	}
 }

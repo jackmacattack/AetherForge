@@ -4,4 +4,5 @@
     <set-configuration-property name="gdx.assetpath" value="../GameOfSwords-android/assets"/>
     <inherits name="GameOfSwords"/>
     <inherits name="com.badlogic.gdx.backends.gdx_backends_gwt"/>
+    <inherits name="com.artemis.Artemis"/>
 </module>

@@ -23,12 +23,12 @@ public class GameOfSwords extends Game implements ApplicationListener {
 		return manager;
 	}
 	
-	public static final String LOG = GameOfSwords.class.getSimpleName();
+	public static final String LOG = GameOfSwords.class.getName(); //GameOfSwords.class.getSimpleName();
 	
 	public GameOfSwords() {
-
+		
 	}
-
+	
 	@Override
 	public void create() {
 		menu = new Menu(this);

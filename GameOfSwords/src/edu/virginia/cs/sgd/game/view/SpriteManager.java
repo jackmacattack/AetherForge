@@ -1,10 +1,10 @@
 package edu.virginia.cs.sgd.game.view;
 
-import java.awt.Point;
 import java.util.Map;
 import java.util.TreeMap;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 import edu.virginia.cs.sgd.game.Level;
 
@@ -37,9 +37,9 @@ public class SpriteManager {
 		batch.begin();
 		
 		for(Sprite s : sprites.values()) {
-			Point pos = l.getPosition(s.getModelId());
+			Vector2 pos = l.getPosition(s.getModelId());
 			
-			batch.draw(s.getImage(), (float) pos.getX(), (float) pos.getY(), 
+			batch.draw(s.getImage(), (float) pos.x, (float) pos.y, 
 					0, 0, size, size, scale, scale, 0);
 		}
 		

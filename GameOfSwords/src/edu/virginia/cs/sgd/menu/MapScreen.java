@@ -1,7 +1,5 @@
 package edu.virginia.cs.sgd.menu;
 
-import java.awt.Point;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -9,6 +7,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Vector2;
 
 import edu.virginia.cs.sgd.GameOfSwords;
 import edu.virginia.cs.sgd.controller.Controller;
@@ -98,7 +97,7 @@ public class MapScreen extends AbstractScreen {
 			return;
 		}
 		
-		Point coords = renderer.getCoord(screenX, screenY);
+		Vector2 coords = renderer.getCoord(screenX, screenY);
 		
 		if(button == Buttons.LEFT) {
 			level.select(coords);

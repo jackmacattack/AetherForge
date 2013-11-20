@@ -1,10 +1,11 @@
 package edu.virginia.cs.sgd.game.view;
 
-import java.awt.Point;
 import java.util.ArrayList;
+
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import edu.virginia.cs.sgd.game.Level;
@@ -41,7 +42,7 @@ public class LevelRenderer {
 		manager = new SpriteManager(size, scale, m_Renderer.getSpriteBatch());
 		
 		texManager = new TextureRegionManager("data/samplesprite.png", size, size);
-		texManager.addRegion("sample", new Point(0,0));
+		texManager.addRegion("sample", new Vector2(0,0));
 	}
 	
 	public void render() {
@@ -96,12 +97,12 @@ public class LevelRenderer {
 		manager.removeSprite(id);
 	}
 
-	public Point getCoord(int screenX, int screenY) {
+	public Vector2 getCoord(int screenX, int screenY) {
 
 		Vector3 pos = new Vector3(screenX, screenY, 0);
 		m_Camera.unproject(pos);
 		
-		return new Point((int)(pos.x * scale / size), (int)(pos.y * scale / size));
+		return new Vector2((int)(pos.x * scale / size), (int)(pos.y * scale / size));
 	}
 
 	public void zoomMap(boolean in) {

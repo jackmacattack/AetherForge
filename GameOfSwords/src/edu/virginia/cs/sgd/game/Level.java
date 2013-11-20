@@ -1,12 +1,12 @@
 package edu.virginia.cs.sgd.game;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import com.artemis.Component;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Vector2;
 
 import edu.virginia.cs.sgd.GameOfSwords;
 import edu.virginia.cs.sgd.game.model.EntityFactory;
@@ -43,9 +43,9 @@ public class Level {
 		return m_Map;
 	}
 
-	public Point getPosition(int modelId) {
+	public Vector2 getPosition(int modelId) {
 		// TODO Auto-generated method stub
-		return new Point(0, 0);
+		return new Vector2(0, 0);
 	}
 	
 	public ArrayList<SpriteMaker> getAddList() {
@@ -120,7 +120,7 @@ public class Level {
         e.changedInWorld();
     }
 
-    public void select(Point coords) {
+    public void select(Vector2 coords) {
     	System.out.println(coords.x + ", " + coords.y);
     }
 }

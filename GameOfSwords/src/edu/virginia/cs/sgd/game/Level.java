@@ -18,7 +18,7 @@ import edu.virginia.cs.sgd.game.view.SpriteMaker;
 
 public class Level {
 
-	public World world;
+	private World world;
 	private TiledMap m_Map;
 
 	private ArrayList<SpriteMaker> addList;

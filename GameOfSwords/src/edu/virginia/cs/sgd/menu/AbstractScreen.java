@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import edu.virginia.cs.sgd.GameOfSwords;
-import edu.virginia.cs.sgd.input.Input;
 import edu.virginia.cs.sgd.input.InputListener;
 
 /**
@@ -25,7 +24,6 @@ public abstract class AbstractScreen implements Screen, InputListener {
 
 
 	protected final Stage stage;
-	private Input input;
 	
 	private BitmapFont font;
 	protected SpriteBatch batch;

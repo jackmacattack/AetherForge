@@ -1,12 +1,12 @@
 package edu.virginia.cs.sgd.game;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import com.artemis.Component;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Vector2;
 
 import edu.virginia.cs.sgd.GameOfSwords;
 import edu.virginia.cs.sgd.game.model.EntityFactory;
@@ -18,7 +18,7 @@ import edu.virginia.cs.sgd.game.view.SpriteMaker;
 
 public class Level {
 
-	public World world;
+	private World world;
 	private TiledMap m_Map;
 
 	private ArrayList<SpriteMaker> addList;
@@ -35,7 +35,7 @@ public class Level {
 		
 		addList.add(new SpriteMaker(0, "sample"));
 		
-		testDamage();
+//		testDamage();
 	}
 
 	public TiledMap getMap() {
@@ -43,9 +43,9 @@ public class Level {
 		return m_Map;
 	}
 
-	public Point getPosition(int modelId) {
+	public Vector2 getPosition(int modelId) {
 		// TODO Auto-generated method stub
-		return new Point(0, 0);
+		return new Vector2(0, 0);
 	}
 	
 	public ArrayList<SpriteMaker> getAddList() {
@@ -103,13 +103,13 @@ public class Level {
 	
 	public void dispose() {
 
-		world.deleteSystem(damageSystem);
+//		world.deleteSystem(damageSystem);
 	}
 
 	public void processSystems()
 	{
-		System.out.println("process");
-		damageSystem.process();
+		//System.out.println("process");
+//		damageSystem.process();
 	}
 	
     public void addComponent(Component component, int entityId)
@@ -118,5 +118,9 @@ public class Level {
         Entity e = world.getEntity(entityId);
         e.addComponent(component);
         e.changedInWorld();
+    }
+
+    public void select(Vector2 coords) {
+    	System.out.println(coords.x + ", " + coords.y);
     }
 }

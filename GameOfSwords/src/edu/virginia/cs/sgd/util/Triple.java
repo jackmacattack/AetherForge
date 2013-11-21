@@ -28,9 +28,29 @@ public class Triple {
 	public void setY(int y) {
 		this.y = y;
 	}
-
-	public Triple(int mvn, int x, int y){
-		
+	
+	public boolean isAdjacent(Triple t){
+		if(this.x == t.getX()-1 && this.y == t.getY()) return true;
+		if(this.x == t.getX()+1 && this.y == t.getY()) return true;
+		if(this.x == t.getX() && this.y == t.getY()-1) return true;
+		if(this.x == t.getX() && this.y == t.getY()+1) return true;
+		return false;
 	}
 
+	public Triple(int mvn, int x, int y){
+		this.mvn = mvn;
+		this.x = x;
+		this.y = y;
+		
+	}
+	
+	public String toString(){
+		return "(" + mvn + "," + x + "," + y + ")";
+	}
+
+	public boolean equals(Object e){
+		if(e instanceof Triple)
+		if(this.x == ((Triple) e).getX() && this.y == ((Triple) e).getY()) return true;
+		return false;
+	}
 }

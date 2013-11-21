@@ -13,7 +13,7 @@ public class Stats extends HP {
 		strength = MathUtils.random(3,10);
 		intelligence = MathUtils.random(3,10);
 		resistance = MathUtils.random(3,10);
-		accuracy = MathUtils.random(3,10);
+		accuracy = MathUtils.random(75,100);
 		dexterity  = MathUtils.random(3,10);
 		carrying_capacity = MathUtils.random(0,2);
 		level = 1;

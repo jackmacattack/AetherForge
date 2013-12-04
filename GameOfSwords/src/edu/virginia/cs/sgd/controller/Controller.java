@@ -21,7 +21,6 @@ public class Controller {
 	public Level level;
 
 
-
 	public Controller(MapScreen map, Level lv){
 		units = new Array<Integer>();
 		tms = new TurnManagementSystem(units);

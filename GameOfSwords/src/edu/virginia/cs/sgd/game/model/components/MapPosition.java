@@ -32,5 +32,9 @@ public class MapPosition extends Component {
 	return "("+x+", "+y+")";
 	}
 	
+	public static int calculateDistance(MapPosition a, MapPosition b) {
+		return (int) Math.ceil((Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.x, 2))));
+	}
+	
 	
 }

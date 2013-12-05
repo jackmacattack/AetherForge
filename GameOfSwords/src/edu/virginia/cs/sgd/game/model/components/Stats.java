@@ -1,32 +1,56 @@
 package edu.virginia.cs.sgd.game.model.components;
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.MathUtils;
 public class Stats extends HP {
 
-	private int resolve, defense, strength, intelligence, resistance, dexterity, accuracy;
+	private int health, mana, meleeAtk, rangeAtk, defense, resistance, accuracy, agility, movement;
+	private ArrayList<String> skills;
 	public int experience, next, level, carrying_capacity;
 	public boolean hasTakenTurn = false;
 	
 	public Stats()
 	{
-		resolve = MathUtils.random(3,10);
-		defense = MathUtils.random(3,10);
-		strength = MathUtils.random(3,10);
-		intelligence = MathUtils.random(3,10);
-		resistance = MathUtils.random(3,10);
-		accuracy = MathUtils.random(75,100);
-		dexterity  = MathUtils.random(3,10);
-		carrying_capacity = MathUtils.random(0,2);
-		level = 1;
+		health = mana = meleeAtk = rangeAtk = defense = resistance = accuracy = agility = 10;
+		movement = 5;
+		skills = null;
+		
 		experience = 0;
 		next = 40;
+		level = 1;
+		carrying_capacity = MathUtils.random(0,2);
 	}
 
-	public int getResolve() {
-		return resolve;
+	public int getHealth() {
+		return health;
 	}
 
-	public void setResolve(int resolve) {
-		this.resolve = resolve;
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
+	public int getMana() {
+		return mana;
+	}
+
+	public void setMana(int mana) {
+		this.mana = mana;
+	}
+
+	public int getMeleeAtk() {
+		return meleeAtk;
+	}
+
+	public void setMeleeAtk(int meleeAtk) {
+		this.meleeAtk = meleeAtk;
+	}
+
+	public int getRangeAtk() {
+		return rangeAtk;
+	}
+
+	public void setRangeAtk(int rangeAtk) {
+		this.rangeAtk = rangeAtk;
 	}
 
 	public int getDefense() {
@@ -37,22 +61,6 @@ public class Stats extends HP {
 		this.defense = defense;
 	}
 
-	public int getStrength() {
-		return strength;
-	}
-
-	public void setStrength(int strength) {
-		this.strength = strength;
-	}
-
-	public int getIntelligence() {
-		return intelligence;
-	}
-
-	public void setIntelligence(int intelligence) {
-		this.intelligence = intelligence;
-	}
-
 	public int getResistance() {
 		return resistance;
 	}
@@ -61,20 +69,36 @@ public class Stats extends HP {
 		this.resistance = resistance;
 	}
 
-	public int getDexterity() {
-		return dexterity;
-	}
-
-	public void setDexterity(int dexterity) {
-		this.dexterity = dexterity;
-	}
-
 	public int getAccuracy() {
 		return accuracy;
 	}
 
 	public void setAccuracy(int accuracy) {
 		this.accuracy = accuracy;
+	}
+
+	public int getAgility() {
+		return agility;
+	}
+
+	public void setAgility(int agility) {
+		this.agility = agility;
+	}
+
+	public int getMovement() {
+		return movement;
+	}
+
+	public void setMovement(int movement) {
+		this.movement = movement;
+	}
+
+	public ArrayList<String> getSkills() {
+		return skills;
+	}
+
+	public void setSkills(ArrayList<String> skills) {
+		this.skills = skills;
 	}
 
 	public int getExperience() {

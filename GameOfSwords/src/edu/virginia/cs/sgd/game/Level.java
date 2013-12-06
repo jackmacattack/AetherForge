@@ -1,6 +1,7 @@
 package edu.virginia.cs.sgd.game;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.artemis.Component;
 import com.artemis.Entity;
@@ -17,6 +18,7 @@ import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.model.components.Stats;
 import edu.virginia.cs.sgd.game.model.systems.DamageSystem;
 import edu.virginia.cs.sgd.game.view.SpriteMaker;
+import edu.virginia.cs.sgd.util.Triple;
 
 public class Level {
 
@@ -27,13 +29,14 @@ public class Level {
 	
 	private ArrayList<SpriteMaker> addList;
 	private ArrayList<Integer> removeList;
+	private LinkedList<Triple> pathlist;
 
 	private DamageSystem damageSystem;
 	
 	public Level() {
 
 		m_Map = GameOfSwords.getManager().get("data/sample_map.tmx");
-		
+		pathlist = new LinkedList<Triple>();
 		addList = new ArrayList<SpriteMaker>();
 		removeList = new ArrayList<Integer>();
 
@@ -156,7 +159,7 @@ public class Level {
     
     public Entity getEntityAt(int x, int y) {
     	PositionManager pos = world.getManager(PositionManager.class);
-
+    	highlightTiles(3, (int)coords.x, (int)coords.y);
     	int id = pos.getEntityAt(x, y);
     	
     	if(id == -1) {
@@ -165,22 +168,44 @@ public class Level {
     	
     	return world.getEntity(id);
     }
+    
+    public void highlightTiles(int mv, int x, int y){
+    	Triple start = new Triple(0, x, y);
+		pathlist = new LinkedList<Triple>();
+		pathlist.add(start);
+		while (true) {
+			//System.out.println("loop");
+			Triple t = pathlist.pop();
+			if(t.getMvn()+1 > mv){
+				break;
+			}
+			Triple tl = new Triple(t.getMvn() + 1, t.getX() - 1, t.getY());
+			if (!pathlist.contains(tl)) {
+				pathlist.add(tl);
+			}
 
-    public void select(int x, int y) {
-    	Entity e = getEntityAt(x, y);
-    	System.out.println(e);
-    	if(e == null) {
+			Triple tr = new Triple(t.getMvn() + 1, t.getX() + 1, t.getY());
+			if (!pathlist.contains(tr)) {
+				pathlist.add(tr);
+			}
     		if(selectedId != -1) {
     			e = world.getEntity(selectedId);
     			
     			MapPosition m = e.getComponent(MapPosition.class);
-    			
-    			m.setX(x);
-    			m.setY(y);
-    		}
-    	}
-    	else {
+
+			Triple tu = new Triple(t.getMvn() + 1, t.getX(), t.getY() + 1);
+			if (!pathlist.contains(tu)) {
+				pathlist.add(tu);
+			}
+
+			Triple td = new Triple(t.getMvn() + 1, t.getX(), t.getY() - 1);
+			if (!pathlist.contains(td)) {
+				pathlist.add(td);
+			}
+			pathlist.add(t);
     		selectedId = e.getId();
-    	}
+		}
+		System.out.println(pathlist);
+		
     }
 }

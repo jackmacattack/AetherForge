@@ -149,6 +149,7 @@ public class Level {
 
 	public void processSystems()
 	{
+		world.process();
 		//System.out.println("process");
 		//		damageSystem.process();
 	}
@@ -214,12 +215,19 @@ public class Level {
 				e = world.getEntity(selectedId);
 
 				MapPosition m = e.getComponent(MapPosition.class);
+				
+				if(pathlist.contains(new Triple(0, x, y))) {
 
-				m.setX(x);
-				m.setY(y);
+					m.setX(x);
+					m.setY(y);
 
-				selectedId = -1;
+					e.changedInWorld();
+					
+				}
 			}
+			
+			selectedId = -1;
+			pathlist.clear();
 		}
 		else {
 			selectedId = e.getId();

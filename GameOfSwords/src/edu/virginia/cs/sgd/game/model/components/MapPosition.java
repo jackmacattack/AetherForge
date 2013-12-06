@@ -50,5 +50,12 @@ public class MapPosition extends Component {
 		return (int) Math.ceil((Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.x, 2))));
 	}
 	
-	
+	public boolean equals(Object o) {
+		if(o instanceof MapPosition) {
+			MapPosition m = (MapPosition) o;
+			return x == m.getX() && y == m.getY();
+		}
+		
+		return false;
+	}
 }

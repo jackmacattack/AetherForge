@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -52,8 +55,9 @@ public class LevelRenderer {
 	
 	public void render() {
 	    Gdx.gl.glClearColor(0, 0, 0, 0); 
-	    Gdx.gl.glClear( GL10.GL_COLOR_BUFFER_BIT  );
-
+	    Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT  );
+	    Gdx.gl.glEnable(GL20.GL_BLEND);
+	    
 		m_Camera.update();
 		m_Renderer.setView(m_Camera);
 		m_Renderer.render();
@@ -61,17 +65,29 @@ public class LevelRenderer {
 		updateSprites();
 
 		manager.draw(level);
-		highlight(level.getPathList());
+		highlight(level.getPathList(), m_Renderer.getSpriteBatch());
 	}
 
-	public void highlight(List<Triple> tiles) {
+	public void highlight(List<Triple> tiles, SpriteBatch batch) {
 		for(Triple t : tiles) {
-			ShapeRenderer s = new ShapeRenderer();
-			s.begin(ShapeType.Filled);
+//			ShapeRenderer s = new ShapeRenderer();
+//			s.begin(ShapeType.Filled);
+//			
+//			s.setColor(0, 0, .5f, .5f);
+//			s.rect((float) t.getX() * size, (float) (level.getMapHeight() - t.getY()) * size, size, size);
+//			s.end();
+
+			Pixmap p = new Pixmap(32,32,Pixmap.Format.RGBA8888);
+			p.setColor(0, 0, 1, .5f);
+			p.fill();
+			p.setColor(0,0,0,.5f);
+			p.drawRectangle(0, 0, 32, 32);
 			
-			s.setColor(0, 0, .5f, .5f);
-			s.rect((float) t.getX() * size, (float) (level.getMapHeight() - t.getY()) * size, size, size);
-			s.end();
+			Texture tex = new Texture(p);
+			
+			batch.begin();
+			batch.draw(tex,(float) t.getX() * size, (float) t.getY() * size);
+			batch.end();
 		}
 	}
 	

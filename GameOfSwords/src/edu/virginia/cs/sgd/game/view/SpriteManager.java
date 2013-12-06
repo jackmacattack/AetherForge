@@ -39,7 +39,7 @@ public class SpriteManager {
 		for(Sprite s : sprites.values()) {
 			Vector2 pos = l.getPosition(s.getModelId());
 			
-			batch.draw(s.getImage(), (float) pos.x, (float) pos.y, 
+			batch.draw(s.getImage(), (float) pos.x * size, (float) pos.y * size, 
 					0, 0, size, size, scale, scale, 0);
 		}
 		

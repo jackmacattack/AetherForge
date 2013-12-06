@@ -3,6 +3,8 @@ package edu.virginia.cs.sgd.tests;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import com.artemis.*;
+
+import edu.virginia.cs.sgd.controller.Battle;
 import edu.virginia.cs.sgd.game.model.components.*;
 
 public class BattleSystemTests {

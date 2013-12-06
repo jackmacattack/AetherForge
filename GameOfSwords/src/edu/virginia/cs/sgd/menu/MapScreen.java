@@ -100,7 +100,7 @@ public class MapScreen extends AbstractScreen {
 		Vector2 coords = renderer.getCoord(screenX, screenY);
 		
 		if(button == Buttons.LEFT) {
-			level.select(coords);
+			level.select((int)coords.x, (int)coords.y);
 		}
 	}
 

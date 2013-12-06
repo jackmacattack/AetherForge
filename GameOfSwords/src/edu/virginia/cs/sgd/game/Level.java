@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import com.artemis.Component;
 import com.artemis.Entity;
 import com.artemis.World;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 
 import edu.virginia.cs.sgd.GameOfSwords;
 import edu.virginia.cs.sgd.game.model.EntityFactory;
+import edu.virginia.cs.sgd.game.model.PositionManager;
 import edu.virginia.cs.sgd.game.model.components.Damage;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.model.components.Stats;
@@ -21,6 +23,8 @@ public class Level {
 	private World world;
 	private TiledMap m_Map;
 
+	private int selectedId;
+	
 	private ArrayList<SpriteMaker> addList;
 	private ArrayList<Integer> removeList;
 
@@ -32,8 +36,18 @@ public class Level {
 		
 		addList = new ArrayList<SpriteMaker>();
 		removeList = new ArrayList<Integer>();
+
+		initialize_world();
 		
-		addList.add(new SpriteMaker(0, "sample"));
+		Entity e = world.createEntity();
+		e.addComponent(new MapPosition(1,3));
+		e.addToWorld();
+		
+		world.process();
+		
+		addList.add(new SpriteMaker(e.getId(), "sample"));
+		
+		selectedId = -1;
 		
 //		testDamage();
 	}
@@ -45,7 +59,10 @@ public class Level {
 
 	public Vector2 getPosition(int modelId) {
 		// TODO Auto-generated method stub
-		return new Vector2(0, 0);
+		Entity e = world.getEntity(modelId);
+		MapPosition m = e.getComponent(MapPosition.class);
+		
+		return new Vector2(m.getX(), m.getY());
 	}
 	
 	public ArrayList<SpriteMaker> getAddList() {
@@ -91,16 +108,33 @@ public class Level {
 		processSystems();
 		
 	}
+
+	private int getMapWidth() {
+		// TODO Auto-generated method stub
+		MapProperties prop = m_Map.getProperties();
+		int mapWidth = prop.get("width", Integer.class);
+		return mapWidth;
+	}
+	
+	private int getMapHeight() {
+		// TODO Auto-generated method stub
+		MapProperties prop = m_Map.getProperties();
+		int mapHeight = prop.get("height", Integer.class);
+		return mapHeight;
+	}
 	
 	private void initialize_world() {
 		world = new World();
-		damageSystem = world.setSystem(new DamageSystem(), true);
+		//damageSystem = world.setSystem(new DamageSystem(), true);
 		
+		PositionManager pos = new PositionManager();
+		pos.setWorld(getMapWidth(), getMapHeight());
+		world.setManager(pos);
 		world.initialize();
 		System.out.println("The world is initialized");
 
 	}
-	
+
 	public void dispose() {
 
 //		world.deleteSystem(damageSystem);
@@ -119,8 +153,34 @@ public class Level {
         e.addComponent(component);
         e.changedInWorld();
     }
+    
+    public Entity getEntityAt(int x, int y) {
+    	PositionManager pos = world.getManager(PositionManager.class);
 
-    public void select(Vector2 coords) {
-    	System.out.println(coords.x + ", " + coords.y);
+    	int id = pos.getEntityAt(x, y);
+    	
+    	if(id == -1) {
+    		return null;
+    	}
+    	
+    	return world.getEntity(id);
+    }
+
+    public void select(int x, int y) {
+    	Entity e = getEntityAt(x, y);
+    	System.out.println(e);
+    	if(e == null) {
+    		if(selectedId != -1) {
+    			e = world.getEntity(selectedId);
+    			
+    			MapPosition m = e.getComponent(MapPosition.class);
+    			
+    			m.setX(x);
+    			m.setY(y);
+    		}
+    	}
+    	else {
+    		selectedId = e.getId();
+    	}
     }
 }

@@ -86,4 +86,8 @@ public class Weapon extends Component{
 	public void setProperties(ArrayList<Property> properties) {
 		this.properties = properties;
 	}
+	
+	public boolean isRanged() {
+		return this.minRange > 1;
+	}
 }

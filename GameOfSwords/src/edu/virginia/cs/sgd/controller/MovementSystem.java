@@ -127,12 +127,14 @@ public class MovementSystem extends EntityProcessingSystem {
 		return path;
 
 	}
-
+	
+	/* Test code 
 	public static void main(String[] args) {
 		MovementSystem test = new MovementSystem(null, null);
 		ArrayList<Triple> path = test.createPath(1, 5, 3, 8, 11);
 		System.out.println(path.toString());
 
 	}
+	*/
 
 }

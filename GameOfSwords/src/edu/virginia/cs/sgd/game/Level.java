@@ -1,6 +1,7 @@
 package edu.virginia.cs.sgd.game;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.artemis.Component;
 import com.artemis.Entity;
@@ -15,6 +16,7 @@ import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.model.components.Stats;
 import edu.virginia.cs.sgd.game.model.systems.DamageSystem;
 import edu.virginia.cs.sgd.game.view.SpriteMaker;
+import edu.virginia.cs.sgd.util.Triple;
 
 public class Level {
 
@@ -23,13 +25,14 @@ public class Level {
 
 	private ArrayList<SpriteMaker> addList;
 	private ArrayList<Integer> removeList;
+	private LinkedList<Triple> pathlist;
 
 	private DamageSystem damageSystem;
 	
 	public Level() {
 
 		m_Map = GameOfSwords.getManager().get("data/sample_map.tmx");
-		
+		pathlist = new LinkedList<Triple>();
 		addList = new ArrayList<SpriteMaker>();
 		removeList = new ArrayList<Integer>();
 		
@@ -122,5 +125,41 @@ public class Level {
 
     public void select(Vector2 coords) {
     	System.out.println(coords.x + ", " + coords.y);
+    	highlightTiles(3, (int)coords.x, (int)coords.y);
+    }
+    
+    public void highlightTiles(int mv, int x, int y){
+    	Triple start = new Triple(0, x, y);
+		pathlist = new LinkedList<Triple>();
+		pathlist.add(start);
+		while (true) {
+			//System.out.println("loop");
+			Triple t = pathlist.pop();
+			if(t.getMvn()+1 > mv){
+				break;
+			}
+			Triple tl = new Triple(t.getMvn() + 1, t.getX() - 1, t.getY());
+			if (!pathlist.contains(tl)) {
+				pathlist.add(tl);
+			}
+
+			Triple tr = new Triple(t.getMvn() + 1, t.getX() + 1, t.getY());
+			if (!pathlist.contains(tr)) {
+				pathlist.add(tr);
+			}
+
+			Triple tu = new Triple(t.getMvn() + 1, t.getX(), t.getY() + 1);
+			if (!pathlist.contains(tu)) {
+				pathlist.add(tu);
+			}
+
+			Triple td = new Triple(t.getMvn() + 1, t.getX(), t.getY() - 1);
+			if (!pathlist.contains(td)) {
+				pathlist.add(td);
+			}
+			pathlist.add(t);
+		}
+		System.out.println(pathlist);
+		
     }
 }

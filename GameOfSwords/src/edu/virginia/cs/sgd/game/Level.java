@@ -26,13 +26,13 @@ public class Level {
 	private TiledMap m_Map;
 
 	private int selectedId;
-	
+
 	private ArrayList<SpriteMaker> addList;
 	private ArrayList<Integer> removeList;
 	private LinkedList<Triple> pathlist;
 
 	private DamageSystem damageSystem;
-	
+
 	public Level() {
 
 		m_Map = GameOfSwords.getManager().get("data/sample_map.tmx");
@@ -41,18 +41,18 @@ public class Level {
 		removeList = new ArrayList<Integer>();
 
 		initialize_world();
-		
+
 		Entity e = world.createEntity();
 		e.addComponent(new MapPosition(1,3));
 		e.addToWorld();
-		
+
 		world.process();
-		
+
 		addList.add(new SpriteMaker(e.getId(), "sample"));
-		
+
 		selectedId = -1;
-		
-//		testDamage();
+
+		//		testDamage();
 	}
 
 	public TiledMap getMap() {
@@ -64,14 +64,14 @@ public class Level {
 		// TODO Auto-generated method stub
 		Entity e = world.getEntity(modelId);
 		MapPosition m = e.getComponent(MapPosition.class);
-		
+
 		return new Vector2(m.getX(), m.getY());
 	}
-	
+
 	public ArrayList<SpriteMaker> getAddList() {
 		return addList;
 	}
-	
+
 	public ArrayList<Integer> getRemoveList() {
 		return removeList;
 	}
@@ -80,26 +80,30 @@ public class Level {
 		addList.clear();
 		removeList.clear();
 	}
+
+	public LinkedList<Triple> getPathList() {
+		return pathlist;
+	}
 	
 	public void testDamage() {
 
 		int[][] actorMap = new int[5][5];
 		initialize_world();
 		Entity e = EntityFactory.createActor(world,0,0, actorMap);
-		
+
 		System.out.println(actorMap[0][0]);
-		
+
 		Stats s = e.getComponent(Stats.class);
-		
+
 		System.out.println(s);
-		
+
 		s.setDefense(s.getDefense()+1);
-		
+
 		System.out.println(s.getDefense());
 		s = e.getComponent(Stats.class);
 		System.out.println(s.getDefense());
-		
-		
+
+
 		MapPosition m = e.getComponent(MapPosition.class);
 		e.addComponent(new Damage(30));
 		System.out.println(m);
@@ -109,27 +113,27 @@ public class Level {
 	public void update() {
 
 		processSystems();
-		
+
 	}
 
-	private int getMapWidth() {
+	public int getMapWidth() {
 		// TODO Auto-generated method stub
 		MapProperties prop = m_Map.getProperties();
 		int mapWidth = prop.get("width", Integer.class);
 		return mapWidth;
 	}
-	
-	private int getMapHeight() {
+
+	public int getMapHeight() {
 		// TODO Auto-generated method stub
 		MapProperties prop = m_Map.getProperties();
 		int mapHeight = prop.get("height", Integer.class);
 		return mapHeight;
 	}
-	
+
 	private void initialize_world() {
 		world = new World();
 		//damageSystem = world.setSystem(new DamageSystem(), true);
-		
+
 		PositionManager pos = new PositionManager();
 		pos.setWorld(getMapWidth(), getMapHeight());
 		world.setManager(pos);
@@ -140,37 +144,36 @@ public class Level {
 
 	public void dispose() {
 
-//		world.deleteSystem(damageSystem);
+		//		world.deleteSystem(damageSystem);
 	}
 
 	public void processSystems()
 	{
 		//System.out.println("process");
-//		damageSystem.process();
+		//		damageSystem.process();
 	}
-	
-    public void addComponent(Component component, int entityId)
-    {
-        if (entityId < 0) return;
-        Entity e = world.getEntity(entityId);
-        e.addComponent(component);
-        e.changedInWorld();
-    }
-    
-    public Entity getEntityAt(int x, int y) {
-    	PositionManager pos = world.getManager(PositionManager.class);
-    	highlightTiles(3, (int)coords.x, (int)coords.y);
-    	int id = pos.getEntityAt(x, y);
-    	
-    	if(id == -1) {
-    		return null;
-    	}
-    	
-    	return world.getEntity(id);
-    }
-    
-    public void highlightTiles(int mv, int x, int y){
-    	Triple start = new Triple(0, x, y);
+
+	public void addComponent(Component component, int entityId)
+	{
+		if (entityId < 0) return;
+		Entity e = world.getEntity(entityId);
+		e.addComponent(component);
+		e.changedInWorld();
+	}
+
+	public Entity getEntityAt(int x, int y) {
+		PositionManager pos = world.getManager(PositionManager.class);
+		int id = pos.getEntityAt(x, y);
+
+		if(id == -1) {
+			return null;
+		}
+
+		return world.getEntity(id);
+	}
+
+	public void highlightTiles(int mv, int x, int y){
+		Triple start = new Triple(0, x, y);
 		pathlist = new LinkedList<Triple>();
 		pathlist.add(start);
 		while (true) {
@@ -188,11 +191,6 @@ public class Level {
 			if (!pathlist.contains(tr)) {
 				pathlist.add(tr);
 			}
-    		if(selectedId != -1) {
-    			e = world.getEntity(selectedId);
-    			
-    			MapPosition m = e.getComponent(MapPosition.class);
-
 			Triple tu = new Triple(t.getMvn() + 1, t.getX(), t.getY() + 1);
 			if (!pathlist.contains(tu)) {
 				pathlist.add(tu);
@@ -203,9 +201,32 @@ public class Level {
 				pathlist.add(td);
 			}
 			pathlist.add(t);
-    		selectedId = e.getId();
 		}
 		System.out.println(pathlist);
-		
-    }
+
+	}
+
+	public void select(int x, int y) {
+		Entity e = getEntityAt(x, y);
+		System.out.println(e);
+		if(e == null) {
+			if(selectedId != -1) {
+				e = world.getEntity(selectedId);
+
+				MapPosition m = e.getComponent(MapPosition.class);
+
+				m.setX(x);
+				m.setY(y);
+
+				selectedId = -1;
+			}
+		}
+		else {
+			selectedId = e.getId();
+
+			MapPosition m = e.getComponent(MapPosition.class);
+
+			highlightTiles(3, m.getX(), m.getY());
+		}
+	}
 }

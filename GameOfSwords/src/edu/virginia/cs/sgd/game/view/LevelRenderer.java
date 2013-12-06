@@ -1,15 +1,20 @@
 package edu.virginia.cs.sgd.game.view;
 
 import java.util.ArrayList;
+import java.util.List;
 
-
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.util.TextureRegionManager;
+import edu.virginia.cs.sgd.util.Triple;
 
 
 public class LevelRenderer {
@@ -46,6 +51,8 @@ public class LevelRenderer {
 	}
 	
 	public void render() {
+	    Gdx.gl.glClearColor(0, 0, 0, 0); 
+	    Gdx.gl.glClear( GL10.GL_COLOR_BUFFER_BIT  );
 
 		m_Camera.update();
 		m_Renderer.setView(m_Camera);
@@ -54,8 +61,20 @@ public class LevelRenderer {
 		updateSprites();
 
 		manager.draw(level);
+		highlight(level.getPathList());
 	}
 
+	public void highlight(List<Triple> tiles) {
+		for(Triple t : tiles) {
+			ShapeRenderer s = new ShapeRenderer();
+			s.begin(ShapeType.Filled);
+			
+			s.setColor(0, 0, .5f, .5f);
+			s.rect((float) t.getX() * size, (float) (level.getMapHeight() - t.getY()) * size, size, size);
+			s.end();
+		}
+	}
+	
 	public void resize(int width, int height) {
 
 		m_Camera.setToOrtho(true, width * scale, height * scale);

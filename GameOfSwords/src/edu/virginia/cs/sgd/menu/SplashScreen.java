@@ -39,7 +39,7 @@ public class SplashScreen extends AbstractScreen {
 		super.show();
 
 		// load the splash image and create the texture region
-		splashTexture = new Texture(Gdx.files.internal("data/libgdx.png"));
+		splashTexture = new Texture(Gdx.files.internal("data/logo.png"));
 		TextureRegion tr = new TextureRegion(splashTexture);
 		Drawable splashDrawable = new TextureRegionDrawable(tr);
 

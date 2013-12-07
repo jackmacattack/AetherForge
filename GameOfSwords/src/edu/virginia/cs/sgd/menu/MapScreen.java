@@ -26,7 +26,7 @@ public class MapScreen extends AbstractScreen {
 		super();
 		this.m = m;
 		
-		GameOfSwords.getManager().load("data/samplesprite.png", Texture.class);
+		GameOfSwords.getManager().load("data/charactersheet.png", Texture.class);
 		GameOfSwords.getManager().setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 		GameOfSwords.getManager().load("data/sample_map.tmx", TiledMap.class);
 		Texture.setEnforcePotImages(false);

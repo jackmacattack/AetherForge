@@ -21,9 +21,11 @@ public class MenuScreen extends AbstractScreen {
 	public void show() {
 		super.show();
 		
+		
+		
 		// retrieve the default table actor aa
         Table table = super.getTable();
-        table.add( "Welcome to GameOfSwords (WIP)" ).spaceBottom( 50 );
+        table.add( "Welcome to AetherForge" ).spaceBottom( 50 );
         table.row();
         
         //start game

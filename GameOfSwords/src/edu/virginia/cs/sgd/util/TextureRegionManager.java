@@ -35,6 +35,6 @@ public class TextureRegionManager {
 		
 		Texture tex = GameOfSwords.getManager().get(sheetName, Texture.class);
 		
-		return new TextureRegion(tex, p.x, p.y, p.x + width, p.y + height);
+		return new TextureRegion(tex, (int)p.x, (int)p.y, (int)p.x + width, (int)p.y + height);
 	}
 }

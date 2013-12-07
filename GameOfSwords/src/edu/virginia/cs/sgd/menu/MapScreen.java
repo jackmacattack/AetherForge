@@ -48,7 +48,7 @@ public class MapScreen extends AbstractScreen {
 		m.setMusic(music);
 		m.getMusic().play();
 		m.getMusic().setLooping(true);
-		m.setScreen(new SplashScreen(m));
+		m.setScreen(new CreditsScreen(m));
 		this.dispose();
 	}
 

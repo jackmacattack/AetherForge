@@ -35,6 +35,7 @@ public class Level {
 	private ArrayList<SpriteMaker> addList;
 	private ArrayList<Integer> removeList;
 	private LinkedList<Triple> pathlist;
+	private LinkedList<Triple> attacklist;
 
 	private DamageSystem damageSystem;
 
@@ -42,6 +43,7 @@ public class Level {
 
 		m_Map = GameOfSwords.getManager().get("data/sample_map.tmx");
 		pathlist = new LinkedList<Triple>();
+		attacklist = new LinkedList<Triple>();
 		addList = new ArrayList<SpriteMaker>();
 		removeList = new ArrayList<Integer>();
 
@@ -86,6 +88,10 @@ public class Level {
 
 	public LinkedList<Triple> getPathList() {
 		return pathlist;
+	}
+
+	public LinkedList<Triple> getAttackList() {
+		return attacklist;
 	}
 
 	public void testDamage() {
@@ -214,6 +220,44 @@ public class Level {
 
 	}
 
+	public void highlightAttackTiles(int r, int x, int y){
+		Triple start = new Triple(0, x, y);
+		attacklist = new LinkedList<Triple>();
+		attacklist.add(start);
+		while (true) {
+			//System.out.println("loop");
+			Triple t = attacklist.pop();
+			if(t.getMvn()+1 > r){
+				attacklist.add(t);
+				break;
+			}
+			Triple tl = new Triple(t.getMvn() + 1, t.getX() - 1, t.getY());
+			if (!attacklist.contains(tl)) {
+				attacklist.add(tl);
+			}
+
+			Triple tr = new Triple(t.getMvn() + 1, t.getX() + 1, t.getY());
+			if (!attacklist.contains(tr)) {
+				attacklist.add(tr);
+			}
+			Triple tu = new Triple(t.getMvn() + 1, t.getX(), t.getY() + 1);
+			if (!attacklist.contains(tu)) {
+				attacklist.add(tu);
+			}
+
+			Triple td = new Triple(t.getMvn() + 1, t.getX(), t.getY() - 1);
+			if (!attacklist.contains(td)) {
+				attacklist.add(td);
+			}
+
+			if(!t.equals(start)) {
+				attacklist.add(t);
+			}
+		}
+		System.out.println(attacklist);
+
+	}
+
 	public void moveSelected(int x, int y) {
 
 		Entity e = world.getEntity(selectedId);
@@ -240,19 +284,21 @@ public class Level {
 				if(inRange(sel, e)) {
 					Battle.OneOnOneFight(sel, e);
 				}
-				
-				selectedId = -1;
-				selectedMoved = false;
-			
+
 			}
-			else {
-				selectedId = -1;
-				selectedMoved = false;
-			}
+			selectedId = -1;
+			selectedMoved = false;
+			attacklist.clear();
 		}
 		else if(selectedId != -1) {
 			moveSelected(x, y);
 			pathlist.clear();
+
+			Entity sel = world.getEntity(selectedId);
+			Weapon w = sel.getComponent(Weapon.class);
+			MapPosition m = sel.getComponent(MapPosition.class);
+			
+			highlightAttackTiles(w.getMaxRange(), m.getX(), m.getY());
 		}
 		else if (e != null) {
 			selectedId = e.getId();

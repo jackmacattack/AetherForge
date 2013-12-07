@@ -8,8 +8,8 @@ public class MapPosition extends Component {
 	
 	public MapPosition(int x, int y)
 	{
-		this.oldX = -1;
-		this.oldY = -1;
+		this.oldX = x;
+		this.oldY = y;
 		this.x = x; 
 		this.y = y;
 	}

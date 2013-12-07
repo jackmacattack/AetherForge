@@ -15,7 +15,7 @@ private int hp, max_hp;
 
 public HP()
 {
-	setHP(MathUtils.random(100,200));
+	setHP(MathUtils.random(40,60));
 	setMax_HP(getHP());
 }
 

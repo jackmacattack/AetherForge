@@ -2,12 +2,11 @@ package edu.virginia.cs.sgd.controller;
 
 import java.util.ArrayList;
 
-import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
-import com.artemis.systems.EntityProcessingSystem;
 
+import edu.virginia.cs.sgd.game.model.components.Expires;
 import edu.virginia.cs.sgd.game.model.components.HP;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.model.components.Stats;
@@ -24,15 +23,16 @@ public class Battle {
 		boolean attackLands = calculateFightDoesHit(attacker, defender);
 		boolean killedTarget = false;
 		if(attackLands) {
-			System.out.println("Attack hit");
 			int damage = calculateFightDamage(attacker, defender);
 			HP defenderHP = defender.getComponent(HP.class);//hpMapper.get(defender);
 			int newHP = defenderHP.getHP() - damage;
 			if(newHP <= 0) {
 				newHP = 0;
+				defender.addComponent(new Expires());
 				killedTarget = true;
 			}
 			defenderHP.setHP(newHP);
+			System.out.println("Attack hit for " + damage + " damage. Target has " + newHP + " health.");
 		}
 		attacker.changedInWorld();
 		defender.changedInWorld();

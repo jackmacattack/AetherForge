@@ -65,6 +65,9 @@ public class PositionManager extends Manager {
 	}
 	
 	public int getEntityAt(int x, int y) {
+		if(x < 0 || y < 0) {
+			return -1;
+		}
 		return entityMap[x][y];
 	}
 	

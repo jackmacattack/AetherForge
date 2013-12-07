@@ -11,11 +11,15 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 
 import edu.virginia.cs.sgd.GameOfSwords;
+import edu.virginia.cs.sgd.controller.Battle;
+import edu.virginia.cs.sgd.controller.DeathSystem;
 import edu.virginia.cs.sgd.game.model.EntityFactory;
 import edu.virginia.cs.sgd.game.model.PositionManager;
 import edu.virginia.cs.sgd.game.model.components.Damage;
+import edu.virginia.cs.sgd.game.model.components.HP;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.model.components.Stats;
+import edu.virginia.cs.sgd.game.model.components.Weapon;
 import edu.virginia.cs.sgd.game.model.systems.DamageSystem;
 import edu.virginia.cs.sgd.game.view.SpriteMaker;
 import edu.virginia.cs.sgd.util.Triple;
@@ -42,14 +46,11 @@ public class Level {
 
 		initialize_world();
 
-		Entity e = world.createEntity();
-		e.addComponent(new MapPosition(1,3));
-		e.addToWorld();
+		add(1,3,"berserker");
+		add(1,5,"cleric");
+		add(3,4,"archer");
 
 		world.process();
-		
-		
-		addList.add(new SpriteMaker(e.getId(), "berserker"));
 		
 		selectedId = -1;
 
@@ -138,6 +139,9 @@ public class Level {
 		PositionManager pos = new PositionManager();
 		pos.setWorld(getMapWidth(), getMapHeight());
 		world.setManager(pos);
+		
+		world.setSystem(new DeathSystem(this));
+		
 		world.initialize();
 		System.out.println("The world is initialized");
 
@@ -209,23 +213,47 @@ public class Level {
 
 	}
 
+	public void moveSelected(int x, int y) {
+
+		Entity e = world.getEntity(selectedId);
+
+		MapPosition m = e.getComponent(MapPosition.class);
+		
+		if(pathlist.contains(new Triple(0, x, y))) {
+
+			m.setX(x);
+			m.setY(y);
+			
+			Entity e2 = getEntityAt(x+1,y);
+			if(e2 != null && e2 != e) {
+				Battle.OneOnOneFight(e, e2);
+			}
+			
+			e2 = getEntityAt(x,y+1);
+			if(e2 != null && e2 != e) {
+				Battle.OneOnOneFight(e, e2);
+			}
+			
+			e2 = getEntityAt(x-1,y);
+			if(e2 != null && e2 != e) {
+				Battle.OneOnOneFight(e, e2);
+			}
+			
+			e2 = getEntityAt(x,y-1);
+			if(e2 != null && e2 != e) {
+				Battle.OneOnOneFight(e, e2);
+			}
+
+			e.changedInWorld();
+			
+		}
+	}
 	public void select(int x, int y) {
 		Entity e = getEntityAt(x, y);
 		System.out.println(e);
 		if(e == null) {
 			if(selectedId != -1) {
-				e = world.getEntity(selectedId);
-
-				MapPosition m = e.getComponent(MapPosition.class);
-				
-				if(pathlist.contains(new Triple(0, x, y))) {
-
-					m.setX(x);
-					m.setY(y);
-
-					e.changedInWorld();
-					
-				}
+				moveSelected(x, y);
 			}
 			
 			selectedId = -1;
@@ -235,8 +263,21 @@ public class Level {
 			selectedId = e.getId();
 
 			MapPosition m = e.getComponent(MapPosition.class);
-
-			highlightTiles(3, m.getX(), m.getY());
+			Stats s = e.getComponent(Stats.class);
+			highlightTiles(s.getMovement(), m.getX(), m.getY());
 		}
+	}
+	public void add(int x, int y, String name) {
+		Entity e = world.createEntity();
+		e.addComponent(new MapPosition(x,y));
+		e.addComponent(new Stats());
+		e.addComponent(new HP());
+		e.addComponent(new Weapon());
+		e.addToWorld();
+		addList.add(new SpriteMaker(e.getId(), name));
+	}
+	public void remove(Entity e) {
+		world.deleteEntity(e);
+		removeList.add(e.getId());
 	}
 }

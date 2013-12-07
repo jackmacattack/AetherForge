@@ -13,10 +13,10 @@ public class Weapon extends Component{
 	private ArrayList<Property> properties;
 	
 	public Weapon(){
-		power = MathUtils.random(3,10);
+		power = MathUtils.random(10,20);
 		minRange = MathUtils.random(1,3);
 		maxRange = MathUtils.random(3,10);
-		accuracy = MathUtils.random(75,100);
+		accuracy = MathUtils.random(50,90);
 		ammo = MathUtils.random(3,10);
 		maxAmmo = 20;
 		critical = MathUtils.random(3,10);

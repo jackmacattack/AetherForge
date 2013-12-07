@@ -11,6 +11,7 @@ public class Menu {
 	private MenuScreen menuscreen;
 	private SplashScreen splashscreen;
 	private MapScreen mapscreen;
+	private CreditsScreen creditsscreen;
 	private GameOfSwords game;
 	
 	private Input input;
@@ -37,12 +38,16 @@ public class Menu {
 	public void setMapscreen(MapScreen mapscreen) {
 		this.mapscreen = mapscreen;
 	}
+	public CreditsScreen getCreditsscreen() {
+		return creditsscreen;
+	}
 
 	public Menu(GameOfSwords game){
 		this();
 		
 		menuscreen = new MenuScreen(this);
 		splashscreen = new SplashScreen(this);
+		creditsscreen = new CreditsScreen(this);
 		mapscreen = new MapScreen(this, game);
 		this.game = game;
 		GameOfSwords.getManager().load("data/GoS+Main+Theme.mp3", Music.class);

@@ -42,8 +42,16 @@ public class MenuScreen extends AbstractScreen {
         table.row();
 
         // register the button "options"
-        TextButton optionsButton = new TextButton( "Options", getSkin() );
-        table.add( optionsButton ).uniform().fill().spaceBottom( 10 );
+        TextButton creditsButton = new TextButton( "Credits", getSkin() );
+
+        creditsButton.addListener( new ClickListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button)
+            {
+            	menu.setScreen( menu.getCreditsscreen() );
+            }
+        } );
+        table.add( creditsButton ).uniform().fill().spaceBottom( 10 );
         table.row();
 	}
 

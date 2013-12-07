@@ -41,7 +41,7 @@ public class Level {
 
 	public Level() {
 
-		m_Map = GameOfSwords.getManager().get("data/sample_map.tmx");
+		m_Map = GameOfSwords.getManager().get("data/map1.tmx");
 		pathlist = new LinkedList<Triple>();
 		attacklist = new LinkedList<Triple>();
 		addList = new ArrayList<SpriteMaker>();

@@ -3,6 +3,7 @@ package edu.virginia.cs.sgd.menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -32,12 +33,23 @@ public class MapScreen extends AbstractScreen {
 		Texture.setEnforcePotImages(false);
 		GameOfSwords.getManager().finishLoading();
 
-		level = new Level();
+		level = new Level(this);
 		renderer = new LevelRenderer(level);
 
-		c = new Controller(this, level);
-		//c.run();
-
+		
+	}
+	
+	public void gameOver(){
+		m.getMenuscreen().dispose();
+		m.getMusic().stop();
+		GameOfSwords.getManager().load("data/GoS+Main+Theme.mp3", Music.class);
+		GameOfSwords.getManager().finishLoading();
+		Music music = GameOfSwords.getManager().get("data/GoS+Main+Theme.mp3", Music.class);	
+		m.setMusic(music);
+		m.getMusic().play();
+		m.getMusic().setLooping(true);
+		m.setScreen(new SplashScreen(m));
+		this.dispose();
 	}
 
 

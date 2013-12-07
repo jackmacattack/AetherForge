@@ -1,5 +1,6 @@
 package edu.virginia.cs.sgd.menu;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -34,6 +35,13 @@ public class MenuScreen extends AbstractScreen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button)
             {
+            	GameOfSwords.getManager().load("data/AF Battle Theme.mp3", Music.class);
+        		GameOfSwords.getManager().finishLoading();
+        		menu.getMusic().stop();
+        		Music theme = GameOfSwords.getManager().get("data/AF Battle Theme.mp3", Music.class);	
+        		menu.setMusic(theme);
+        		menu.getMusic().play();
+        		menu.getMusic().setLooping(true);
             	menu.setScreen( menu.getMapscreen() );
             }
         } );

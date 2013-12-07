@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -45,10 +46,9 @@ public class LevelRenderer {
 
 		size = 32;
 		scale = 1f;
-
+		
 		m_Renderer = new OrthogonalTiledMapRenderer(level.getMap(), scale);		
 		m_Camera = new OrthographicCamera();
-		
 		manager = new SpriteManager(size, scale, m_Renderer.getSpriteBatch());
 		
 		texManager = new TextureRegionManager("data/charactersheet.png", size, size);
@@ -77,8 +77,12 @@ public class LevelRenderer {
 	    
 		m_Camera.update();
 		m_Renderer.setView(m_Camera);
+		//m_Camera.setToOrtho(true, m_Camera.viewportWidth, m_Camera.viewportHeight);
+//		m_Camera.direction.y *= -1;
 		m_Renderer.render();
-
+//		m_Camera.direction.y *= -1;
+		//m_Camera.setToOrtho(false, m_Camera.viewportWidth, m_Camera.viewportHeight);
+		
 		updateSprites();
 
 		manager.draw(level);

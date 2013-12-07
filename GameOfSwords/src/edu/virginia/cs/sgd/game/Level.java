@@ -29,6 +29,7 @@ public class Level {
 	private World world;
 	private TiledMap m_Map;
 
+	private boolean selectedMoved = false;
 	private int selectedId;
 
 	private ArrayList<SpriteMaker> addList;
@@ -51,7 +52,7 @@ public class Level {
 		add(3,4,"archer");
 
 		world.process();
-		
+
 		selectedId = -1;
 
 		//		testDamage();
@@ -86,7 +87,7 @@ public class Level {
 	public LinkedList<Triple> getPathList() {
 		return pathlist;
 	}
-	
+
 	public void testDamage() {
 
 		int[][] actorMap = new int[5][5];
@@ -139,9 +140,9 @@ public class Level {
 		PositionManager pos = new PositionManager();
 		pos.setWorld(getMapWidth(), getMapHeight());
 		world.setManager(pos);
-		
+
 		world.setSystem(new DeathSystem(this));
-		
+
 		world.initialize();
 		System.out.println("The world is initialized");
 
@@ -218,48 +219,42 @@ public class Level {
 		Entity e = world.getEntity(selectedId);
 
 		MapPosition m = e.getComponent(MapPosition.class);
-		
+
 		if(pathlist.contains(new Triple(0, x, y))) {
 
 			m.setX(x);
 			m.setY(y);
-			
-			Entity e2 = getEntityAt(x+1,y);
-			if(e2 != null && e2 != e) {
-				Battle.OneOnOneFight(e, e2);
-			}
-			
-			e2 = getEntityAt(x,y+1);
-			if(e2 != null && e2 != e) {
-				Battle.OneOnOneFight(e, e2);
-			}
-			
-			e2 = getEntityAt(x-1,y);
-			if(e2 != null && e2 != e) {
-				Battle.OneOnOneFight(e, e2);
-			}
-			
-			e2 = getEntityAt(x,y-1);
-			if(e2 != null && e2 != e) {
-				Battle.OneOnOneFight(e, e2);
-			}
+
+			selectedMoved = true;
 
 			e.changedInWorld();
-			
+
 		}
 	}
 	public void select(int x, int y) {
 		Entity e = getEntityAt(x, y);
-		System.out.println(e);
-		if(e == null) {
-			if(selectedId != -1) {
-				moveSelected(x, y);
-			}
+
+		if(selectedMoved) {
+			Entity sel = world.getEntity(selectedId);
+			if(e != null) {
+				if(inRange(sel, e)) {
+					Battle.OneOnOneFight(sel, e);
+				}
+				
+				selectedId = -1;
+				selectedMoved = false;
 			
-			selectedId = -1;
+			}
+			else {
+				selectedId = -1;
+				selectedMoved = false;
+			}
+		}
+		else if(selectedId != -1) {
+			moveSelected(x, y);
 			pathlist.clear();
 		}
-		else {
+		else if (e != null) {
 			selectedId = e.getId();
 
 			MapPosition m = e.getComponent(MapPosition.class);
@@ -267,6 +262,15 @@ public class Level {
 			highlightTiles(s.getMovement(), m.getX(), m.getY());
 		}
 	}
+	private boolean inRange(Entity e, Entity e2) {
+		MapPosition m1 = e.getComponent(MapPosition.class);
+		MapPosition m2 = e2.getComponent(MapPosition.class);
+
+		Weapon w = e.getComponent(Weapon.class);
+		int dist = Math.abs(m1.getX() - m2.getX()) + Math.abs(m1.getY() - m2.getY());
+		return dist <= w.getMaxRange() && dist >= w.getMaxRange();
+	}
+
 	public void add(int x, int y, String name) {
 		Entity e = world.createEntity();
 		e.addComponent(new MapPosition(x,y));

@@ -34,6 +34,9 @@ public class Battle {
 			defenderHP.setHP(newHP);
 			System.out.println("Attack hit for " + damage + " damage. Target has " + newHP + " health.");
 		}
+		else {
+			System.out.println("Attack missed.");
+		}
 		attacker.changedInWorld();
 		defender.changedInWorld();
 		return attackLands;

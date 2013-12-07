@@ -14,8 +14,8 @@ public class Weapon extends Component{
 	
 	public Weapon(){
 		power = MathUtils.random(10,20);
-		minRange = MathUtils.random(1,3);
-		maxRange = MathUtils.random(3,10);
+		minRange = 1;
+		maxRange = 1;
 		accuracy = MathUtils.random(50,90);
 		ammo = MathUtils.random(3,10);
 		maxAmmo = 20;

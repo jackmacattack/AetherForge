@@ -13,6 +13,16 @@ public class Menu {
 	private MapScreen mapscreen;
 	private GameOfSwords game;
 	
+	private Music music;
+	
+	public Music getMusic() {
+		return music;
+	}
+
+	public void setMusic(Music music) {
+		this.music = music;
+	}
+
 	private Input input;
 	
 	public Menu() {
@@ -47,9 +57,9 @@ public class Menu {
 		this.game = game;
 		GameOfSwords.getManager().load("data/GoS+Main+Theme.mp3", Music.class);
 		GameOfSwords.getManager().finishLoading();
-		Music theme = GameOfSwords.getManager().get("data/GoS+Main+Theme.mp3", Music.class);	
-		theme.play();
-		theme.setLooping(true);
+		music = GameOfSwords.getManager().get("data/GoS+Main+Theme.mp3", Music.class);	
+		music.play();
+		music.setLooping(true);
 	}
 	
 	public void setScreen(AbstractScreen screen){
@@ -57,5 +67,9 @@ public class Menu {
 		input.setListener(screen);
 		game.setScreen(screen);
 		
+	}
+	
+	public void dispose(AbstractScreen screen){
+		screen.dispose();
 	}
 }

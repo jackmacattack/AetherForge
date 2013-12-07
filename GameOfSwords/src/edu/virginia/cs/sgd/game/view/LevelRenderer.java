@@ -4,19 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-import edu.virginia.cs.sgd.GameOfSwords;
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.util.TextureRegionManager;
 import edu.virginia.cs.sgd.util.Triple;
@@ -84,10 +82,11 @@ public class LevelRenderer {
 		updateSprites();
 
 		manager.draw(level);
-		highlight(level.getPathList(), m_Renderer.getSpriteBatch());
+		highlight(level.getPathList(), new Color(0,0,1,.5f), m_Renderer.getSpriteBatch());
+		highlight(level.getAttackList(), new Color(1,0,0,.5f), m_Renderer.getSpriteBatch());
 	}
 
-	public void highlight(List<Triple> tiles, SpriteBatch batch) {
+	public void highlight(List<Triple> tiles, Color c,  SpriteBatch batch) {
 		for(Triple t : tiles) {
 //			ShapeRenderer s = new ShapeRenderer();
 //			s.begin(ShapeType.Filled);
@@ -97,7 +96,7 @@ public class LevelRenderer {
 //			s.end();
 
 			Pixmap p = new Pixmap(32,32,Pixmap.Format.RGBA8888);
-			p.setColor(0, 0, 1, .5f);
+			p.setColor(c);
 			p.fill();
 			p.setColor(0,0,0,.5f);
 			p.drawRectangle(0, 0, 32, 32);

@@ -9,6 +9,14 @@ public class Stats extends HP {
 	public int experience, next, level, carrying_capacity;
 	public boolean hasTakenTurn = false;
 	
+	public boolean isHasTakenTurn() {
+		return hasTakenTurn;
+	}
+
+	public void setHasTakenTurn(boolean hasTakenTurn) {
+		this.hasTakenTurn = hasTakenTurn;
+	}
+
 	public Stats()
 	{
 		health = MathUtils.random(10,20);

@@ -6,46 +6,51 @@ import com.badlogic.gdx.utils.Array;
 
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.game.model.EntityFactory;
+import edu.virginia.cs.sgd.game.model.components.Stats;
 import edu.virginia.cs.sgd.menu.MapScreen;
 
 public class Controller {
-	private TurnManagementSystem tms;
-	private MovementSystem ms;
-	private EntityFactory ef;
-	private boolean playerTurn;
-	private int activeEntity;
-	
-	public Array<Integer> units;
-	public Array<Integer> enemies;
-	public World zawarudo;
 	public Level level;
-	
+	private MapScreen mp;
 	
 	public Controller(MapScreen map, Level lv){
-		units = new Array<Integer>();
-		tms = new TurnManagementSystem(units);
-		ms = new MovementSystem(map, lv);
-		zawarudo = new World();
-		ef = new EntityFactory();
+		//ms = new MovementSystem(map, lv);
+		//ef = new EntityFactory();
 		level = lv;
+		mp = map;
+		
 	}
 	
 	public void run(){
-			System.out.println("Am I running?");
-			int[][] map = new int[10][10];
-			Entity e = ef.createActor(zawarudo, 0, 0, map);
-			Entity e1 = ef.createActor(zawarudo, 0, 1, map);
-			zawarudo.setSystem(tms);
-			zawarudo.setSystem(ms);
-			zawarudo.process();
-			processTurn();
+			//System.out.println("Am I running?");
+			//zawarudo.setSystem(ms);
+			//zawarudo.process();
+			//processTurn();
 		
 	}
 	
 	public void processTurn(){
-		tms.process();
-		activeEntity = units.get(0);
-		ms.process(zawarudo.getEntity(activeEntity));
+		boolean turn = true;
+		for(int e : level.getUnits()){
+			Entity et = level.getWorld().getEntity(e);
+			Stats stats = et.getComponent(Stats.class);
+    		if(stats.hasTakenTurn == false){
+    			turn = false;
+    		}
+		}
+		if(turn = false){
+			System.out.println("Your turn is over. Enemy Turn - Start!");
+			//Set control to AI...that aren't made yet
+			//:)
+			
+			//AI turn ends
+			turn = true;
+		}
+		
+		if(level.getEnemies().size == 0){
+			System.out.println("You win!");
+			mp.gameOver();
+		}
 		
 	}
 

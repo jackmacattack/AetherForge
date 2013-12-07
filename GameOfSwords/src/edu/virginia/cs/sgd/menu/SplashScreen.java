@@ -59,7 +59,7 @@ public class SplashScreen extends AbstractScreen {
 					public boolean act(float delta) { // the last action will
 														// move to the next
 														// screen
-						menu.setScreen(menu.getMenuscreen());
+						menu.setScreen(new MenuScreen(menu));
 						return true;
 					}
 				}));

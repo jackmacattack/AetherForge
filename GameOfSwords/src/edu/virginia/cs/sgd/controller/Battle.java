@@ -21,7 +21,6 @@ public class Battle {
 	
 	public static boolean OneOnOneFight(Entity attacker, Entity defender) {	
 		boolean attackLands = calculateFightDoesHit(attacker, defender);
-		boolean killedTarget = false;
 		if(attackLands) {
 			int damage = calculateFightDamage(attacker, defender);
 			HP defenderHP = defender.getComponent(HP.class);//hpMapper.get(defender);
@@ -29,7 +28,6 @@ public class Battle {
 			if(newHP <= 0) {
 				newHP = 0;
 				defender.addComponent(new Expires());
-				killedTarget = true;
 			}
 			defenderHP.setHP(newHP);
 			System.out.println("Attack hit for " + damage + " damage. Target has " + newHP + " health.");

@@ -47,9 +47,10 @@ public class Level {
 		e.addToWorld();
 
 		world.process();
-
-		addList.add(new SpriteMaker(e.getId(), "sample"));
-
+		
+		
+		addList.add(new SpriteMaker(e.getId(), "berserker"));
+		
 		selectedId = -1;
 
 		//		testDamage();
@@ -181,6 +182,7 @@ public class Level {
 			//System.out.println("loop");
 			Triple t = pathlist.pop();
 			if(t.getMvn()+1 > mv){
+				pathlist.add(t);
 				break;
 			}
 			Triple tl = new Triple(t.getMvn() + 1, t.getX() - 1, t.getY());

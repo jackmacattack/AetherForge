@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import edu.virginia.cs.sgd.GameOfSwords;
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.util.TextureRegionManager;
 import edu.virginia.cs.sgd.util.Triple;
@@ -27,6 +29,8 @@ public class LevelRenderer {
 	private float zoomMin = .2f;
 	private float zoomMax = 2f;
 	private float zoomDelta = .2f;
+	
+	private TextureRegion[][] tr;
 
 	private int size;
 	private float scale;
@@ -49,8 +53,23 @@ public class LevelRenderer {
 		
 		manager = new SpriteManager(size, scale, m_Renderer.getSpriteBatch());
 		
-		texManager = new TextureRegionManager("data/samplesprite.png", size, size);
-		texManager.addRegion("sample", new Vector2(0,0));
+		texManager = new TextureRegionManager("data/charactersheet.png", size, size);
+		texManager.addRegion("swordsman", texManager.getTr()[0][0]);
+		texManager.addRegion("spearman", texManager.getTr()[0][1]);
+		texManager.addRegion("gunner", texManager.getTr()[0][2]);
+		texManager.addRegion("cleric", texManager.getTr()[0][3]);
+		texManager.addRegion("archer", texManager.getTr()[0][4]);
+		texManager.addRegion("berserker", texManager.getTr()[0][5]);
+		texManager.addRegion("sorc", texManager.getTr()[0][6]);
+		texManager.addRegion("sample", texManager.getTr()[0][7]);
+//		texManager.addRegion("swordsman", new Vector2(0,0));
+//		texManager.addRegion("spearman", new Vector2(32,0));
+//		texManager.addRegion("gunner", new Vector2(64,0));
+//		texManager.addRegion("cleric", new Vector2(96,0));
+//		texManager.addRegion("archer", new Vector2(128,0));
+//		texManager.addRegion("berserker", new Vector2(160,0));
+//		texManager.addRegion("sorc", new Vector2(192,0));
+//		texManager.addRegion("sample", new Vector2(224,0));
 	}
 	
 	public void render() {

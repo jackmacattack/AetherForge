@@ -47,9 +47,9 @@ public class Menu {
 		this.game = game;
 		GameOfSwords.getManager().load("data/GoS+Main+Theme.mp3", Music.class);
 		GameOfSwords.getManager().finishLoading();
-//		Music theme = GameOfSwords.getManager().get("data/GoS+Main+Theme.mp3", Music.class);	
-//		theme.play();
-//		theme.setLooping(true);
+		Music theme = GameOfSwords.getManager().get("data/GoS+Main+Theme.mp3", Music.class);	
+		theme.play();
+		theme.setLooping(true);
 	}
 	
 	public void setScreen(AbstractScreen screen){

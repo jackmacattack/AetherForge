@@ -27,3 +27,8 @@ proguard/
 *.ipr
 *.iws
 .idea/
+
+# GWT files
+GameOfSwords-html/.gwt
+GameOfSwords-html/gwt-unitCache
+GameOfSwords-html/war

@@ -1,6 +1,6 @@
 package edu.virginia.cs.sgd.client;
 
-import edu.virginia.cs.sgd.GameOfSwords;
+import edu.virginia.cs.sgd.Entry;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
@@ -14,6 +14,6 @@ public class GwtLauncher extends GwtApplication {
 
 	@Override
 	public ApplicationListener getApplicationListener () {
-		return new GameOfSwords();
+		return new Entry();
 	}
 }

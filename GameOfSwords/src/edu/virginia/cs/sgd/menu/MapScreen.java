@@ -10,9 +10,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 
-import edu.virginia.cs.sgd.GameOfSwords;
-import edu.virginia.cs.sgd.controller.Controller;
+import edu.virginia.cs.sgd.Entry;
 import edu.virginia.cs.sgd.game.Level;
+import edu.virginia.cs.sgd.game.controller.Controller;
 import edu.virginia.cs.sgd.game.view.LevelRenderer;
 
 
@@ -23,15 +23,15 @@ public class MapScreen extends AbstractScreen {
 	private Menu m;
 	private Controller c;
 	
-	public MapScreen(Menu m, GameOfSwords game) {
+	public MapScreen(Menu m, Entry game) {
 		super();
 		this.m = m;
 		
-		GameOfSwords.getManager().load("data/charactersheet.png", Texture.class);
-		GameOfSwords.getManager().setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-		GameOfSwords.getManager().load("data/map1.tmx", TiledMap.class);
+		Entry.getManager().load("data/charactersheet.png", Texture.class);
+		Entry.getManager().setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+		Entry.getManager().load("data/map1.tmx", TiledMap.class);
 		Texture.setEnforcePotImages(false);
-		GameOfSwords.getManager().finishLoading();
+		Entry.getManager().finishLoading();
 
 		level = new Level(this);
 		renderer = new LevelRenderer(level);
@@ -42,9 +42,9 @@ public class MapScreen extends AbstractScreen {
 	public void gameOver(){
 		m.getMenuscreen().dispose();
 		m.getMusic().stop();
-		GameOfSwords.getManager().load("data/GoS+Main+Theme.mp3", Music.class);
-		GameOfSwords.getManager().finishLoading();
-		Music music = GameOfSwords.getManager().get("data/GoS+Main+Theme.mp3", Music.class);	
+		Entry.getManager().load("data/GoS+Main+Theme.mp3", Music.class);
+		Entry.getManager().finishLoading();
+		Music music = Entry.getManager().get("data/GoS+Main+Theme.mp3", Music.class);	
 		m.setMusic(music);
 		m.getMusic().play();
 		m.getMusic().setLooping(true);

@@ -8,7 +8,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import edu.virginia.cs.sgd.menu.Menu;
 
 
-public class GameOfSwords extends Game implements ApplicationListener {
+public class Entry extends Game implements ApplicationListener {
 	
 	public Menu menu;
 
@@ -23,9 +23,9 @@ public class GameOfSwords extends Game implements ApplicationListener {
 		return manager;
 	}
 	
-	public static final String LOG = GameOfSwords.class.getName(); //GameOfSwords.class.getSimpleName();
+	public static final String LOG = Entry.class.getName(); //GameOfSwords.class.getSimpleName();
 	
-	public GameOfSwords() {
+	public Entry() {
 		
 	}
 	

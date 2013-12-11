@@ -11,10 +11,10 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-import edu.virginia.cs.sgd.GameOfSwords;
-import edu.virginia.cs.sgd.controller.Battle;
-import edu.virginia.cs.sgd.controller.Controller;
-import edu.virginia.cs.sgd.controller.DeathSystem;
+import edu.virginia.cs.sgd.Entry;
+import edu.virginia.cs.sgd.game.controller.Battle;
+import edu.virginia.cs.sgd.game.controller.Controller;
+import edu.virginia.cs.sgd.game.controller.DeathSystem;
 import edu.virginia.cs.sgd.game.model.EntityFactory;
 import edu.virginia.cs.sgd.game.model.PositionManager;
 import edu.virginia.cs.sgd.game.model.components.Damage;
@@ -71,7 +71,7 @@ public class Level {
 
 	public Level(MapScreen mp) {
 
-		m_Map = GameOfSwords.getManager().get("data/map1.tmx");
+		m_Map = Entry.getManager().get("data/map1.tmx");
 		pathlist = new LinkedList<Triple>();
 		attacklist = new LinkedList<Triple>();
 		addList = new ArrayList<SpriteMaker>();

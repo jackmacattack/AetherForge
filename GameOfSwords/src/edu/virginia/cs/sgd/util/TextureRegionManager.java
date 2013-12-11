@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import edu.virginia.cs.sgd.GameOfSwords;
+import edu.virginia.cs.sgd.Entry;
 
 public class TextureRegionManager {
 
@@ -24,7 +24,7 @@ public class TextureRegionManager {
 		this.sheetName = sheetName;
 		this.width = width;
 		this.height = height;
-		TextureRegion tre = new TextureRegion(GameOfSwords.getManager().get(sheetName, Texture.class));
+		TextureRegion tre = new TextureRegion(Entry.getManager().get(sheetName, Texture.class));
 		tr = tre.split(width, height);
 		
 		this.bounds = new HashMap<String, TextureRegion>();

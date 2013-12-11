@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-import edu.virginia.cs.sgd.GameOfSwords;
+import edu.virginia.cs.sgd.Entry;
 import edu.virginia.cs.sgd.input.InputListener;
 
 /**
@@ -71,9 +71,9 @@ public abstract class AbstractScreen implements Screen, InputListener {
 
 	protected Skin getSkin() {
 		if (skin == null) {
-			GameOfSwords.getManager().load("data/uiskin.json", Skin.class);
-			GameOfSwords.getManager().finishLoading();
-            skin = GameOfSwords.getManager().get("data/uiskin.json");
+			Entry.getManager().load("data/uiskin.json", Skin.class);
+			Entry.getManager().finishLoading();
+            skin = Entry.getManager().get("data/uiskin.json");
 		}
 		return skin;
 	}
@@ -91,7 +91,7 @@ public abstract class AbstractScreen implements Screen, InputListener {
 
 	@Override
 	public void show() {
-		Gdx.app.log(GameOfSwords.LOG, "Showing screen: " + getName());
+		Gdx.app.log(Entry.LOG, "Showing screen: " + getName());
 
 		// set the stage as the input processor
 		//Gdx.input.setInputProcessor(stage);
@@ -99,7 +99,7 @@ public abstract class AbstractScreen implements Screen, InputListener {
 
 	@Override
 	public void resize(int width, int height) {
-		Gdx.app.log(GameOfSwords.LOG, "Resizing screen: " + getName() + " to: "
+		Gdx.app.log(Entry.LOG, "Resizing screen: " + getName() + " to: "
 				+ width + " x " + height);
 		
 		stage.setViewport(width, height, false);
@@ -127,7 +127,7 @@ public abstract class AbstractScreen implements Screen, InputListener {
 
 	@Override
 	public void hide() {
-		Gdx.app.log(GameOfSwords.LOG, "Hiding screen: " + getName());
+		Gdx.app.log(Entry.LOG, "Hiding screen: " + getName());
 
 		// dispose the screen when leaving the screen;
 		// note that the dipose() method is not called automatically by the
@@ -137,17 +137,17 @@ public abstract class AbstractScreen implements Screen, InputListener {
 
 	@Override
 	public void pause() {
-		Gdx.app.log(GameOfSwords.LOG, "Pausing screen: " + getName());
+		Gdx.app.log(Entry.LOG, "Pausing screen: " + getName());
 	}
 
 	@Override
 	public void resume() {
-		Gdx.app.log(GameOfSwords.LOG, "Resuming screen: " + getName());
+		Gdx.app.log(Entry.LOG, "Resuming screen: " + getName());
 	}
 
 	@Override
 	public void dispose() {
-		Gdx.app.log(GameOfSwords.LOG, "Disposing screen: " + getName());
+		Gdx.app.log(Entry.LOG, "Disposing screen: " + getName());
 
 		// the following call disposes the screen's stage, but on my computer it
 		// crashes the game so I commented it out; more info can be found at:

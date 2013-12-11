@@ -1,4 +1,4 @@
-package edu.virginia.cs.sgd.controller;
+package edu.virginia.cs.sgd.game.controller;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;

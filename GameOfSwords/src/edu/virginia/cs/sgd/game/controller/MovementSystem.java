@@ -1,4 +1,4 @@
-package edu.virginia.cs.sgd.controller;
+package edu.virginia.cs.sgd.game.controller;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

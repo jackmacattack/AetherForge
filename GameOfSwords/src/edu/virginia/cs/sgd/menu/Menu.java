@@ -2,7 +2,7 @@ package edu.virginia.cs.sgd.menu;
 
 import com.badlogic.gdx.audio.Music;
 
-import edu.virginia.cs.sgd.GameOfSwords;
+import edu.virginia.cs.sgd.Entry;
 import edu.virginia.cs.sgd.input.Input;
 
 
@@ -12,7 +12,7 @@ public class Menu {
 	private SplashScreen splashscreen;
 	private MapScreen mapscreen;
 	private CreditsScreen creditsscreen;
-	private GameOfSwords game;
+	private Entry game;
 	
 	private Music music;
 	
@@ -52,7 +52,7 @@ public class Menu {
 		return creditsscreen;
 	}
 
-	public Menu(GameOfSwords game){
+	public Menu(Entry game){
 		this();
 		
 		menuscreen = new MenuScreen(this);
@@ -60,9 +60,9 @@ public class Menu {
 		creditsscreen = new CreditsScreen(this);
 		mapscreen = new MapScreen(this, game);
 		this.game = game;
-		GameOfSwords.getManager().load("data/GoS+Main+Theme.mp3", Music.class);
-		GameOfSwords.getManager().finishLoading();
-		music = GameOfSwords.getManager().get("data/GoS+Main+Theme.mp3", Music.class);	
+		Entry.getManager().load("data/GoS+Main+Theme.mp3", Music.class);
+		Entry.getManager().finishLoading();
+		music = Entry.getManager().get("data/GoS+Main+Theme.mp3", Music.class);	
 		music.play();
 		music.setLooping(true);
 	}

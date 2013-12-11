@@ -1,4 +1,4 @@
-package edu.virginia.cs.sgd.controller;	
+package edu.virginia.cs.sgd.game.controller;	
 
 import com.artemis.Entity;
 import com.artemis.World;

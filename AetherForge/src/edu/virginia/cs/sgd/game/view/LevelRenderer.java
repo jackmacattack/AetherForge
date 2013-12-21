@@ -115,7 +115,7 @@ public class LevelRenderer {
 	
 	public void resize(int width, int height) {
 
-		m_Camera.setToOrtho(true, width * scale, height * scale);
+		m_Camera.setToOrtho(false, width * scale, height * scale);
 
 //		m_Camera.setToOrtho(true, 15, 10);
 		
@@ -158,7 +158,8 @@ public class LevelRenderer {
 
 		Vector3 pos = new Vector3(screenX, screenY, 0);
 		m_Camera.unproject(pos);
-		
+		String str = (int)(pos.x * scale / size) + "," + (int)(pos.y * scale / size);
+		System.out.println(str);
 		return new Vector2((int)(pos.x * scale / size), (int)(pos.y * scale / size));
 	}
 
@@ -181,7 +182,7 @@ public class LevelRenderer {
 
 	public void moveMap(int deltaX, int deltaY) {
 		
-		Vector3 delta = new Vector3(-deltaX * m_Camera.zoom, -deltaY * m_Camera.zoom, 0);
+		Vector3 delta = new Vector3(-deltaX * m_Camera.zoom, deltaY * m_Camera.zoom, 0);
 		
 		//m_Camera.unproject(delta);
 		

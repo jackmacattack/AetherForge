@@ -1,11 +1,12 @@
 package edu.virginia.cs.sgd.game.view;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
+import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
+import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,26 +14,23 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
+import edu.virginia.cs.sgd.game.model.components.TextureName;
 import edu.virginia.cs.sgd.util.TextureRegionManager;
 import edu.virginia.cs.sgd.util.Triple;
 
 
-public class LevelRenderer {
+public class RenderSystem extends EntityProcessingSystem {
 
 	@Mapper
 	ComponentMapper<MapPosition> mapper;
-	
-	private Level level;
 
-	private float zoomMin = .2f;
-	private float zoomMax = 2f;
-	private float zoomDelta = .2f;
+	@Mapper
+	ComponentMapper<TextureName> texMapper;
 
 	private int size;
 	private float scale;
@@ -40,19 +38,18 @@ public class LevelRenderer {
 	private OrthogonalTiledMapRenderer m_Renderer;
 	private OrthographicCamera m_Camera;
 	
-	private SpriteManager manager;
-
 	private TextureRegionManager texManager;
 	
-	public LevelRenderer(Level level) {
-		this.level = level;
+	@SuppressWarnings("unchecked")
+	public RenderSystem(Level level) {
+		super(Aspect.getAspectForAll(MapPosition.class, TextureName.class));
 
 		size = 32;
 		scale = 1f;
 		
 		m_Renderer = new OrthogonalTiledMapRenderer(level.getMap(), scale);		
 		m_Camera = new OrthographicCamera();
-		manager = new SpriteManager(size, scale, m_Renderer.getSpriteBatch());
+//		manager = new SpriteManager(size, scale, m_Renderer.getSpriteBatch());
 		
 		texManager = new TextureRegionManager("data/charactersheet.png", size, size);
 		texManager.addRegion("swordsman", texManager.getTr()[0][0]);
@@ -86,11 +83,11 @@ public class LevelRenderer {
 //		m_Camera.direction.y *= -1;
 		//m_Camera.setToOrtho(false, m_Camera.viewportWidth, m_Camera.viewportHeight);
 		
-		updateSprites();
-
-		manager.draw(level);
-		highlight(level.getPathList(), new Color(0,0,1,.5f), m_Renderer.getSpriteBatch());
-		highlight(level.getAttackList(), new Color(1,0,0,.5f), m_Renderer.getSpriteBatch());
+//		updateSprites();
+//
+//		manager.draw(level);
+//		highlight(level.getPathList(), new Color(0,0,1,.5f), m_Renderer.getSpriteBatch());
+//		highlight(level.getAttackList(), new Color(1,0,0,.5f), m_Renderer.getSpriteBatch());
 	}
 
 	public void highlight(List<Triple> tiles, Color c,  SpriteBatch batch) {
@@ -116,83 +113,34 @@ public class LevelRenderer {
 		}
 	}
 	
-	public void resize(int width, int height) {
-
-		m_Camera.setToOrtho(false, width * scale, height * scale);
-
-//		m_Camera.setToOrtho(true, 15, 10);
+	@Override
+	protected void begin() {
+		super.begin();
 		
-		m_Camera.update();
+		SpriteBatch batch = m_Renderer.getSpriteBatch();
 		
+		
+		batch.begin();
 	}
 
-	public void show() {
+	@Override
+	protected void process(Entity e) {
+		MapPosition pos = mapper.get(e);
+		TextureName name = texMapper.get(e);
+		TextureRegion tex = texManager.getRegion(name.getName());
+		SpriteBatch batch = m_Renderer.getSpriteBatch();
 		
-	}
-	
-	public void updateSprites() {
-		
-		ArrayList<Integer> removeList = level.getRemoveList();
-		
-		for(Integer remove : removeList) {
-			removeSprite(remove);
-		}
-		
-		ArrayList<SpriteMaker> addList = level.getAddList();
-		
-		for(SpriteMaker add : addList) {
-			addSprite(add.getId(), add.getImgSource());
-		}
-		
-		level.clearSpriteUpdates();
+		batch.draw(tex, (float) pos.getX() * size, (float) (pos.getY() + 1) * size, 
+				0, 0, size, size, scale, -scale, 0);
 	}
 	
-	public void addSprite(int id, String img) {
-		Sprite sprite = new Sprite(texManager.getRegion(img), id);
+	@Override
+	protected void end() {
+		super.end();
 		
-		manager.addSprite(sprite);
-	}
-	
-	public void removeSprite(int id) {
-		manager.removeSprite(id);
-	}
-
-	public Vector2 getCoord(int screenX, int screenY) {
-
-		Vector3 pos = new Vector3(screenX, screenY, 0);
-		m_Camera.unproject(pos);
-		String str = (int)(pos.x * scale / size) + "," + (int)(pos.y * scale / size);
-		System.out.println(str);
-		return new Vector2((int)(pos.x * scale / size), (int)(pos.y * scale / size));
-	}
-
-	public void zoomMap(boolean in) {
-		// TODO Auto-generated method stub
-		float zoom = 0;
+		SpriteBatch batch = m_Renderer.getSpriteBatch();
 		
-		if(in) {
-			zoom = m_Camera.zoom * (1 + zoomDelta);
-		}
-		else {
-			zoom = m_Camera.zoom * (1 - zoomDelta);
-		}
-		
-		if(zoom > zoomMin && zoom < zoomMax) {
-			m_Camera.zoom = zoom;
-		}
-		
-	}
-
-	public void moveMap(int deltaX, int deltaY) {
-		
-		Vector3 delta = new Vector3(-deltaX * m_Camera.zoom, deltaY * m_Camera.zoom, 0);
-		
-		//m_Camera.unproject(delta);
-		
-//		System.out.println(deltaX + "," + deltaY + "->" + delta.x + ", " + delta.y);
-		
-		m_Camera.translate(delta);
-		
+		batch.end();
 	}
 	
 }

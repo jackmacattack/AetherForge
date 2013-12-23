@@ -21,8 +21,10 @@ import edu.virginia.cs.sgd.game.model.components.Damage;
 import edu.virginia.cs.sgd.game.model.components.HP;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.model.components.Stats;
+import edu.virginia.cs.sgd.game.model.components.TextureName;
 import edu.virginia.cs.sgd.game.model.components.Weapon;
 import edu.virginia.cs.sgd.game.model.systems.DamageSystem;
+import edu.virginia.cs.sgd.game.view.RenderSystem;
 import edu.virginia.cs.sgd.game.view.SpriteMaker;
 import edu.virginia.cs.sgd.menu.MapScreen;
 import edu.virginia.cs.sgd.util.Triple;
@@ -181,6 +183,8 @@ public class Level {
 		world.setManager(pos);
 
 		world.setSystem(new DeathSystem(this));
+
+		world.setSystem(new RenderSystem(this));
 
 		world.initialize();
 		System.out.println("The world is initialized");
@@ -365,8 +369,9 @@ public class Level {
 		e.addComponent(new Stats());
 		e.addComponent(new HP());
 		e.addComponent(new Weapon());
+		e.addComponent(new TextureName(name));
 		e.addToWorld();
-		addList.add(new SpriteMaker(e.getId(), name));
+//		addList.add(new SpriteMaker(e.getId(), name));
 		if(enemy){
 			enemies.add(e.getId());
 		}else{

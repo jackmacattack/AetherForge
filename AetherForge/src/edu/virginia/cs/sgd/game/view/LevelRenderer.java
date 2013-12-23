@@ -1,23 +1,14 @@
 package edu.virginia.cs.sgd.game.view;
 
-import java.util.List;
-
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Mapper;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.util.TextureRegionManager;
-import edu.virginia.cs.sgd.util.Triple;
 
 
 public class LevelRenderer {
@@ -69,31 +60,6 @@ public class LevelRenderer {
 //		m_Camera.direction.y *= -1;
 		//m_Camera.setToOrtho(false, m_Camera.viewportWidth, m_Camera.viewportHeight);
 
-		highlight(level.getPathList(), new Color(0,0,1,.5f), m_Renderer.getSpriteBatch());
-		highlight(level.getAttackList(), new Color(1,0,0,.5f), m_Renderer.getSpriteBatch());
-	}
-
-	public void highlight(List<Triple> tiles, Color c,  SpriteBatch batch) {
-		for(Triple t : tiles) {
-//			ShapeRenderer s = new ShapeRenderer();
-//			s.begin(ShapeType.Filled);
-//			
-//			s.setColor(0, 0, .5f, .5f);
-//			s.rect((float) t.getX() * size, (float) (level.getMapHeight() - t.getY()) * size, size, size);
-//			s.end();
-
-			Pixmap p = new Pixmap(32,32,Pixmap.Format.RGBA8888);
-			p.setColor(c);
-			p.fill();
-			p.setColor(0,0,0,.5f);
-			p.drawRectangle(0, 0, 32, 32);
-			
-			Texture tex = new Texture(p);
-			
-			batch.begin();
-			batch.draw(tex,(float) t.getX() * size, (float) t.getY() * size);
-			batch.end();
-		}
 	}
 	
 	public void resize(int width, int height) {
@@ -145,6 +111,11 @@ public class LevelRenderer {
 	
 	public RenderSystem getRenderSystem() {
 		RenderSystem sys = new RenderSystem(size, m_Renderer, m_Camera, texManager);
+		return sys;
+	}
+	
+	public HighlightSystem getHighlightSystem() {
+		HighlightSystem sys = new HighlightSystem(size, m_Renderer.getSpriteBatch());
 		return sys;
 	}
 }

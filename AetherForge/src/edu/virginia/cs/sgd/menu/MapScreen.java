@@ -38,7 +38,7 @@ public class MapScreen extends AbstractScreen {
 
 		renderer = new LevelRenderer(level);
 		
-		level.addRenderer(renderer.getRenderSystem());
+		level.addRenderer(renderer.getRenderSystem(), renderer.getHighlightSystem());
 		
 		level.initialize();
 	}
@@ -59,10 +59,9 @@ public class MapScreen extends AbstractScreen {
 
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-	    Gdx.gl.glEnable(GL10.GL_BLEND);
+	    Gdx.gl.glEnable(GL20.GL_BLEND);
 
 		level.update();
 
@@ -71,14 +70,12 @@ public class MapScreen extends AbstractScreen {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
 
 		renderer.resize(width, height);
 	}
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
 		Texture.setEnforcePotImages(false);
 
 //		renderer.show();

@@ -1,6 +1,5 @@
 package edu.virginia.cs.sgd.game;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import com.artemis.Component;
@@ -8,7 +7,6 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import edu.virginia.cs.sgd.Entry;
@@ -20,12 +18,14 @@ import edu.virginia.cs.sgd.game.model.PositionManager;
 import edu.virginia.cs.sgd.game.model.components.Damage;
 import edu.virginia.cs.sgd.game.model.components.HP;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
+import edu.virginia.cs.sgd.game.model.components.Selection;
 import edu.virginia.cs.sgd.game.model.components.Stats;
 import edu.virginia.cs.sgd.game.model.components.TextureName;
 import edu.virginia.cs.sgd.game.model.components.Weapon;
 import edu.virginia.cs.sgd.game.model.systems.DamageSystem;
+import edu.virginia.cs.sgd.game.view.HighlightSystem;
+import edu.virginia.cs.sgd.game.view.HighlightType;
 import edu.virginia.cs.sgd.game.view.RenderSystem;
-import edu.virginia.cs.sgd.game.view.SpriteMaker;
 import edu.virginia.cs.sgd.menu.MapScreen;
 import edu.virginia.cs.sgd.util.Triple;
 
@@ -98,14 +98,6 @@ public class Level {
 	public TiledMap getMap() {
 		// TODO Auto-generated method stub
 		return m_Map;
-	}
-
-	public LinkedList<Triple> getPathList() {
-		return pathlist;
-	}
-
-	public LinkedList<Triple> getAttackList() {
-		return attacklist;
 	}
 
 	public void testDamage() {
@@ -304,6 +296,9 @@ public class Level {
 			selectedMoved = false;
 			attacklist.clear();
 //			world.getEntity(selectedId).getComponent(Stats.class).setHasTakenTurn(true);
+			
+			sel.removeComponent(Selection.class);
+			sel.changedInWorld();
 		}
 		else if(selectedId != -1) {
 			moveSelected(x, y);
@@ -314,6 +309,15 @@ public class Level {
 			MapPosition m = sel.getComponent(MapPosition.class);
 			
 			highlightAttackTiles(w.getMaxRange(), m.getX(), m.getY());
+
+			Selection sele = new Selection();
+			
+			for(Triple move : attacklist) {
+				MapPosition pos = new MapPosition(move.getX(), move.getY());
+				sele.addTile(pos, HighlightType.ATTACK);
+			}
+			sel.addComponent(sele);
+			sel.changedInWorld();
 		}
 		else if (e != null) {
 			if(units.contains(e.getId(), true)){
@@ -322,6 +326,16 @@ public class Level {
 				MapPosition m = e.getComponent(MapPosition.class);
 				Stats s = e.getComponent(Stats.class);
 				highlightTiles(s.getMovement(), m.getX(), m.getY());
+
+				Selection sel = new Selection();
+				
+				for(Triple move : pathlist) {
+					MapPosition pos = new MapPosition(move.getX(), move.getY());
+					sel.addTile(pos, HighlightType.MOVE);
+				}
+				e.addComponent(sel);
+				e.changedInWorld();
+				
 			}else{
 				System.out.println("That is not your unit!");
 			}
@@ -364,8 +378,9 @@ public class Level {
 		}
 	}
 	
-	public void addRenderer(RenderSystem rend) {
+	public void addRenderer(RenderSystem rend, HighlightSystem high) {
 
 		world.setSystem(rend);
+		world.setSystem(high);
 	}
 }

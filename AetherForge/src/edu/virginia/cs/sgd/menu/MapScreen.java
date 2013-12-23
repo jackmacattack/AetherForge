@@ -5,14 +5,15 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Vector2;
 
 import edu.virginia.cs.sgd.Entry;
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.game.controller.Controller;
+import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.view.LevelRenderer;
 
 
@@ -34,9 +35,12 @@ public class MapScreen extends AbstractScreen {
 		Entry.getManager().finishLoading();
 
 		level = new Level(this);
-		renderer = new LevelRenderer(level);
 
+		renderer = new LevelRenderer(level);
 		
+		level.addRenderer(renderer.getRenderSystem());
+		
+		level.initialize();
 	}
 	
 	public void gameOver(){
@@ -58,10 +62,11 @@ public class MapScreen extends AbstractScreen {
 		// TODO Auto-generated method stub
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
-//		renderer.render();
+	    Gdx.gl.glEnable(GL10.GL_BLEND);
 
 		level.update();
+
+		renderer.renderUI();
 	}
 
 	@Override
@@ -76,7 +81,7 @@ public class MapScreen extends AbstractScreen {
 		// TODO Auto-generated method stub
 		Texture.setEnforcePotImages(false);
 
-		renderer.show();
+//		renderer.show();
 	}
 
 	public void dispose() {
@@ -109,10 +114,10 @@ public class MapScreen extends AbstractScreen {
 			return;
 		}
 		
-		Vector2 coords = renderer.getCoord(screenX, screenY);
+		MapPosition coords = renderer.getCoord(screenX, screenY);
 		
 		if(button == Buttons.LEFT) {
-			level.select((int)coords.x, (int)coords.y);
+			level.select((int)coords.getX(), (int)coords.getY());
 		}
 	}
 

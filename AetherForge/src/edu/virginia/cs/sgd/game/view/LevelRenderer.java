@@ -1,9 +1,7 @@
 package edu.virginia.cs.sgd.game.view;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Mapper;
 import com.badlogic.gdx.Gdx;
@@ -14,7 +12,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import edu.virginia.cs.sgd.game.Level;
@@ -39,8 +36,6 @@ public class LevelRenderer {
 	
 	private OrthogonalTiledMapRenderer m_Renderer;
 	private OrthographicCamera m_Camera;
-	
-	private SpriteManager manager;
 
 	private TextureRegionManager texManager;
 	
@@ -52,7 +47,6 @@ public class LevelRenderer {
 		
 		m_Renderer = new OrthogonalTiledMapRenderer(level.getMap(), scale);		
 		m_Camera = new OrthographicCamera();
-		manager = new SpriteManager(size, scale, m_Renderer.getSpriteBatch());
 		
 		texManager = new TextureRegionManager("data/charactersheet.png", size, size);
 		texManager.addRegion("swordsman", texManager.getTr()[0][0]);
@@ -63,32 +57,18 @@ public class LevelRenderer {
 		texManager.addRegion("berserker", texManager.getTr()[0][5]);
 		texManager.addRegion("sorc", texManager.getTr()[0][6]);
 		texManager.addRegion("sample", texManager.getTr()[0][7]);
-//		texManager.addRegion("swordsman", new Vector2(0,0));
-//		texManager.addRegion("spearman", new Vector2(32,0));
-//		texManager.addRegion("gunner", new Vector2(64,0));
-//		texManager.addRegion("cleric", new Vector2(96,0));
-//		texManager.addRegion("archer", new Vector2(128,0));
-//		texManager.addRegion("berserker", new Vector2(160,0));
-//		texManager.addRegion("sorc", new Vector2(192,0));
-//		texManager.addRegion("sample", new Vector2(224,0));
 	}
 	
-	public void render() {
-	    Gdx.gl.glClearColor(0, 0, 0, 0); 
-	    Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT  );
-	    Gdx.gl.glEnable(GL20.GL_BLEND);
+	public void renderUI() {
 	    
-		m_Camera.update();
-		m_Renderer.setView(m_Camera);
+//		m_Camera.update();
+//		m_Renderer.setView(m_Camera);
 		//m_Camera.setToOrtho(true, m_Camera.viewportWidth, m_Camera.viewportHeight);
 //		m_Camera.direction.y *= -1;
-		m_Renderer.render();
+//		m_Renderer.render();
 //		m_Camera.direction.y *= -1;
 		//m_Camera.setToOrtho(false, m_Camera.viewportWidth, m_Camera.viewportHeight);
-		
-		updateSprites();
 
-		manager.draw(level);
 		highlight(level.getPathList(), new Color(0,0,1,.5f), m_Renderer.getSpriteBatch());
 		highlight(level.getAttackList(), new Color(1,0,0,.5f), m_Renderer.getSpriteBatch());
 	}
@@ -126,48 +106,16 @@ public class LevelRenderer {
 		
 	}
 
-	public void show() {
-		
-	}
-	
-	public void updateSprites() {
-		
-		ArrayList<Integer> removeList = level.getRemoveList();
-		
-		for(Integer remove : removeList) {
-			removeSprite(remove);
-		}
-		
-		ArrayList<SpriteMaker> addList = level.getAddList();
-		
-		for(SpriteMaker add : addList) {
-			addSprite(add.getId(), add.getImgSource());
-		}
-		
-		level.clearSpriteUpdates();
-	}
-	
-	public void addSprite(int id, String img) {
-		Sprite sprite = new Sprite(texManager.getRegion(img), id);
-		
-		manager.addSprite(sprite);
-	}
-	
-	public void removeSprite(int id) {
-		manager.removeSprite(id);
-	}
-
-	public Vector2 getCoord(int screenX, int screenY) {
+	public MapPosition getCoord(int screenX, int screenY) {
 
 		Vector3 pos = new Vector3(screenX, screenY, 0);
 		m_Camera.unproject(pos);
 		String str = (int)(pos.x * scale / size) + "," + (int)(pos.y * scale / size);
 		System.out.println(str);
-		return new Vector2((int)(pos.x * scale / size), (int)(pos.y * scale / size));
+		return new MapPosition((int)(pos.x * scale / size), (int)(pos.y * scale / size));
 	}
 
 	public void zoomMap(boolean in) {
-		// TODO Auto-generated method stub
 		float zoom = 0;
 		
 		if(in) {
@@ -195,4 +143,8 @@ public class LevelRenderer {
 		
 	}
 	
+	public RenderSystem getRenderSystem() {
+		RenderSystem sys = new RenderSystem(size, m_Renderer, m_Camera, texManager);
+		return sys;
+	}
 }

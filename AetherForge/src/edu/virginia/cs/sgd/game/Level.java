@@ -64,8 +64,6 @@ public class Level {
 	private boolean selectedMoved = false;
 	private int selectedId;
 	private Controller c;
-	private ArrayList<SpriteMaker> addList;
-	private ArrayList<Integer> removeList;
 	private LinkedList<Triple> pathlist;
 	private LinkedList<Triple> attacklist;
 
@@ -76,8 +74,6 @@ public class Level {
 		m_Map = Entry.getManager().get("data/map1.tmx");
 		pathlist = new LinkedList<Triple>();
 		attacklist = new LinkedList<Triple>();
-		addList = new ArrayList<SpriteMaker>();
-		removeList = new ArrayList<Integer>();
 		c = new Controller(mp, this);
 		units = new Array<Integer>();
 		enemies = new Array<Integer>();
@@ -88,37 +84,20 @@ public class Level {
 		add(1,5,"cleric", true);
 		add(3,4,"archer", true);
 
-		world.process();
-
 		selectedId = -1;
 
 		//		testDamage();
 	}
 
+	public void initialize() {
+		world.initialize();
+		world.process();
+		System.out.println("The world is initialized");
+	}
+	
 	public TiledMap getMap() {
 		// TODO Auto-generated method stub
 		return m_Map;
-	}
-
-	public Vector2 getPosition(int modelId) {
-		// TODO Auto-generated method stub
-		Entity e = world.getEntity(modelId);
-		MapPosition m = e.getComponent(MapPosition.class);
-
-		return new Vector2(m.getX(), m.getY());
-	}
-
-	public ArrayList<SpriteMaker> getAddList() {
-		return addList;
-	}
-
-	public ArrayList<Integer> getRemoveList() {
-		return removeList;
-	}
-
-	public void clearSpriteUpdates() {
-		addList.clear();
-		removeList.clear();
 	}
 
 	public LinkedList<Triple> getPathList() {
@@ -132,7 +111,7 @@ public class Level {
 	public void testDamage() {
 
 		int[][] actorMap = new int[5][5];
-		initialize_world();
+//		initialize_world();
 		Entity e = EntityFactory.createActor(world,0,0, actorMap);
 
 		System.out.println(actorMap[0][0]);
@@ -184,10 +163,7 @@ public class Level {
 
 		world.setSystem(new DeathSystem(this));
 
-		world.setSystem(new RenderSystem(this));
-
-		world.initialize();
-		System.out.println("The world is initialized");
+//		world.initialize();
 
 	}
 
@@ -381,11 +357,15 @@ public class Level {
 	}
 	public void remove(Entity e) {
 		world.deleteEntity(e);
-		removeList.add(e.getId());
 		if(enemies.contains(e.getId(),false)){
 			enemies.removeValue(e.getId(), false);
 		}else{
 			units.removeValue(e.getId(),false);
 		}
+	}
+	
+	public void addRenderer(RenderSystem rend) {
+
+		world.setSystem(rend);
 	}
 }

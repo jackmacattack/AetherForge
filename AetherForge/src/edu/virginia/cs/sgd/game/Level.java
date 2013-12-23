@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import com.artemis.Component;
 import com.artemis.Entity;
+import com.artemis.EntitySystem;
 import com.artemis.World;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -23,9 +24,7 @@ import edu.virginia.cs.sgd.game.model.components.Stats;
 import edu.virginia.cs.sgd.game.model.components.TextureName;
 import edu.virginia.cs.sgd.game.model.components.Weapon;
 import edu.virginia.cs.sgd.game.model.systems.DamageSystem;
-import edu.virginia.cs.sgd.game.view.HighlightSystem;
 import edu.virginia.cs.sgd.game.view.HighlightType;
-import edu.virginia.cs.sgd.game.view.RenderSystem;
 import edu.virginia.cs.sgd.menu.MapScreen;
 import edu.virginia.cs.sgd.util.Triple;
 
@@ -44,21 +43,6 @@ public class Level {
 
 	public Array<Integer> enemies;
 	
-	public World getWorld() {
-		return world;
-	}
-
-	public void setWorld(World world) {
-		this.world = world;
-	}
-
-	public int getSelectedId() {
-		return selectedId;
-	}
-
-	public void setSelectedId(int selectedId) {
-		this.selectedId = selectedId;
-	}
 	private TiledMap m_Map;
 
 	private boolean selectedMoved = false;
@@ -68,7 +52,7 @@ public class Level {
 	private LinkedList<Triple> attacklist;
 
 	private DamageSystem damageSystem;
-
+	
 	public Level(MapScreen mp) {
 
 		m_Map = Entry.getManager().get("data/map1.tmx");
@@ -281,7 +265,7 @@ public class Level {
 		}
 	}
 	public void select(int x, int y) {
-		c.processTurn();
+//		c.processTurn();
 		Entity e = getEntityAt(x, y);
 			
 		if(selectedMoved) {
@@ -378,9 +362,8 @@ public class Level {
 		}
 	}
 	
-	public void addRenderer(RenderSystem rend, HighlightSystem high) {
-
-		world.setSystem(rend);
-		world.setSystem(high);
+	public void addSystem(EntitySystem sys) {
+		
+		world.setSystem(sys);
 	}
 }

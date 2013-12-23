@@ -16,7 +16,7 @@ public class LevelRenderer {
 	@Mapper
 	ComponentMapper<MapPosition> mapper;
 	
-	private Level level;
+//	private Level level;
 
 	private float zoomMin = .2f;
 	private float zoomMax = 2f;
@@ -25,40 +25,26 @@ public class LevelRenderer {
 	private int size;
 	private float scale;
 	
-	private OrthogonalTiledMapRenderer m_Renderer;
+//	private OrthogonalTiledMapRenderer m_Renderer;
 	private OrthographicCamera m_Camera;
 
-	private TextureRegionManager texManager;
+	private RenderSystem renderer;
 	
-	public LevelRenderer(Level level) {
-		this.level = level;
+	public LevelRenderer() {
 
 		size = 32;
 		scale = 1f;
-		
-		m_Renderer = new OrthogonalTiledMapRenderer(level.getMap(), scale);		
+			
 		m_Camera = new OrthographicCamera();
 		
-		texManager = new TextureRegionManager("data/charactersheet.png", size, size);
-		texManager.addRegion("swordsman", texManager.getTr()[0][0]);
-		texManager.addRegion("spearman", texManager.getTr()[0][1]);
-		texManager.addRegion("gunner", texManager.getTr()[0][2]);
-		texManager.addRegion("cleric", texManager.getTr()[0][3]);
-		texManager.addRegion("archer", texManager.getTr()[0][4]);
-		texManager.addRegion("berserker", texManager.getTr()[0][5]);
-		texManager.addRegion("sorc", texManager.getTr()[0][6]);
-		texManager.addRegion("sample", texManager.getTr()[0][7]);
+	}
+
+	private void updateCamera() {
+		m_Camera.update();
+		renderer.renderMap(m_Camera);
 	}
 	
 	public void renderUI() {
-	    
-//		m_Camera.update();
-//		m_Renderer.setView(m_Camera);
-		//m_Camera.setToOrtho(true, m_Camera.viewportWidth, m_Camera.viewportHeight);
-//		m_Camera.direction.y *= -1;
-//		m_Renderer.render();
-//		m_Camera.direction.y *= -1;
-		//m_Camera.setToOrtho(false, m_Camera.viewportWidth, m_Camera.viewportHeight);
 
 	}
 	
@@ -68,7 +54,7 @@ public class LevelRenderer {
 
 //		m_Camera.setToOrtho(true, 15, 10);
 		
-		m_Camera.update();
+		updateCamera();
 		
 	}
 
@@ -95,6 +81,8 @@ public class LevelRenderer {
 			m_Camera.zoom = zoom;
 		}
 		
+		updateCamera();
+		
 	}
 
 	public void moveMap(int deltaX, int deltaY) {
@@ -107,15 +95,15 @@ public class LevelRenderer {
 		
 		m_Camera.translate(delta);
 		
+		updateCamera();
 	}
 	
-	public RenderSystem getRenderSystem() {
-		RenderSystem sys = new RenderSystem(size, m_Renderer, m_Camera, texManager);
-		return sys;
+	public void setLevel(Level level) {
+		renderer = new RenderSystem(level.getMap(), size, scale);
+		HighlightSystem highlighter = new HighlightSystem(size, renderer.getSpriteBatch());
+		
+		level.addSystem(renderer);
+		level.addSystem(highlighter);
 	}
 	
-	public HighlightSystem getHighlightSystem() {
-		HighlightSystem sys = new HighlightSystem(size, m_Renderer.getSpriteBatch());
-		return sys;
-	}
 }

@@ -36,9 +36,8 @@ public class MapScreen extends AbstractScreen {
 
 		level = new Level(this);
 
-		renderer = new LevelRenderer(level);
-		
-		level.addRenderer(renderer.getRenderSystem(), renderer.getHighlightSystem());
+		renderer = new LevelRenderer();
+		renderer.setLevel(level);
 		
 		level.initialize();
 	}
@@ -62,7 +61,7 @@ public class MapScreen extends AbstractScreen {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 	    Gdx.gl.glEnable(GL20.GL_BLEND);
-
+	    
 		level.update();
 
 		renderer.renderUI();

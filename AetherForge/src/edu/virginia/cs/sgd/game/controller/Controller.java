@@ -29,30 +29,30 @@ public class Controller {
 		
 	}
 	
-	public void processTurn(){
-		boolean turn = true;
-		for(int e : level.getUnits()){
-			Entity et = level.getWorld().getEntity(e);
-			Stats stats = et.getComponent(Stats.class);
-    		if(stats.hasTakenTurn == false){
-    			turn = false;
-    		}
-		}
-		if(turn = false){
-			System.out.println("Your turn is over. Enemy Turn - Start!");
-			//Set control to AI...that aren't made yet
-			//:)
-			
-			//AI turn ends
-			turn = true;
-		}
-		
-		if(level.getEnemies().size == 0){
-			System.out.println("You win!");
-			mp.gameOver();
-		}
-		
-	}
+//	public void processTurn(){
+//		boolean turn = true;
+//		for(int e : level.getUnits()){
+//			Entity et = level.getWorld().getEntity(e);
+//			Stats stats = et.getComponent(Stats.class);
+//    		if(stats.hasTakenTurn == false){
+//    			turn = false;
+//    		}
+//		}
+//		if(turn = false){
+//			System.out.println("Your turn is over. Enemy Turn - Start!");
+//			//Set control to AI...that aren't made yet
+//			//:)
+//			
+//			//AI turn ends
+//			turn = true;
+//		}
+//		
+//		if(level.getEnemies().size == 0){
+//			System.out.println("You win!");
+//			mp.gameOver();
+//		}
+//		
+//	}
 
 }
 

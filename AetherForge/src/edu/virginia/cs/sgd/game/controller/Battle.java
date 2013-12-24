@@ -45,7 +45,7 @@ public class Battle {
 	}
 	
 	private static boolean calculateFightDoesHit(Entity attacker, Entity defender) {
-		Stats attackerStats = attacker.getComponent(Stats.class);//statsMapper.get(attacker);
+//		Stats attackerStats = attacker.getComponent(Stats.class);//statsMapper.get(attacker);
 		Weapon attackerWeapon = attacker.getComponent(Weapon.class);//weaponMapper.get(attacker);
 		MapPosition attackerPosition = attacker.getComponent(MapPosition.class);//positionMapper.get(attacker);		
 		

@@ -11,6 +11,7 @@ public class DeathSystem extends EntityProcessingSystem {
 
 	private Level level;
 	
+	@SuppressWarnings("unchecked")
 	public DeathSystem(Level level) {
 		super(Aspect.getAspectForAll(Expires.class));
 		

@@ -1,23 +1,17 @@
 package edu.virginia.cs.sgd.game.controller;	
 
-import com.artemis.Entity;
-import com.artemis.World;
-import com.badlogic.gdx.utils.Array;
-
 import edu.virginia.cs.sgd.game.Level;
-import edu.virginia.cs.sgd.game.model.EntityFactory;
-import edu.virginia.cs.sgd.game.model.components.Stats;
 import edu.virginia.cs.sgd.menu.MapScreen;
 
 public class Controller {
 	public Level level;
-	private MapScreen mp;
+//	private MapScreen mp;
 	
 	public Controller(MapScreen map, Level lv){
 		//ms = new MovementSystem(map, lv);
 		//ef = new EntityFactory();
-		level = lv;
-		mp = map;
+//		level = lv;
+//		mp = map;
 		
 	}
 	

@@ -31,13 +31,13 @@ public class TurnManagementSystem extends EntitySystem{
 	protected void processEntities(ImmutableBag<Entity> entities) {
 		// Get the ID of the last entity to move - because they will get reset to 0
         // To be safe, first assume that this is the first turn, so that oldEntity = -1
-        int oldEntity = -1;
+//        int oldEntity = -1;
         // Then, if there is a list for units, the first entity was the one that
         // moved last turn
         //If not, create a list for the units in no particular order
         if (units.size > 0) {
-        	oldEntity = units.get(0);
-        	Entity en = entities.get(oldEntity);
+//        	oldEntity = units.get(0);
+//        	Entity en = entities.get(oldEntity);
         	//en.getComponent(Stats.class).setHasTakenTurn(true);
         	
         	units.removeIndex(0);
@@ -52,6 +52,6 @@ public class TurnManagementSystem extends EntitySystem{
         }
 		
 	}
-        
+
 
 }

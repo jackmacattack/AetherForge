@@ -2,8 +2,6 @@ package edu.virginia.cs.sgd.game.controller;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Queue;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -37,7 +35,7 @@ public class MovementSystem extends EntityProcessingSystem {
 	@Override
 	protected void process(Entity e) {
 		MapPosition mp = e.getComponent(MapPosition.class);
-		int move = 3;
+//		int move = 3;
 		int tileid = getCell(mp.getX(), mp.getY());
 		System.out.println("I am at " + tileid);
 		System.out.println(mp);

@@ -25,22 +25,20 @@ public class RenderSystem extends EntityProcessingSystem {
 	ComponentMapper<TextureName> texMapper;
 	
 	private OrthogonalTiledMapRenderer renderer;
-//	private OrthographicCamera camera;
 	
 	private TextureRegionManager texManager;
 	
 	@SuppressWarnings("unchecked")
-	public RenderSystem(TiledMap map, int size, float scale) {
-		
-		
+	public RenderSystem(TiledMap map, float scale) {
 		
 		super(Aspect.getAspectForAll(MapPosition.class, TextureName.class));
+
+		int width = map.getProperties().get("tilewidth", Integer.class);
+		int height = map.getProperties().get("tileheight", Integer.class);
 		
 		this.renderer = new OrthogonalTiledMapRenderer(map, scale);	
-		
-//		manager = new SpriteManager(size, scale, renderer.getSpriteBatch());
 
-		texManager = new TextureRegionManager("data/charactersheet.png", size, size);
+		texManager = new TextureRegionManager("data/charactersheet.png", width, height);
 		texManager.addRegion("swordsman", texManager.getTr()[0][0]);
 		texManager.addRegion("spearman", texManager.getTr()[0][1]);
 		texManager.addRegion("gunner", texManager.getTr()[0][2]);

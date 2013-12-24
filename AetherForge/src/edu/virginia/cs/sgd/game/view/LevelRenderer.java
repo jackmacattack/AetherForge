@@ -3,45 +3,46 @@ package edu.virginia.cs.sgd.game.view;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Mapper;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector3;
 
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
-import edu.virginia.cs.sgd.util.TextureRegionManager;
 
 
 public class LevelRenderer {
 
 	@Mapper
 	ComponentMapper<MapPosition> mapper;
+
+	private float zoomMin;
+	private float zoomMax;
+	private float zoomDelta;
+
+	private int width;
+	private int height;
 	
-//	private Level level;
-
-	private float zoomMin = .2f;
-	private float zoomMax = 2f;
-	private float zoomDelta = .2f;
-
-	private int size;
 	private float scale;
 	
-//	private OrthogonalTiledMapRenderer m_Renderer;
-	private OrthographicCamera m_Camera;
+	private OrthographicCamera camera;
 
 	private RenderSystem renderer;
 	
 	public LevelRenderer() {
-
-		size = 32;
+		
+		zoomMin = .2f;
+		zoomMax = 2f;
+		zoomDelta = .2f;
+		
 		scale = 1f;
 			
-		m_Camera = new OrthographicCamera();
+		camera = new OrthographicCamera();
 		
 	}
 
 	private void updateCamera() {
-		m_Camera.update();
-		renderer.renderMap(m_Camera);
+		camera.update();
+		renderer.renderMap(camera);
 	}
 	
 	public void renderUI() {
@@ -50,9 +51,7 @@ public class LevelRenderer {
 	
 	public void resize(int width, int height) {
 
-		m_Camera.setToOrtho(false, width * scale, height * scale);
-
-//		m_Camera.setToOrtho(true, 15, 10);
+		camera.setToOrtho(false, width * scale, height * scale);
 		
 		updateCamera();
 		
@@ -61,24 +60,26 @@ public class LevelRenderer {
 	public MapPosition getCoord(int screenX, int screenY) {
 
 		Vector3 pos = new Vector3(screenX, screenY, 0);
-		m_Camera.unproject(pos);
-		String str = (int)(pos.x * scale / size) + "," + (int)(pos.y * scale / size);
-		System.out.println(str);
-		return new MapPosition((int)(pos.x * scale / size), (int)(pos.y * scale / size));
+		camera.unproject(pos);
+		
+		int x = (int)(pos.x * scale / width);
+		int y = (int)(pos.y * scale / height);
+		
+		return new MapPosition(x, y);
 	}
 
 	public void zoomMap(boolean in) {
 		float zoom = 0;
 		
 		if(in) {
-			zoom = m_Camera.zoom * (1 + zoomDelta);
+			zoom = camera.zoom * (1 + zoomDelta);
 		}
 		else {
-			zoom = m_Camera.zoom * (1 - zoomDelta);
+			zoom = camera.zoom * (1 - zoomDelta);
 		}
 		
 		if(zoom > zoomMin && zoom < zoomMax) {
-			m_Camera.zoom = zoom;
+			camera.zoom = zoom;
 		}
 		
 		updateCamera();
@@ -87,20 +88,21 @@ public class LevelRenderer {
 
 	public void moveMap(int deltaX, int deltaY) {
 		
-		Vector3 delta = new Vector3(-deltaX * m_Camera.zoom, deltaY * m_Camera.zoom, 0);
+		Vector3 delta = new Vector3(-deltaX * camera.zoom, deltaY * camera.zoom, 0);
 		
-		//m_Camera.unproject(delta);
-		
-//		System.out.println(deltaX + "," + deltaY + "->" + delta.x + ", " + delta.y);
-		
-		m_Camera.translate(delta);
+		camera.translate(delta);
 		
 		updateCamera();
 	}
 	
 	public void setLevel(Level level) {
-		renderer = new RenderSystem(level.getMap(), size, scale);
-		HighlightSystem highlighter = new HighlightSystem(size, renderer.getSpriteBatch());
+		TiledMap map = level.getMap();
+
+		width = map.getProperties().get("tilewidth", Integer.class);
+		height = map.getProperties().get("tileheight", Integer.class);
+		
+		renderer = new RenderSystem(map, scale);
+		HighlightSystem highlighter = new HighlightSystem(width, height, renderer.getSpriteBatch());
 		
 		level.addSystem(renderer);
 		level.addSystem(highlighter);

@@ -21,14 +21,17 @@ public class HighlightSystem extends EntityProcessingSystem {
 	@Mapper
 	ComponentMapper<Selection> mapper;
 
-	private int size;
+	private int width;
+	private int height;
 	private SpriteBatch batch;
 	
 	@SuppressWarnings("unchecked")
-	public HighlightSystem(int size, SpriteBatch batch) {
+	public HighlightSystem(int width, int height, SpriteBatch batch) {
 		super(Aspect.getAspectForAll(Selection.class));
+
+		this.width = width;
+		this.height = height;
 		
-		this.size = size;
 		this.batch = batch;
 	}
 
@@ -58,15 +61,15 @@ public class HighlightSystem extends EntityProcessingSystem {
 			MapPosition pos = highlightPos.get(i);
 			HighlightType type = highlightType.get(i);
 			
-			Pixmap p = new Pixmap(size, size, Pixmap.Format.RGBA8888);
+			Pixmap p = new Pixmap(width, height, Pixmap.Format.RGBA8888);
 			p.setColor(getColor(type));
 			p.fill();
 			p.setColor(0, 0, 0, .5f);
-			p.drawRectangle(0, 0, size, size);
+			p.drawRectangle(0, 0, width, height);
 
 			Texture tex = new Texture(p);
 
-			batch.draw(tex, (float) pos.getX() * size, (float) pos.getY() * size);
+			batch.draw(tex, (float) pos.getX() * width, (float) pos.getY() * height);
 		}
 		
 		batch.end();

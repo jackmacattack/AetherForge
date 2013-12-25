@@ -1,5 +1,8 @@
 package edu.virginia.cs.sgd.game;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import com.artemis.Component;
@@ -48,16 +51,16 @@ public class Level {
 	private boolean selectedMoved = false;
 	private int selectedId;
 	private Controller c;
-	private LinkedList<Triple> pathlist;
-	private LinkedList<Triple> attacklist;
+	private ArrayList<MapPosition> pathlist;
+	private ArrayList<MapPosition> attacklist;
 
 	private DamageSystem damageSystem;
 	
 	public Level(MapScreen mp) {
 
 		m_Map = Entry.getManager().get("data/map1.tmx");
-		pathlist = new LinkedList<Triple>();
-		attacklist = new LinkedList<Triple>();
+		pathlist = new ArrayList<MapPosition>();
+		attacklist = new ArrayList<MapPosition>();
 		c = new Controller(mp, this);
 		units = new Array<Integer>();
 		enemies = new Array<Integer>();
@@ -116,14 +119,12 @@ public class Level {
 	}
 
 	public int getMapWidth() {
-		// TODO Auto-generated method stub
 		MapProperties prop = m_Map.getProperties();
 		int mapWidth = prop.get("width", Integer.class);
 		return mapWidth;
 	}
 
 	public int getMapHeight() {
-		// TODO Auto-generated method stub
 		MapProperties prop = m_Map.getProperties();
 		int mapHeight = prop.get("height", Integer.class);
 		return mapHeight;
@@ -164,8 +165,12 @@ public class Level {
 	}
 
 	public Entity getEntityAt(int x, int y) {
+		return getEntityAt(new MapPosition(x, y));
+	}
+	
+	public Entity getEntityAt(MapPosition m) {
 		PositionManager pos = world.getManager(PositionManager.class);
-		int id = pos.getEntityAt(x, y);
+		int id = pos.getEntityAt(m);
 
 		if(id == -1) {
 			return null;
@@ -175,85 +180,98 @@ public class Level {
 	}
 
 	public void highlightTiles(int mv, int x, int y){
+		
+		pathlist = selectTiles(0, mv, x, y, true);
+		 
+	}
+
+	public void highlightAttackTiles(int min, int max, int x, int y){
+
+		attacklist = selectTiles(min, max, x, y, false);
+		
+	}
+	
+	public ArrayList<MapPosition> selectTiles(int min, int max, int x, int y, boolean collision) {
+
+		ArrayList<MapPosition> res = new ArrayList<MapPosition>();
+		
+		Collection<MapPosition> mem = new ArrayList<MapPosition>();
+		
 		Triple start = new Triple(0, x, y);
-		pathlist = new LinkedList<Triple>();
-		pathlist.add(start);
-		while (true) {
+		LinkedList<Triple> q = new LinkedList<Triple>();
+		q.add(start);
+//		mem.add(start);
+		
+		while (!q.isEmpty()) {
 			//System.out.println("loop");
-			Triple t = pathlist.pop();
-			if(t.getMvn()+1 > mv){
-				pathlist.add(t);
-				break;
+			Triple t = q.pop();
+
+			MapPosition pos = new MapPosition(t.getX(), t.getY());
+
+			if(mem.contains(pos)) {
+				continue;
 			}
+			
+			mem.add(pos);
+			Entity e = getEntityAt(pos);
+
+			if((collision && e != null && t != start) || t.getMvn() > max) {
+				continue;
+			}
+			
+			if(t.getMvn() >= min) {
+				res.add(pos);
+			}
+			
 			Triple tl = new Triple(t.getMvn() + 1, t.getX() - 1, t.getY());
-			if (!pathlist.contains(tl)) {
-				pathlist.add(tl);
+			if (!q.contains(tl)) {
+				q.add(tl);
 			}
 
 			Triple tr = new Triple(t.getMvn() + 1, t.getX() + 1, t.getY());
-			if (!pathlist.contains(tr)) {
-				pathlist.add(tr);
+			if (!q.contains(tr)) {
+				q.add(tr);
 			}
+
 			Triple tu = new Triple(t.getMvn() + 1, t.getX(), t.getY() + 1);
-			if (!pathlist.contains(tu)) {
-				pathlist.add(tu);
+			if (!q.contains(tu)) {
+				q.add(tu);
 			}
 
 			Triple td = new Triple(t.getMvn() + 1, t.getX(), t.getY() - 1);
-			if (!pathlist.contains(td)) {
-				pathlist.add(td);
+			if (!q.contains(td)) {
+				q.add(td);
 			}
-			pathlist.add(t);
+//			q.add(t);
 		}
-		//System.out.println(pathlist);
+		//System.out.println(q);
 
+		return res;
 	}
+	
+	public void attack(Entity e, int x, int y) {
 
-	public void highlightAttackTiles(int r, int x, int y){
-		Triple start = new Triple(0, x, y);
-		attacklist = new LinkedList<Triple>();
-		attacklist.add(start);
-		while (true) {
-			//System.out.println("loop");
-			Triple t = attacklist.pop();
-			if(t.getMvn()+1 > r){
-				attacklist.add(t);
-				break;
-			}
-			Triple tl = new Triple(t.getMvn() + 1, t.getX() - 1, t.getY());
-			if (!attacklist.contains(tl)) {
-				attacklist.add(tl);
+		Entity def = getEntityAt(x, y);
+		if(def != null) {
+			if(attacklist.contains(new MapPosition(x, y))) {
+				Battle.OneOnOneFight(e, def);
 			}
 
-			Triple tr = new Triple(t.getMvn() + 1, t.getX() + 1, t.getY());
-			if (!attacklist.contains(tr)) {
-				attacklist.add(tr);
-			}
-			Triple tu = new Triple(t.getMvn() + 1, t.getX(), t.getY() + 1);
-			if (!attacklist.contains(tu)) {
-				attacklist.add(tu);
-			}
-
-			Triple td = new Triple(t.getMvn() + 1, t.getX(), t.getY() - 1);
-			if (!attacklist.contains(td)) {
-				attacklist.add(td);
-			}
-
-			if(!t.equals(start)) {
-				attacklist.add(t);
-			}
 		}
-		//System.out.println(attacklist);
-
+		selectedId = -1;
+		selectedMoved = false;
+		attacklist.clear();
+//		world.getEntity(selectedId).getComponent(Stats.class).setHasTakenTurn(true);
+		
+		e.removeComponent(Selection.class);
+		e.changedInWorld();
+		
 	}
-
-	public void moveSelected(int x, int y) {
-
-		Entity e = world.getEntity(selectedId);
+	public void moveEntity(Entity e, int x, int y) {
 
 		MapPosition m = e.getComponent(MapPosition.class);
 
-		if(pathlist.contains(new Triple(0, x, y))) {
+		if(pathlist.contains(new MapPosition(x, y))) {
 
 			m.setX(x);
 			m.setY(y);
@@ -263,71 +281,65 @@ public class Level {
 			e.changedInWorld();
 			
 		}
+		
+		pathlist.clear();
+		
+		Weapon w = e.getComponent(Weapon.class);
+		
+		highlightAttackTiles(w.getMinRange(), w.getMaxRange(), m.getX(), m.getY());
+
+		e.removeComponent(Selection.class);
+		Selection sele = new Selection();
+		
+		for(MapPosition pos : attacklist) {
+			sele.addTile(pos, HighlightType.ATTACK);
+		}
+		e.addComponent(sele);
+		e.changedInWorld();
 	}
+	
+	public void select(Entity e) {
+
+		if(units.contains(e.getId(), true)){
+			
+			selectedId = e.getId();
+			
+			MapPosition m = e.getComponent(MapPosition.class);
+			Stats s = e.getComponent(Stats.class);
+			highlightTiles(s.getMovement(), m.getX(), m.getY());
+
+			Selection sel = new Selection();
+			
+			for(MapPosition pos : pathlist) {
+//				MapPosition pos = new MapPosition(move.getX(), move.getY());
+				sel.addTile(pos, HighlightType.MOVE);
+			}
+			e.addComponent(sel);
+			e.changedInWorld();
+			
+		}else{
+			System.out.println("That is not your unit!");
+		}
+		
+	}
+	
 	public void select(int x, int y) {
 //		c.processTurn();
 		Entity e = getEntityAt(x, y);
-			
+		
 		if(selectedMoved) {
-			Entity sel = world.getEntity(selectedId);
-			if(e != null) {
-				if(inRange(sel, e)) {
-					Battle.OneOnOneFight(sel, e);
-				}
-
-			}
-			selectedId = -1;
-			selectedMoved = false;
-			attacklist.clear();
-//			world.getEntity(selectedId).getComponent(Stats.class).setHasTakenTurn(true);
-			
-			sel.removeComponent(Selection.class);
-			sel.changedInWorld();
+			attack(world.getEntity(selectedId), x, y);
 		}
 		else if(selectedId != -1) {
-			moveSelected(x, y);
-			pathlist.clear();
-			
-			Entity sel = world.getEntity(selectedId);
-			Weapon w = sel.getComponent(Weapon.class);
-			MapPosition m = sel.getComponent(MapPosition.class);
-			
-			highlightAttackTiles(w.getMaxRange(), m.getX(), m.getY());
-
-			Selection sele = new Selection();
-			
-			for(Triple move : attacklist) {
-				MapPosition pos = new MapPosition(move.getX(), move.getY());
-				sele.addTile(pos, HighlightType.ATTACK);
-			}
-			sel.addComponent(sele);
-			sel.changedInWorld();
+			moveEntity(world.getEntity(selectedId), x, y);
 		}
 		else if (e != null) {
-			if(units.contains(e.getId(), true)){
-				selectedId = e.getId();
-
-				MapPosition m = e.getComponent(MapPosition.class);
-				Stats s = e.getComponent(Stats.class);
-				highlightTiles(s.getMovement(), m.getX(), m.getY());
-
-				Selection sel = new Selection();
-				
-				for(Triple move : pathlist) {
-					MapPosition pos = new MapPosition(move.getX(), move.getY());
-					sel.addTile(pos, HighlightType.MOVE);
-				}
-				e.addComponent(sel);
-				e.changedInWorld();
-				
-			}else{
-				System.out.println("That is not your unit!");
-			}
+			select(e);
 			
 		}
-		
-		
+			
 	}
+	
 	private boolean inRange(Entity e, Entity e2) {
 		MapPosition m1 = e.getComponent(MapPosition.class);
 		MapPosition m2 = e2.getComponent(MapPosition.class);

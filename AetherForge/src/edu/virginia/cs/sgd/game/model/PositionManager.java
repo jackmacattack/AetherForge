@@ -64,14 +64,18 @@ public class PositionManager extends Manager {
 		
 	}
 	
-	public int getEntityAt(int x, int y) {
+	public int getEntityAt(MapPosition pos) {
+		
+		int x = pos.getX();
+		int y = pos.getY();
+		
 		if(x < 0 || y < 0) {
 			return -1;
 		}
 		return entityMap[x][y];
 	}
 	
-	public boolean spaceOpen(int x, int y) {
-		return getEntityAt(x, y) != -1;
+	public boolean spaceOpen(MapPosition pos) {
+		return getEntityAt(pos) != -1;
 	}
 }

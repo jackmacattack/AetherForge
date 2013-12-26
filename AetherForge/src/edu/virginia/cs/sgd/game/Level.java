@@ -2,7 +2,6 @@ package edu.virginia.cs.sgd.game;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedList;
 
 import com.artemis.Component;
@@ -17,16 +16,13 @@ import edu.virginia.cs.sgd.Entry;
 import edu.virginia.cs.sgd.game.controller.Battle;
 import edu.virginia.cs.sgd.game.controller.Controller;
 import edu.virginia.cs.sgd.game.controller.DeathSystem;
-import edu.virginia.cs.sgd.game.model.EntityFactory;
 import edu.virginia.cs.sgd.game.model.PositionManager;
-import edu.virginia.cs.sgd.game.model.components.Damage;
 import edu.virginia.cs.sgd.game.model.components.HP;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.model.components.Selection;
 import edu.virginia.cs.sgd.game.model.components.Stats;
 import edu.virginia.cs.sgd.game.model.components.TextureName;
 import edu.virginia.cs.sgd.game.model.components.Weapon;
-import edu.virginia.cs.sgd.game.model.systems.DamageSystem;
 import edu.virginia.cs.sgd.game.view.HighlightType;
 import edu.virginia.cs.sgd.menu.MapScreen;
 import edu.virginia.cs.sgd.util.Triple;
@@ -51,16 +47,10 @@ public class Level {
 	private boolean selectedMoved = false;
 	private int selectedId;
 	private Controller c;
-	private ArrayList<MapPosition> pathlist;
-	private ArrayList<MapPosition> attacklist;
-
-	private DamageSystem damageSystem;
 	
 	public Level(MapScreen mp) {
 
 		m_Map = Entry.getManager().get("data/map1.tmx");
-		pathlist = new ArrayList<MapPosition>();
-		attacklist = new ArrayList<MapPosition>();
 		c = new Controller(mp, this);
 		units = new Array<Integer>();
 		enemies = new Array<Integer>();
@@ -83,38 +73,12 @@ public class Level {
 	}
 	
 	public TiledMap getMap() {
-		// TODO Auto-generated method stub
 		return m_Map;
-	}
-
-	public void testDamage() {
-
-		int[][] actorMap = new int[5][5];
-//		initialize_world();
-		Entity e = EntityFactory.createActor(world,0,0, actorMap);
-
-		System.out.println(actorMap[0][0]);
-
-		Stats s = e.getComponent(Stats.class);
-
-		System.out.println(s);
-
-		s.setDefense(s.getDefense()+1);
-
-		System.out.println(s.getDefense());
-		s = e.getComponent(Stats.class);
-		System.out.println(s.getDefense());
-
-
-		MapPosition m = e.getComponent(MapPosition.class);
-		e.addComponent(new Damage(30));
-		System.out.println(m);
-
 	}
 
 	public void update() {
 
-		processSystems();
+		world.process();
 
 	}
 
@@ -149,13 +113,6 @@ public class Level {
 		//		world.deleteSystem(damageSystem);
 	}
 
-	public void processSystems()
-	{
-		world.process();
-		//System.out.println("process");
-		//		damageSystem.process();
-	}
-
 	public void addComponent(Component component, int entityId)
 	{
 		if (entityId < 0) return;
@@ -177,18 +134,6 @@ public class Level {
 		}
 
 		return world.getEntity(id);
-	}
-
-	public void highlightTiles(int mv, int x, int y){
-		
-		pathlist = selectTiles(0, mv, x, y, true);
-		 
-	}
-
-	public void highlightAttackTiles(int min, int max, int x, int y){
-
-		attacklist = selectTiles(min, max, x, y, false);
-		
 	}
 	
 	public ArrayList<MapPosition> selectTiles(int min, int max, int x, int y, boolean collision) {
@@ -253,48 +198,54 @@ public class Level {
 
 		Entity def = getEntityAt(x, y);
 		if(def != null) {
-			if(attacklist.contains(new MapPosition(x, y))) {
+			MapPosition pos = new MapPosition(x, y);
+			Selection sel = e.getComponent(Selection.class);
+			if(sel.getType(pos) == HighlightType.ATTACK) {
 				Battle.OneOnOneFight(e, def);
 			}
-
 		}
+		
 		selectedId = -1;
 		selectedMoved = false;
-		attacklist.clear();
-//		world.getEntity(selectedId).getComponent(Stats.class).setHasTakenTurn(true);
 		
 		e.removeComponent(Selection.class);
 		e.changedInWorld();
 		
 	}
+	
 	public void moveEntity(Entity e, int x, int y) {
 
-		MapPosition m = e.getComponent(MapPosition.class);
+		MapPosition pos = new MapPosition(x, y);
+		Selection sel = e.getComponent(Selection.class);
 
-		if(pathlist.contains(new MapPosition(x, y))) {
+		if(sel.getType(pos) == HighlightType.MOVE) {
 
+			MapPosition m = e.getComponent(MapPosition.class);
 			m.setX(x);
 			m.setY(y);
 
 			selectedMoved = true;
 
 			e.changedInWorld();
+			Weapon w = e.getComponent(Weapon.class);
+			
+			ArrayList<MapPosition> tiles = selectTiles(w.getMinRange(), w.getMaxRange(), m.getX(), m.getY(), false);
+			
+			Selection sele = new Selection();
+			
+			for(MapPosition tile : tiles) {
+				sele.addTile(tile, HighlightType.ATTACK);
+			}
+			e.addComponent(sele);
 			
 		}
-		
-		pathlist.clear();
-		
-		Weapon w = e.getComponent(Weapon.class);
-		
-		highlightAttackTiles(w.getMinRange(), w.getMaxRange(), m.getX(), m.getY());
+		else {
 
-		e.removeComponent(Selection.class);
-		Selection sele = new Selection();
-		
-		for(MapPosition pos : attacklist) {
-			sele.addTile(pos, HighlightType.ATTACK);
+			selectedId = -1;
+			e.removeComponent(Selection.class);
+			
 		}
-		e.addComponent(sele);
+
 		e.changedInWorld();
 	}
 	
@@ -306,12 +257,11 @@ public class Level {
 			
 			MapPosition m = e.getComponent(MapPosition.class);
 			Stats s = e.getComponent(Stats.class);
-			highlightTiles(s.getMovement(), m.getX(), m.getY());
+			ArrayList<MapPosition> tiles = selectTiles(0, s.getMovement(), m.getX(), m.getY(), true);
 
 			Selection sel = new Selection();
 			
-			for(MapPosition pos : pathlist) {
-//				MapPosition pos = new MapPosition(move.getX(), move.getY());
+			for(MapPosition pos : tiles) {
 				sel.addTile(pos, HighlightType.MOVE);
 			}
 			e.addComponent(sel);
@@ -338,15 +288,6 @@ public class Level {
 			
 		}
 			
-	}
-	
-	private boolean inRange(Entity e, Entity e2) {
-		MapPosition m1 = e.getComponent(MapPosition.class);
-		MapPosition m2 = e2.getComponent(MapPosition.class);
-
-		Weapon w = e.getComponent(Weapon.class);
-		int dist = Math.abs(m1.getX() - m2.getX()) + Math.abs(m1.getY() - m2.getY());
-		return dist <= w.getMaxRange() && dist >= w.getMaxRange();
 	}
 
 	public void add(int x, int y, String name, boolean enemy) {

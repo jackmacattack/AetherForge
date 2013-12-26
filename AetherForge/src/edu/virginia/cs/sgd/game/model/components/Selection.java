@@ -1,13 +1,10 @@
 package edu.virginia.cs.sgd.game.model.components;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
 
 import com.artemis.Component;
 
 import edu.virginia.cs.sgd.game.view.HighlightType;
-import edu.virginia.cs.sgd.util.Triple;
 
 public class Selection extends Component {
 
@@ -46,6 +43,17 @@ public class Selection extends Component {
 	public void resetTiles() {
 		highlightPos.clear();
 		highlightType.clear();
+	}
+	
+	public HighlightType getType(MapPosition pos) {
+		for(int i = 0; i < highlightPos.size(); i++) {
+			MapPosition m = highlightPos.get(i);
+			if(m.equals(pos)) {
+				return highlightType.get(i);
+			}
+		}
+		
+		return HighlightType.NONE;
 	}
 	
 }

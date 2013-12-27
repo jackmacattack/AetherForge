@@ -5,17 +5,18 @@ import java.util.ArrayList;
 import com.artemis.Component;
 
 import edu.virginia.cs.sgd.game.view.HighlightType;
+import edu.virginia.cs.sgd.util.Point;
 
 public class Selection extends Component {
 
 	private boolean moved;
-	private ArrayList<MapPosition> highlightPos;
+	private ArrayList<Point> highlightPos;
 	private ArrayList<HighlightType> highlightType;
 	
 	public Selection() {
 		moved = false;
 		
-		highlightPos = new ArrayList<MapPosition>();
+		highlightPos = new ArrayList<Point>();
 		highlightType = new ArrayList<HighlightType>();
 	}
 	
@@ -27,7 +28,7 @@ public class Selection extends Component {
 		this.moved = moved;
 	}
 
-	public ArrayList<MapPosition> getHighlightPos() {
+	public ArrayList<Point> getHighlightPos() {
 		return highlightPos;
 	}
 
@@ -35,7 +36,7 @@ public class Selection extends Component {
 		return highlightType;
 	}
 
-	public void addTile(MapPosition pos, HighlightType type) {
+	public void addTile(Point pos, HighlightType type) {
 		highlightPos.add(pos);
 		highlightType.add(type);
 	}
@@ -45,10 +46,10 @@ public class Selection extends Component {
 		highlightType.clear();
 	}
 	
-	public HighlightType getType(MapPosition pos) {
+	public HighlightType getType(Point pos) {
 		for(int i = 0; i < highlightPos.size(); i++) {
-			MapPosition m = highlightPos.get(i);
-			if(m.equals(pos)) {
+			Point p = highlightPos.get(i);
+			if(p.equals(pos)) {
 				return highlightType.get(i);
 			}
 		}

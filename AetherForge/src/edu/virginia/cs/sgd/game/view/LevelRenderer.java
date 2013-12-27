@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
+import edu.virginia.cs.sgd.util.Point;
 
 
 public class LevelRenderer {
@@ -57,7 +58,7 @@ public class LevelRenderer {
 		
 	}
 
-	public MapPosition getCoord(int screenX, int screenY) {
+	public Point getCoord(int screenX, int screenY) {
 
 		Vector3 pos = new Vector3(screenX, screenY, 0);
 		camera.unproject(pos);
@@ -65,7 +66,7 @@ public class LevelRenderer {
 		int x = (int)(pos.x * scale / width);
 		int y = (int)(pos.y * scale / height);
 		
-		return new MapPosition(x, y);
+		return new Point(x, y);
 	}
 
 	public void zoomMap(boolean in) {

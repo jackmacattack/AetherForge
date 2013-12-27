@@ -8,9 +8,9 @@ import com.artemis.Component;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.World;
+import com.artemis.managers.PlayerManager;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.utils.Array;
 
 import edu.virginia.cs.sgd.Entry;
 import edu.virginia.cs.sgd.game.controller.Battle;
@@ -25,22 +25,12 @@ import edu.virginia.cs.sgd.game.model.components.TextureName;
 import edu.virginia.cs.sgd.game.model.components.Weapon;
 import edu.virginia.cs.sgd.game.view.HighlightType;
 import edu.virginia.cs.sgd.menu.MapScreen;
+import edu.virginia.cs.sgd.util.Point;
 import edu.virginia.cs.sgd.util.Triple;
 
 public class Level {
 
 	private World world;
-	
-	public Array<Integer> units;
-	public Array<Integer> getUnits() {
-		return units;
-	}
-
-	public Array<Integer> getEnemies() {
-		return enemies;
-	}
-
-	public Array<Integer> enemies;
 	
 	private TiledMap m_Map;
 
@@ -52,10 +42,8 @@ public class Level {
 
 		m_Map = Entry.getManager().get("data/map1.tmx");
 		c = new Controller(mp, this);
-		units = new Array<Integer>();
-		enemies = new Array<Integer>();
 
-		initialize_world();
+		initializeWorld();
 
 		add(1,3,"berserker", false);
 		add(1,5,"cleric", true);
@@ -63,7 +51,6 @@ public class Level {
 
 		selectedId = -1;
 
-		//		testDamage();
 	}
 
 	public void initialize() {
@@ -94,7 +81,7 @@ public class Level {
 		return mapHeight;
 	}
 
-	private void initialize_world() {
+	private void initializeWorld() {
 		world = new World();
 		//damageSystem = world.setSystem(new DamageSystem(), true);
 
@@ -104,6 +91,8 @@ public class Level {
 
 		world.setSystem(new DeathSystem(this));
 
+		world.setManager(new PlayerManager());
+		
 //		world.initialize();
 
 	}
@@ -122,12 +111,12 @@ public class Level {
 	}
 
 	public Entity getEntityAt(int x, int y) {
-		return getEntityAt(new MapPosition(x, y));
+		return getEntityAt(new Point(x, y));
 	}
 	
-	public Entity getEntityAt(MapPosition m) {
+	public Entity getEntityAt(Point p) {
 		PositionManager pos = world.getManager(PositionManager.class);
-		int id = pos.getEntityAt(m);
+		int id = pos.getEntityAt(p);
 
 		if(id == -1) {
 			return null;
@@ -136,11 +125,11 @@ public class Level {
 		return world.getEntity(id);
 	}
 	
-	public ArrayList<MapPosition> selectTiles(int min, int max, int x, int y, boolean collision) {
+	public ArrayList<Point> selectTiles(int min, int max, int x, int y, boolean collision) {
 
-		ArrayList<MapPosition> res = new ArrayList<MapPosition>();
+		ArrayList<Point> res = new ArrayList<Point>();
 		
-		Collection<MapPosition> mem = new ArrayList<MapPosition>();
+		Collection<Point> mem = new ArrayList<Point>();
 		
 		Triple start = new Triple(0, x, y);
 		LinkedList<Triple> q = new LinkedList<Triple>();
@@ -151,21 +140,21 @@ public class Level {
 			//System.out.println("loop");
 			Triple t = q.pop();
 
-			MapPosition pos = new MapPosition(t.getX(), t.getY());
+			Point p = new Point(t.getX(), t.getY());
 
-			if(mem.contains(pos)) {
+			if(mem.contains(p)) {
 				continue;
 			}
 			
-			mem.add(pos);
-			Entity e = getEntityAt(pos);
+			mem.add(p);
+			Entity e = getEntityAt(p);
 
 			if((collision && e != null && t != start) || t.getMvn() > max) {
 				continue;
 			}
 			
 			if(t.getMvn() >= min) {
-				res.add(pos);
+				res.add(p);
 			}
 			
 			Triple tl = new Triple(t.getMvn() + 1, t.getX() - 1, t.getY());
@@ -198,9 +187,9 @@ public class Level {
 
 		Entity def = getEntityAt(x, y);
 		if(def != null) {
-			MapPosition pos = new MapPosition(x, y);
+			Point p = new Point(x, y);
 			Selection sel = e.getComponent(Selection.class);
-			if(sel.getType(pos) == HighlightType.ATTACK) {
+			if(sel.getType(p) == HighlightType.ATTACK) {
 				Battle.OneOnOneFight(e, def);
 			}
 		}
@@ -215,10 +204,10 @@ public class Level {
 	
 	public void moveEntity(Entity e, int x, int y) {
 
-		MapPosition pos = new MapPosition(x, y);
+		Point p = new Point(x, y);
 		Selection sel = e.getComponent(Selection.class);
 
-		if(sel.getType(pos) == HighlightType.MOVE) {
+		if(sel.getType(p) == HighlightType.MOVE) {
 
 			MapPosition m = e.getComponent(MapPosition.class);
 			m.setX(x);
@@ -229,11 +218,11 @@ public class Level {
 			e.changedInWorld();
 			Weapon w = e.getComponent(Weapon.class);
 			
-			ArrayList<MapPosition> tiles = selectTiles(w.getMinRange(), w.getMaxRange(), m.getX(), m.getY(), false);
+			ArrayList<Point> tiles = selectTiles(w.getMinRange(), w.getMaxRange(), m.getX(), m.getY(), false);
 			
 			Selection sele = new Selection();
 			
-			for(MapPosition tile : tiles) {
+			for(Point tile : tiles) {
 				sele.addTile(tile, HighlightType.ATTACK);
 			}
 			e.addComponent(sele);
@@ -251,17 +240,19 @@ public class Level {
 	
 	public void select(Entity e) {
 
-		if(units.contains(e.getId(), true)){
+		PlayerManager teams = world.getManager(PlayerManager.class);
+		
+		if(teams.getPlayer(e).equals("Human")){
 			
 			selectedId = e.getId();
 			
 			MapPosition m = e.getComponent(MapPosition.class);
 			Stats s = e.getComponent(Stats.class);
-			ArrayList<MapPosition> tiles = selectTiles(0, s.getMovement(), m.getX(), m.getY(), true);
+			ArrayList<Point> tiles = selectTiles(0, s.getMovement(), m.getX(), m.getY(), true);
 
 			Selection sel = new Selection();
 			
-			for(MapPosition pos : tiles) {
+			for(Point pos : tiles) {
 				sel.addTile(pos, HighlightType.MOVE);
 			}
 			e.addComponent(sel);
@@ -298,21 +289,15 @@ public class Level {
 		e.addComponent(new Weapon());
 		e.addComponent(new TextureName(name));
 		e.addToWorld();
-//		addList.add(new SpriteMaker(e.getId(), name));
-		if(enemy){
-			enemies.add(e.getId());
-		}else{
-			units.add(e.getId());
-		}
+		
+		PlayerManager teams = world.getManager(PlayerManager.class);
+		teams.setPlayer(e, enemy ? "Enemy" : "Human");
 		
 	}
 	public void remove(Entity e) {
+		PlayerManager teams = world.getManager(PlayerManager.class);
+		teams.removeFromPlayer(e);
 		world.deleteEntity(e);
-		if(enemies.contains(e.getId(),false)){
-			enemies.removeValue(e.getId(), false);
-		}else{
-			units.removeValue(e.getId(),false);
-		}
 	}
 	
 	public void addSystem(EntitySystem sys) {

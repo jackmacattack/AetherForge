@@ -4,6 +4,7 @@ import com.artemis.Entity;
 import com.artemis.Manager;
 
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
+import edu.virginia.cs.sgd.util.Point;
 
 public class PositionManager extends Manager {
 
@@ -64,10 +65,10 @@ public class PositionManager extends Manager {
 		
 	}
 	
-	public int getEntityAt(MapPosition pos) {
+	public int getEntityAt(Point p) {
 		
-		int x = pos.getX();
-		int y = pos.getY();
+		int x = p.getX();
+		int y = p.getY();
 		
 		if(x < 0 || y < 0) {
 			return -1;
@@ -75,7 +76,7 @@ public class PositionManager extends Manager {
 		return entityMap[x][y];
 	}
 	
-	public boolean spaceOpen(MapPosition pos) {
-		return getEntityAt(pos) != -1;
+	public boolean spaceOpen(Point p) {
+		return getEntityAt(p) != -1;
 	}
 }

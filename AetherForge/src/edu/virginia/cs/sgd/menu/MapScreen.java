@@ -12,9 +12,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 import edu.virginia.cs.sgd.Entry;
 import edu.virginia.cs.sgd.game.Level;
-import edu.virginia.cs.sgd.game.controller.Controller;
-import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.view.LevelRenderer;
+import edu.virginia.cs.sgd.util.Point;
 
 
 public class MapScreen extends AbstractScreen {
@@ -22,7 +21,6 @@ public class MapScreen extends AbstractScreen {
 	private LevelRenderer renderer;
 	private Level level;
 	private Menu m;
-	private Controller c;
 	
 	public MapScreen(Menu m, Entry game) {
 		super();
@@ -110,7 +108,7 @@ public class MapScreen extends AbstractScreen {
 			return;
 		}
 		
-		MapPosition coords = renderer.getCoord(screenX, screenY);
+		Point coords = renderer.getCoord(screenX, screenY);
 		
 		if(button == Buttons.LEFT) {
 			level.select((int)coords.getX(), (int)coords.getY());

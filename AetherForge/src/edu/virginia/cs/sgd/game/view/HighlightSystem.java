@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.model.components.Selection;
+import edu.virginia.cs.sgd.util.Point;
 
 
 public class HighlightSystem extends EntityProcessingSystem {
@@ -51,14 +52,14 @@ public class HighlightSystem extends EntityProcessingSystem {
 
 		Selection sel = e.getComponent(Selection.class);//mapper.get(e);
 
-		ArrayList<MapPosition> highlightPos = sel.getHighlightPos();
+		ArrayList<Point> highlightPos = sel.getHighlightPos();
 		ArrayList<HighlightType> highlightType = sel.getHighlightType();
 
 		batch.begin();
 		
 		for(int i = 0; i < highlightPos.size(); i++) {
 
-			MapPosition pos = highlightPos.get(i);
+			Point pos = highlightPos.get(i);
 			HighlightType type = highlightType.get(i);
 			
 			Pixmap p = new Pixmap(width, height, Pixmap.Format.RGBA8888);

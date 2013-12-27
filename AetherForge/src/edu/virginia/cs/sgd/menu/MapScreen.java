@@ -32,7 +32,8 @@ public class MapScreen extends AbstractScreen {
 		Texture.setEnforcePotImages(false);
 		Entry.getManager().finishLoading();
 
-		level = new Level(this);
+		TiledMap map = Entry.getManager().get("data/map1.tmx", TiledMap.class);
+		level = new Level(map, this);
 
 		renderer = new LevelRenderer();
 		renderer.setLevel(level);
@@ -111,7 +112,8 @@ public class MapScreen extends AbstractScreen {
 		Point coords = renderer.getCoord(screenX, screenY);
 		
 		if(button == Buttons.LEFT) {
-			level.select((int)coords.getX(), (int)coords.getY());
+//			level.select((int)coords.getX(), (int)coords.getY());
+			level.onTouch(coords);
 		}
 	}
 

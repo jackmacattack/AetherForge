@@ -25,14 +25,14 @@ public class HighlightSystem extends EntityProcessingSystem {
 	private int width;
 	private int height;
 	private SpriteBatch batch;
-	
+
 	@SuppressWarnings("unchecked")
 	public HighlightSystem(int width, int height, SpriteBatch batch) {
 		super(Aspect.getAspectForAll(Selection.class));
 
 		this.width = width;
 		this.height = height;
-		
+
 		this.batch = batch;
 	}
 
@@ -52,28 +52,30 @@ public class HighlightSystem extends EntityProcessingSystem {
 
 		Selection sel = e.getComponent(Selection.class);//mapper.get(e);
 
-		ArrayList<Point> highlightPos = sel.getHighlightPos();
-		ArrayList<HighlightType> highlightType = sel.getHighlightType();
+		if(sel != null) {
+			ArrayList<Point> highlightPos = sel.getHighlightPos();
+			ArrayList<HighlightType> highlightType = sel.getHighlightType();
 
-		batch.begin();
-		
-		for(int i = 0; i < highlightPos.size(); i++) {
+			batch.begin();
 
-			Point pos = highlightPos.get(i);
-			HighlightType type = highlightType.get(i);
-			
-			Pixmap p = new Pixmap(width, height, Pixmap.Format.RGBA8888);
-			p.setColor(getColor(type));
-			p.fill();
-			p.setColor(0, 0, 0, .5f);
-			p.drawRectangle(0, 0, width, height);
+			for(int i = 0; i < highlightPos.size(); i++) {
 
-			Texture tex = new Texture(p);
+				Point pos = highlightPos.get(i);
+				HighlightType type = highlightType.get(i);
 
-			batch.draw(tex, (float) pos.getX() * width, (float) pos.getY() * height);
+				Pixmap p = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+				p.setColor(getColor(type));
+				p.fill();
+				p.setColor(0, 0, 0, .5f);
+				p.drawRectangle(0, 0, width, height);
+
+				Texture tex = new Texture(p);
+
+				batch.draw(tex, (float) pos.getX() * width, (float) pos.getY() * height);
+			}
+
+			batch.end();
 		}
-		
-		batch.end();
 	}
 
 }

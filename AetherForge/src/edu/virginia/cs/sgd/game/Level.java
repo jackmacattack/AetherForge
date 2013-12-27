@@ -3,6 +3,7 @@ package edu.virginia.cs.sgd.game;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Queue;
 
 import com.artemis.Component;
 import com.artemis.Entity;
@@ -12,10 +13,11 @@ import com.artemis.managers.PlayerManager;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
-import edu.virginia.cs.sgd.Entry;
 import edu.virginia.cs.sgd.game.controller.Battle;
 import edu.virginia.cs.sgd.game.controller.Controller;
 import edu.virginia.cs.sgd.game.controller.DeathSystem;
+import edu.virginia.cs.sgd.game.controller.Player;
+import edu.virginia.cs.sgd.game.controller.TestPlayer;
 import edu.virginia.cs.sgd.game.model.PositionManager;
 import edu.virginia.cs.sgd.game.model.components.HP;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
@@ -32,16 +34,18 @@ public class Level {
 
 	private World world;
 	
-	private TiledMap m_Map;
+	private TiledMap map;
 
 	private boolean selectedMoved = false;
 	private int selectedId;
 	private Controller c;
 	
-	public Level(MapScreen mp) {
+	public Level(TiledMap map, MapScreen mp) {
 
-		m_Map = Entry.getManager().get("data/map1.tmx");
-		c = new Controller(mp, this);
+		this.map = map;
+		
+		Player[] arr = {new TestPlayer("Fred")};
+		c = new Controller(arr);
 
 		initializeWorld();
 
@@ -57,10 +61,19 @@ public class Level {
 		world.initialize();
 		world.process();
 		System.out.println("The world is initialized");
+
+		c.startTurn(this);
+	}
+	
+	public void endTurn() {
+		
+		System.out.println(c.getActivePlayer().getName());
+		c.startTurn(this);
+		
 	}
 	
 	public TiledMap getMap() {
-		return m_Map;
+		return map;
 	}
 
 	public void update() {
@@ -70,13 +83,13 @@ public class Level {
 	}
 
 	public int getMapWidth() {
-		MapProperties prop = m_Map.getProperties();
+		MapProperties prop = map.getProperties();
 		int mapWidth = prop.get("width", Integer.class);
 		return mapWidth;
 	}
 
 	public int getMapHeight() {
-		MapProperties prop = m_Map.getProperties();
+		MapProperties prop = map.getProperties();
 		int mapHeight = prop.get("height", Integer.class);
 		return mapHeight;
 	}
@@ -132,13 +145,13 @@ public class Level {
 		Collection<Point> mem = new ArrayList<Point>();
 		
 		Triple start = new Triple(0, x, y);
-		LinkedList<Triple> q = new LinkedList<Triple>();
+		Queue<Triple> q = new LinkedList<Triple>();
 		q.add(start);
 //		mem.add(start);
 		
 		while (!q.isEmpty()) {
 			//System.out.println("loop");
-			Triple t = q.pop();
+			Triple t = q.poll();
 
 			Point p = new Point(t.getX(), t.getY());
 
@@ -281,6 +294,10 @@ public class Level {
 			
 	}
 
+	public void onTouch(Point p) {
+		c.onTouch(p);
+	}
+	
 	public void add(int x, int y, String name, boolean enemy) {
 		Entity e = world.createEntity();
 		e.addComponent(new MapPosition(x,y));

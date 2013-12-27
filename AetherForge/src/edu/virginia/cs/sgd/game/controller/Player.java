@@ -1,18 +1,36 @@
 package edu.virginia.cs.sgd.game.controller;
 
-import com.artemis.Entity;
-
 import edu.virginia.cs.sgd.game.Level;
 
-public abstract class Player {
 
-	private Level level;
-	private Entity selected;
+public abstract class Player {
 	
-	public abstract void processTurn();
+	protected String name;
 	
-	protected void select(Entity e) {
-		selected = e;
-		level.select(e);
+	public Player(String name) {
+		super();
+		this.name = name;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	protected abstract void takeTurn(Level level);
+	
+	public void processTurn(final Level level, final Controller c) {
+		Thread t = new Thread() {
+			public void run() {
+				takeTurn(level);
+				c.endTurn(level);
+			}
+		};
+		
+		t.start();
+	}
+	
 }

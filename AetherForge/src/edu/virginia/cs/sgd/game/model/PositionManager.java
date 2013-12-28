@@ -34,7 +34,6 @@ public class PositionManager extends Manager {
 	}
 	
 	public void added(Entity e) {
-		System.out.println("World is " + worldSet);
 		if(worldSet) {
 			MapPosition m = e.getComponent(MapPosition.class);
 			entityMap[m.getX()][m.getY()] = e.getId();

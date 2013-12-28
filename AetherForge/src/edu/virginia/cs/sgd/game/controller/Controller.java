@@ -18,8 +18,6 @@ public class Controller {
 			players.add(p[i]);
 		}
 
-//		active = players[0];
-
 	}
 	
 	public Player getActivePlayer() {

@@ -3,7 +3,7 @@ package edu.virginia.cs.sgd.game.controller;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import edu.virginia.cs.sgd.game.Level;
+import edu.virginia.cs.sgd.game.model.Map;
 import edu.virginia.cs.sgd.util.Point;
 
 public class Controller {
@@ -25,16 +25,22 @@ public class Controller {
 	public Player getActivePlayer() {
 		return players.peek();
 	}
-	public void startTurn(Level level) {
+	public void startTurn(Map map) {
 		Player active = getActivePlayer();
-		active.processTurn(level, this);
+		active.processTurn(map);
 	}
 
-	public void endTurn(Level level) {
-		Player p = players.poll();
-		players.add(p);
+	public void endTurn() {
+		Player active = players.poll();
+		active.endTurn();
+		players.add(active);
 		
-		level.endTurn();
+	}
+	
+	public boolean checkTurn() {
+		Player active = getActivePlayer();
+		
+		return active.takingTurn();
 	}
 
 	public void onTouch(Point p) {

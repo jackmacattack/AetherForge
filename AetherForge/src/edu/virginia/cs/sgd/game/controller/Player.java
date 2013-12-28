@@ -1,10 +1,11 @@
 package edu.virginia.cs.sgd.game.controller;
 
-import edu.virginia.cs.sgd.game.Level;
+import edu.virginia.cs.sgd.game.model.Map;
 
 
 public abstract class Player {
 	
+	private Thread t;
 	protected String name;
 	
 	public Player(String name) {
@@ -20,17 +21,24 @@ public abstract class Player {
 		this.name = name;
 	}
 
-	protected abstract void takeTurn(Level level);
+	protected abstract void takeTurn(Map map);
 	
-	public void processTurn(final Level level, final Controller c) {
-		Thread t = new Thread() {
+	public void processTurn(final Map map) {
+		t = new Thread() {
 			public void run() {
-				takeTurn(level);
-				c.endTurn(level);
+				takeTurn(map);
 			}
 		};
 		
 		t.start();
 	}
-	
+
+	public boolean takingTurn() {
+		if(t != null) {
+			return t.isAlive();
+		}
+		return false;
+	}
+
+	public abstract void endTurn();
 }

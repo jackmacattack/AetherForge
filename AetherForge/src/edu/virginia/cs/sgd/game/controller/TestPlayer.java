@@ -3,7 +3,7 @@ package edu.virginia.cs.sgd.game.controller;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import edu.virginia.cs.sgd.game.Level;
+import edu.virginia.cs.sgd.game.model.Map;
 import edu.virginia.cs.sgd.util.Point;
 
 public class TestPlayer extends Player {
@@ -26,14 +26,20 @@ public class TestPlayer extends Player {
 	}
 	
 	@Override
-	protected void takeTurn(Level level) {
+	protected void takeTurn(Map map) {
 		while(!end) {
 			Point p = q.poll();
 			
 			if(p != null) {
-				level.select(p.getX(), p.getY());
+				System.out.println(p);
+				map.select(p.getX(), p.getY());
 			}
 		}
+	}
+
+	@Override
+	public void endTurn() {
+		end = true;
 	}
 
 }

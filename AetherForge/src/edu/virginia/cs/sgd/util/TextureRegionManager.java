@@ -5,69 +5,39 @@ import java.util.Map;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 
 import edu.virginia.cs.sgd.Entry;
 
 public class TextureRegionManager {
 
-	private String sheetName;
+	private Map<String, TextureRegion> map;
 	
-	private int width;
-	private int height;
-	
-	private TextureRegion[][] tr;
-	
-	private Map<String, TextureRegion> bounds;
-	
-	public TextureRegionManager(String sheetName, int width, int height) {
-		this.sheetName = sheetName;
-		this.width = width;
-		this.height = height;
-		TextureRegion tre = new TextureRegion(Entry.getManager().get(sheetName, Texture.class));
-		tr = tre.split(width, height);
+	public TextureRegionManager(String sheetName, int width, int height, String[] names) {
 		
-		this.bounds = new HashMap<String, TextureRegion>();
-	}
-	
-	public String getSheetName() {
-		return sheetName;
-	}
-
-	public void setSheetName(String sheetName) {
-		this.sheetName = sheetName;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
-	}
-
-	public TextureRegion[][] getTr() {
-		return tr;
-	}
-
-	public void addRegion(String name, TextureRegion tg) {
-		bounds.put(name, tg);
+		map = new HashMap<String, TextureRegion>();
+		
+		TextureRegion tre = new TextureRegion(Entry.getManager().get(sheetName, Texture.class));
+		TextureRegion[][] tr = tre.split(width, height);
+		
+		if(tr.length == 0 || names.length != tr.length * tr[0].length) {
+			throw new IllegalArgumentException("Number of names does not match number of regions.");
+		}
+		
+		for(int i = 0; i < tr.length; i++) {
+			TextureRegion[] row = tr[i];
+			
+			for(int j = 0; j < row.length; j++) {
+				TextureRegion tex = row[j];
+				String name = names[i * tr.length + j];
+				
+				map.put(name, tex);
+			}
+		}
 	}
 	
 	public TextureRegion getRegion(String name) {
 
-		return bounds.get(name);
-	
-//		Texture tex = GameOfSwords.getManager().get(sheetName, Texture.class);
-//		
-//		return new TextureRegion(tex, (int)p.x, (int)p.y, (int)p.x + width, (int)p.y + height);
+		return map.get(name);
+		
 	}
 }

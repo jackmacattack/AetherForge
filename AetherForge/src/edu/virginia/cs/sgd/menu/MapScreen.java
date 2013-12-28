@@ -7,18 +7,20 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 import edu.virginia.cs.sgd.Entry;
 import edu.virginia.cs.sgd.game.Level;
-import edu.virginia.cs.sgd.game.view.LevelRenderer;
+import edu.virginia.cs.sgd.game.view.Viewer;
+import edu.virginia.cs.sgd.game.view.RenderSystem;
 import edu.virginia.cs.sgd.util.Point;
 
 
 public class MapScreen extends AbstractScreen {
 
-	private LevelRenderer renderer;
+	private Viewer viewer;
 	private Level level;
 	private Menu m;
 	
@@ -33,11 +35,16 @@ public class MapScreen extends AbstractScreen {
 		Entry.getManager().finishLoading();
 
 		TiledMap map = Entry.getManager().get("data/map1.tmx", TiledMap.class);
-		level = new Level(map, this);
 
-		renderer = new LevelRenderer();
-		renderer.setLevel(level);
+		MapProperties prop = map.getProperties();
+		int mapWidth = prop.get("tilewidth", Integer.class);
+		int mapHeight = prop.get("tileheight", Integer.class);
 		
+		float scale = 1f;
+		RenderSystem renderer = new RenderSystem(map, scale);
+		this.viewer = new Viewer(mapWidth, mapHeight, renderer);
+
+		level = new Level(map, renderer);
 		level.initialize();
 	}
 	
@@ -63,13 +70,13 @@ public class MapScreen extends AbstractScreen {
 	    
 		level.update();
 
-		renderer.renderUI();
+		viewer.renderUI();
 	}
 
 	@Override
 	public void resize(int width, int height) {
 
-		renderer.resize(width, height);
+		viewer.resize(width, height);
 	}
 
 	@Override
@@ -109,7 +116,7 @@ public class MapScreen extends AbstractScreen {
 			return;
 		}
 		
-		Point coords = renderer.getCoord(screenX, screenY);
+		Point coords = viewer.getCoord(screenX, screenY);
 		
 		if(button == Buttons.LEFT) {
 //			level.select((int)coords.getX(), (int)coords.getY());
@@ -119,11 +126,11 @@ public class MapScreen extends AbstractScreen {
 
 	@Override
 	public void scrolled(int amount) {
-		renderer.zoomMap(amount == 1);
+		viewer.zoomMap(amount == 1);
 	}
 	
 	@Override
 	public void touchDragged(int screenX, int screenY, int pointer, int deltaX, int deltaY) {
-		renderer.moveMap(deltaX, deltaY);
+		viewer.moveMap(deltaX, deltaY);
 	}
 }

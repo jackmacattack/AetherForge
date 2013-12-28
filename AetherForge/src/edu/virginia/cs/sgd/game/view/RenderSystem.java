@@ -24,8 +24,10 @@ public class RenderSystem extends EntityProcessingSystem {
 	@Mapper
 	ComponentMapper<TextureName> texMapper;
 	
-	private OrthogonalTiledMapRenderer renderer;
+	private int width;
+	private int height;
 	
+	private OrthogonalTiledMapRenderer renderer;
 	private TextureRegionManager texManager;
 	
 	@SuppressWarnings("unchecked")
@@ -33,20 +35,25 @@ public class RenderSystem extends EntityProcessingSystem {
 		
 		super(Aspect.getAspectForAll(MapPosition.class, TextureName.class));
 
-		int width = map.getProperties().get("tilewidth", Integer.class);
-		int height = map.getProperties().get("tileheight", Integer.class);
+		width = map.getProperties().get("tilewidth", Integer.class);
+		height = map.getProperties().get("tileheight", Integer.class);
 		
 		this.renderer = new OrthogonalTiledMapRenderer(map, scale);	
 
-		texManager = new TextureRegionManager("data/charactersheet.png", width, height);
-		texManager.addRegion("swordsman", texManager.getTr()[0][0]);
-		texManager.addRegion("spearman", texManager.getTr()[0][1]);
-		texManager.addRegion("gunner", texManager.getTr()[0][2]);
-		texManager.addRegion("cleric", texManager.getTr()[0][3]);
-		texManager.addRegion("archer", texManager.getTr()[0][4]);
-		texManager.addRegion("berserker", texManager.getTr()[0][5]);
-		texManager.addRegion("sorc", texManager.getTr()[0][6]);
-		texManager.addRegion("sample", texManager.getTr()[0][7]);
+		String[] names = {"swordsman", "spearman", "gunner", "cleric", "archer", "berserker", "sorc", "sample"};
+		texManager = new TextureRegionManager("data/charactersheet.png", width, height, names);
+//		texManager.addRegion("swordsman", texManager.getTr()[0][0]);
+//		texManager.addRegion("spearman", texManager.getTr()[0][1]);
+//		texManager.addRegion("gunner", texManager.getTr()[0][2]);
+//		texManager.addRegion("cleric", texManager.getTr()[0][3]);
+//		texManager.addRegion("archer", texManager.getTr()[0][4]);
+//		texManager.addRegion("berserker", texManager.getTr()[0][5]);
+//		texManager.addRegion("sorc", texManager.getTr()[0][6]);
+//		texManager.addRegion("sample", texManager.getTr()[0][7]);
+	}
+	
+	public float getScale() {
+		return renderer.getUnitScale();
 	}
 	
 	public void renderMap(OrthographicCamera camera) {
@@ -72,8 +79,6 @@ public class RenderSystem extends EntityProcessingSystem {
 		TextureRegion tex = texManager.getRegion(name.getName());
 		SpriteBatch batch = getSpriteBatch();
 		float scale = renderer.getUnitScale();
-		int width = texManager.getWidth();
-		int height = texManager.getHeight();
 		
 		batch.draw(tex, (float) pos.getX() * width, (float) pos.getY() * height, 
 				0, 0, width, height, scale, scale, 0);

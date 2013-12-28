@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.model.components.Selection;
 import edu.virginia.cs.sgd.util.Point;
 

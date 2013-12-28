@@ -3,15 +3,13 @@ package edu.virginia.cs.sgd.game.view;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Mapper;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector3;
 
-import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.util.Point;
 
 
-public class LevelRenderer {
+public class Viewer {
 
 	@Mapper
 	ComponentMapper<MapPosition> mapper;
@@ -23,19 +21,19 @@ public class LevelRenderer {
 	private int width;
 	private int height;
 	
-	private float scale;
-	
 	private OrthographicCamera camera;
 
 	private RenderSystem renderer;
 	
-	public LevelRenderer() {
+	public Viewer(int width, int height, RenderSystem renderer) {
+		
+		this.width = width;
+		this.height = height;
+		this.renderer = renderer;
 		
 		zoomMin = .2f;
 		zoomMax = 2f;
 		zoomDelta = .2f;
-		
-		scale = 1f;
 			
 		camera = new OrthographicCamera();
 		
@@ -52,6 +50,7 @@ public class LevelRenderer {
 	
 	public void resize(int width, int height) {
 
+		float scale = renderer.getScale();
 		camera.setToOrtho(false, width * scale, height * scale);
 		
 		updateCamera();
@@ -60,6 +59,7 @@ public class LevelRenderer {
 
 	public Point getCoord(int screenX, int screenY) {
 
+		float scale = renderer.getScale();
 		Vector3 pos = new Vector3(screenX, screenY, 0);
 		camera.unproject(pos);
 		
@@ -94,19 +94,6 @@ public class LevelRenderer {
 		camera.translate(delta);
 		
 		updateCamera();
-	}
-	
-	public void setLevel(Level level) {
-		TiledMap map = level.getMap();
-
-		width = map.getProperties().get("tilewidth", Integer.class);
-		height = map.getProperties().get("tileheight", Integer.class);
-		
-		renderer = new RenderSystem(map, scale);
-		HighlightSystem highlighter = new HighlightSystem(width, height, renderer.getSpriteBatch());
-		
-		level.addSystem(renderer);
-		level.addSystem(highlighter);
 	}
 	
 }

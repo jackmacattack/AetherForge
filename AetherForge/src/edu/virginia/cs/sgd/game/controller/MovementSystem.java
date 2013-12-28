@@ -9,9 +9,9 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
-import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.menu.MapScreen;
 import edu.virginia.cs.sgd.util.Triple;
@@ -22,13 +22,13 @@ public class MovementSystem extends EntityProcessingSystem {
 
 	private ArrayList<Triple> path;
 	public MapScreen map;
-	public Level level;
+	public TiledMap tileMap;
 
 	@SuppressWarnings("unchecked")
-	public MovementSystem(MapScreen map, Level level) {
+	public MovementSystem(MapScreen map, TiledMap tileMap) {
 		super(Aspect.getAspectForAll(MapPosition.class));
 		this.map = map;
-		this.level = level;
+		this.tileMap = tileMap;
 		path = new ArrayList<Triple>();
 	}
 
@@ -43,7 +43,7 @@ public class MovementSystem extends EntityProcessingSystem {
 	}
 
 	private int getCell(int x, int y) {
-		MapLayer layer = level.getMap().getLayers().get("Tile Layer 1");
+		MapLayer layer = tileMap.getLayers().get("Tile Layer 1");
 		TiledMapTileLayer.Cell cell = ((TiledMapTileLayer) layer).getCell(x, y);
 		System.out.println(cell.getTile().getId());
 		return cell.getTile().getId();

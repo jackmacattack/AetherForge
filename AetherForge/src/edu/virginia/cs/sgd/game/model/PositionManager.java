@@ -14,13 +14,12 @@ public class PositionManager extends Manager {
 	public PositionManager() {
 		worldSet = false;
 	}
-	
+
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-		//worldSet = false;
+		
 	}
-
+	
 	public void setWorld(int width, int height) {
 		
 		entityMap = new int[width][height];
@@ -32,7 +31,6 @@ public class PositionManager extends Manager {
 		}
 		
 		worldSet = true;
-		System.out.println("World is " + worldSet);
 	}
 	
 	public void added(Entity e) {
@@ -40,8 +38,6 @@ public class PositionManager extends Manager {
 		if(worldSet) {
 			MapPosition m = e.getComponent(MapPosition.class);
 			entityMap[m.getX()][m.getY()] = e.getId();
-
-			System.out.println("Added to position");
 		}
 		
 	}
@@ -79,4 +75,5 @@ public class PositionManager extends Manager {
 	public boolean spaceOpen(Point p) {
 		return getEntityAt(p) != -1;
 	}
+
 }

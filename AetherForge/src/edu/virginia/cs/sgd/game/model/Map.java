@@ -3,13 +3,15 @@ package edu.virginia.cs.sgd.game.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
-import com.artemis.Component;
+import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.World;
 import com.artemis.managers.PlayerManager;
+import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
@@ -25,6 +27,7 @@ import edu.virginia.cs.sgd.game.view.HighlightSystem;
 import edu.virginia.cs.sgd.game.view.HighlightType;
 import edu.virginia.cs.sgd.game.view.RenderSystem;
 import edu.virginia.cs.sgd.util.Point;
+import edu.virginia.cs.sgd.util.StateMachine;
 import edu.virginia.cs.sgd.util.Triple;
 
 public class Map {
@@ -33,8 +36,8 @@ public class Map {
 	
 	private TiledMap map;
 
-	private boolean selectedMoved = false;
 	private int selectedId;
+	private StateMachine state;
 	
 	public Map(TiledMap map, RenderSystem renderer) {
 
@@ -63,17 +66,15 @@ public class Map {
 		add(3,4,"archer", true);
 
 		selectedId = -1;
-
+		
+		int[][] arr = {{0, 1}, {0, 2}, {0, 0}};
+		state = new StateMachine(arr, 0);
 	}
 
 	public void initialize() {
 		world.initialize();
 		world.process();
 		System.out.println("The world is initialized");
-	}
-	
-	public TiledMap getMap() {
-		return map;
 	}
 
 	public void update() {
@@ -98,17 +99,20 @@ public class Map {
 
 		//		world.deleteSystem(damageSystem);
 	}
+	
+	public List<Point> getUnits(String player) {
+		PlayerManager man = world.getManager(PlayerManager.class);
+		ComponentMapper<MapPosition> mapper = world.getMapper(MapPosition.class);
+		ImmutableBag<Entity> units =  man.getEntitiesOfPlayer(player);
 
-	public void addComponent(Component component, int entityId)
-	{
-		if (entityId < 0) return;
-		Entity e = world.getEntity(entityId);
-		e.addComponent(component);
-		e.changedInWorld();
-	}
-
-	public Entity getEntityAt(int x, int y) {
-		return getEntityAt(new Point(x, y));
+		List<Point> res = new ArrayList<Point>();
+		for(int i = 0; i < units.size(); i++) {
+			Entity e = units.get(i);
+			MapPosition m = mapper.get(e);
+			res.add(m.getPoint());
+		}
+		
+		return res;
 	}
 	
 	public Entity getEntityAt(Point p) {
@@ -122,13 +126,26 @@ public class Map {
 		return world.getEntity(id);
 	}
 	
-	public ArrayList<Point> selectTiles(int min, int max, int x, int y, boolean collision) {
+	public boolean pointFree(Point p) {
+	
+		boolean env = true;
+		boolean entity = getEntityAt(p) == null;
+
+		boolean xBounds = p.getX() > -1 && p.getX() < getMapWidth();
+		boolean yBounds = p.getY() > -1 && p.getY() < getMapHeight();
+		
+		boolean bounds = xBounds && yBounds;
+		
+		return env && entity && bounds;
+	}
+	
+	private ArrayList<Point> selectTiles(int min, int max, Point s, boolean collision) {
 
 		ArrayList<Point> res = new ArrayList<Point>();
 		
 		Collection<Point> mem = new ArrayList<Point>();
 		
-		Triple start = new Triple(0, x, y);
+		Triple start = new Triple(0, s.getX(), s.getY());
 		Queue<Triple> q = new LinkedList<Triple>();
 		q.add(start);
 //		mem.add(start);
@@ -144,9 +161,8 @@ public class Map {
 			}
 			
 			mem.add(p);
-			Entity e = getEntityAt(p);
 
-			if((collision && e != null && t != start) || t.getMvn() > max) {
+			if((collision && !pointFree(p) && t != start) || t.getMvn() > max) {
 				continue;
 			}
 			
@@ -180,11 +196,10 @@ public class Map {
 		return res;
 	}
 	
-	public void attack(Entity e, int x, int y) {
+	private void attack(Entity e, Point p) {
 
-		Entity def = getEntityAt(x, y);
+		Entity def = getEntityAt(p);
 		if(def != null) {
-			Point p = new Point(x, y);
 			Selection sel = e.getComponent(Selection.class);
 			if(sel.getType(p) == HighlightType.ATTACK) {
 				Battle.OneOnOneFight(e, def);
@@ -192,30 +207,26 @@ public class Map {
 		}
 		
 		selectedId = -1;
-		selectedMoved = false;
 		
 		e.removeComponent(Selection.class);
 		e.changedInWorld();
 		
 	}
 	
-	public void moveEntity(Entity e, int x, int y) {
+	private void moveEntity(Entity e, Point p) {
 
-		Point p = new Point(x, y);
 		Selection sel = e.getComponent(Selection.class);
 
 		if(sel.getType(p) == HighlightType.MOVE) {
 
 			MapPosition m = e.getComponent(MapPosition.class);
-			m.setX(x);
-			m.setY(y);
-
-			selectedMoved = true;
+			m.setX(p.getX());
+			m.setY(p.getY());
 
 			e.changedInWorld();
 			Weapon w = e.getComponent(Weapon.class);
 			
-			ArrayList<Point> tiles = selectTiles(w.getMinRange(), w.getMaxRange(), m.getX(), m.getY(), false);
+			ArrayList<Point> tiles = selectTiles(w.getMinRange(), w.getMaxRange(), m.getPoint(), false);
 			
 			Selection sele = new Selection();
 			
@@ -235,17 +246,17 @@ public class Map {
 		e.changedInWorld();
 	}
 	
-	public void select(Entity e) {
+	private void select(Entity e, String player) {
 
 		PlayerManager teams = world.getManager(PlayerManager.class);
 		
-		if(teams.getPlayer(e).equals("Human")){
+		if(teams.getPlayer(e).equals(player)){
 			
 			selectedId = e.getId();
 			
 			MapPosition m = e.getComponent(MapPosition.class);
 			Stats s = e.getComponent(Stats.class);
-			ArrayList<Point> tiles = selectTiles(0, s.getMovement(), m.getX(), m.getY(), true);
+			ArrayList<Point> tiles = selectTiles(0, s.getMovement(), m.getPoint(), true);
 
 			Selection sel = new Selection();
 			
@@ -262,21 +273,24 @@ public class Map {
 		
 	}
 	
-	public void select(int x, int y) {
-//		c.processTurn();
-		Entity e = getEntityAt(x, y);
+	public void onTouch(Point p, String player) {
 		
-		if(selectedMoved) {
-			attack(world.getEntity(selectedId), x, y);
+		switch(state.getState()) {
+		case MapState.MOVED:
+			attack(world.getEntity(selectedId), p);
+			break;
+		case MapState.SELECT:
+			moveEntity(world.getEntity(selectedId), p);
+			break;
+		case MapState.NORMAL:
+			Entity e = getEntityAt(p);
+			if(e != null) {
+				select(e, player);
+			}
+			break;
 		}
-		else if(selectedId != -1) {
-			moveEntity(world.getEntity(selectedId), x, y);
-		}
-		else if (e != null) {
-			select(e);
-			
-		}
-			
+		
+		state.transition(1);
 	}
 	
 	public void add(int x, int y, String name, boolean enemy) {
@@ -301,5 +315,9 @@ public class Map {
 	public void addSystem(EntitySystem sys) {
 		
 		world.setSystem(sys);
+	}
+	
+	public void reset() {
+		state.reset();
 	}
 }

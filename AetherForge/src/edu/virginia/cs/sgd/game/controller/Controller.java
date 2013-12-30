@@ -26,6 +26,8 @@ public class Controller {
 	public void startTurn(Map map) {
 		Player active = getActivePlayer();
 		active.processTurn(map);
+
+		System.out.println(getActivePlayer().getName());
 	}
 
 	public void endTurn() {
@@ -42,9 +44,10 @@ public class Controller {
 	}
 
 	public void onTouch(Point p) {
+		Player active = getActivePlayer();
 		
-		if(getActivePlayer() instanceof TestPlayer) {
-			((TestPlayer) getActivePlayer()).select(p);
+		if(active instanceof UserInput) {
+			((UserInput) active).onTouch(p);
 		}
 		
 	}

@@ -2,6 +2,8 @@ package edu.virginia.cs.sgd.game.model.components;
 
 import com.artemis.Component;
 
+import edu.virginia.cs.sgd.util.Point;
+
 public class MapPosition extends Component {
 	private int oldX, oldY;
 	private int x, y;
@@ -57,5 +59,9 @@ public class MapPosition extends Component {
 		}
 		
 		return false;
+	}
+
+	public Point getPoint() {
+		return new Point(x, y);
 	}
 }

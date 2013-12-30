@@ -117,7 +117,7 @@ public class MapScreen extends AbstractScreen {
 		}
 		
 		Point coords = viewer.getCoord(screenX, screenY);
-		
+
 		if(button == Buttons.LEFT) {
 //			level.select((int)coords.getX(), (int)coords.getY());
 			level.onTouch(coords);

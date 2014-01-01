@@ -27,7 +27,6 @@ import edu.virginia.cs.sgd.game.view.HighlightSystem;
 import edu.virginia.cs.sgd.game.view.HighlightType;
 import edu.virginia.cs.sgd.game.view.RenderSystem;
 import edu.virginia.cs.sgd.util.Point;
-import edu.virginia.cs.sgd.util.StateMachine;
 import edu.virginia.cs.sgd.util.Triple;
 
 public class Map {
@@ -35,9 +34,6 @@ public class Map {
 	private World world;
 	
 	private TiledMap map;
-
-	private int selectedId;
-	private StateMachine state;
 	
 	public Map(TiledMap map, RenderSystem renderer) {
 
@@ -65,10 +61,6 @@ public class Map {
 		add(1,5,"cleric", true);
 		add(3,4,"archer", true);
 
-		selectedId = -1;
-		
-		int[][] arr = {{0, 1}, {0, 2}, {0, 0}};
-		state = new StateMachine(arr, 0);
 	}
 
 	public void initialize() {
@@ -196,8 +188,9 @@ public class Map {
 		return res;
 	}
 	
-	private void attack(Entity e, Point p) {
-
+	public void attack(int id, Point p) {
+		Entity e = world.getEntity(id);
+		
 		Entity def = getEntityAt(p);
 		if(def != null) {
 			Selection sel = e.getComponent(Selection.class);
@@ -206,15 +199,13 @@ public class Map {
 			}
 		}
 		
-		selectedId = -1;
-		
 		e.removeComponent(Selection.class);
 		e.changedInWorld();
 		
 	}
 	
-	private void moveEntity(Entity e, Point p) {
-
+	public void move(int id, Point p) {
+		Entity e = world.getEntity(id);
 		Selection sel = e.getComponent(Selection.class);
 
 		if(sel.getType(p) == HighlightType.MOVE) {
@@ -238,59 +229,11 @@ public class Map {
 		}
 		else {
 
-			selectedId = -1;
 			e.removeComponent(Selection.class);
 			
 		}
 
 		e.changedInWorld();
-	}
-	
-	private void select(Entity e, String player) {
-
-		PlayerManager teams = world.getManager(PlayerManager.class);
-		
-		if(teams.getPlayer(e).equals(player)){
-			
-			selectedId = e.getId();
-			
-			MapPosition m = e.getComponent(MapPosition.class);
-			Stats s = e.getComponent(Stats.class);
-			ArrayList<Point> tiles = selectTiles(0, s.getMovement(), m.getPoint(), true);
-
-			Selection sel = new Selection();
-			
-			for(Point pos : tiles) {
-				sel.addTile(pos, HighlightType.MOVE);
-			}
-			e.addComponent(sel);
-			e.changedInWorld();
-			
-		}
-		else{
-			System.out.println("That is not your unit!");
-		}
-		
-	}
-	
-	public void onTouch(Point p, String player) {
-		
-		switch(state.getState()) {
-		case MapState.MOVED:
-			attack(world.getEntity(selectedId), p);
-			break;
-		case MapState.SELECT:
-			moveEntity(world.getEntity(selectedId), p);
-			break;
-		case MapState.NORMAL:
-			Entity e = getEntityAt(p);
-			if(e != null) {
-				select(e, player);
-			}
-			break;
-		}
-		
-		state.transition(1);
 	}
 	
 	public void add(int x, int y, String name, boolean enemy) {
@@ -316,8 +259,13 @@ public class Map {
 		
 		world.setSystem(sys);
 	}
+
+	public String getPlayer(Entity e) {
+		PlayerManager teams = world.getManager(PlayerManager.class);
+		return teams.getPlayer(e);
+	}
 	
-	public void reset() {
-		state.reset();
+	public MapOperator getOperator() {
+		return new MapOperator(this);
 	}
 }

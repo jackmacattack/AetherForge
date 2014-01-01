@@ -3,7 +3,7 @@ package edu.virginia.cs.sgd.game.controller;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import edu.virginia.cs.sgd.game.model.Map;
+import edu.virginia.cs.sgd.game.model.MapOperator;
 import edu.virginia.cs.sgd.util.Point;
 
 public class TestPlayer extends Player implements UserInput {
@@ -26,7 +26,7 @@ public class TestPlayer extends Player implements UserInput {
 	}
 	
 	@Override
-	protected void takeTurn(Map map) {
+	protected void takeTurn(MapOperator map) {
 		end = false;
 		int count = 0;
 		while(!end) {

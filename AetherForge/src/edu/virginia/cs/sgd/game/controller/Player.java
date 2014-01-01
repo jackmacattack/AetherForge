@@ -1,6 +1,6 @@
 package edu.virginia.cs.sgd.game.controller;
 
-import edu.virginia.cs.sgd.game.model.Map;
+import edu.virginia.cs.sgd.game.model.MapOperator;
 
 
 public abstract class Player {
@@ -21,9 +21,9 @@ public abstract class Player {
 		this.name = name;
 	}
 
-	protected abstract void takeTurn(Map map);
+	protected abstract void takeTurn(MapOperator map);
 	
-	public void processTurn(final Map map) {
+	public void processTurn(final MapOperator map) {
 		t = new Thread() {
 			public void run() {
 				takeTurn(map);

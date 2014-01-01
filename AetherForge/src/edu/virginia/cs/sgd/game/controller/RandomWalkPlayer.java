@@ -5,7 +5,7 @@ import java.util.List;
 import com.artemis.Entity;
 import com.badlogic.gdx.math.MathUtils;
 
-import edu.virginia.cs.sgd.game.model.Map;
+import edu.virginia.cs.sgd.game.model.MapOperator;
 import edu.virginia.cs.sgd.game.model.components.Selection;
 import edu.virginia.cs.sgd.game.view.HighlightType;
 import edu.virginia.cs.sgd.util.Point;
@@ -17,7 +17,7 @@ public class RandomWalkPlayer extends Player {
 	}
 
 	@Override
-	protected void takeTurn(Map map) {
+	protected void takeTurn(MapOperator map) {
 
 		List<Point> units = map.getUnits(name);
 		for(int i = 0; i < units.size(); i++) {

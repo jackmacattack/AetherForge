@@ -26,7 +26,7 @@ public class Level {
 
 	public void initialize() {
 		map.initialize();
-		c.startTurn(map);
+		c.startTurn(map.getOperator());
 	}
 	
 	public void onTouch(Point p) {
@@ -40,8 +40,7 @@ public class Level {
 	public void update() {
 		if(!c.checkTurn()) {
 			c.endTurn();
-			map.reset();
-			c.startTurn(map);
+			c.startTurn(map.getOperator());
 		}
 		map.update();
 	}

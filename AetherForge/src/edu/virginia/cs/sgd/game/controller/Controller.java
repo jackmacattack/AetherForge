@@ -3,7 +3,7 @@ package edu.virginia.cs.sgd.game.controller;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import edu.virginia.cs.sgd.game.model.Map;
+import edu.virginia.cs.sgd.game.model.MapOperator;
 import edu.virginia.cs.sgd.util.Point;
 
 public class Controller {
@@ -23,7 +23,7 @@ public class Controller {
 	public Player getActivePlayer() {
 		return players.peek();
 	}
-	public void startTurn(Map map) {
+	public void startTurn(MapOperator map) {
 		Player active = getActivePlayer();
 		active.processTurn(map);
 

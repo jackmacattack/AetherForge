@@ -7,12 +7,15 @@ import edu.virginia.cs.sgd.game.controller.Player;
 import edu.virginia.cs.sgd.game.controller.RandomWalkPlayer;
 import edu.virginia.cs.sgd.game.controller.TestPlayer;
 import edu.virginia.cs.sgd.game.model.Map;
+import edu.virginia.cs.sgd.game.model.MapOperator;
 import edu.virginia.cs.sgd.game.view.RenderSystem;
 import edu.virginia.cs.sgd.util.Point;
 
 public class Level {
 
 	private Map map;
+	private MapOperator o;
+	
 	private Controller c;
 	
 	public Level(TiledMap tileMap, RenderSystem renderer) {
@@ -26,7 +29,9 @@ public class Level {
 
 	public void initialize() {
 		map.initialize();
-		c.startTurn(map.getOperator());
+
+		o = map.getOperator();
+		c.startTurn(o);
 	}
 	
 	public void onTouch(Point p) {
@@ -40,8 +45,13 @@ public class Level {
 	public void update() {
 		if(!c.checkTurn()) {
 			c.endTurn();
-			c.startTurn(map.getOperator());
+			o = map.getOperator();
+			c.startTurn(o);
 		}
 		map.update();
+	}
+
+	public MapOperator getCurrentOperator() {
+		return o;
 	}
 }

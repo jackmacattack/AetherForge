@@ -1,10 +1,7 @@
 package edu.virginia.cs.sgd.game.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -23,11 +20,9 @@ import edu.virginia.cs.sgd.game.model.components.Selection;
 import edu.virginia.cs.sgd.game.model.components.Stats;
 import edu.virginia.cs.sgd.game.model.components.TextureName;
 import edu.virginia.cs.sgd.game.model.components.Weapon;
-import edu.virginia.cs.sgd.game.view.HighlightSystem;
-import edu.virginia.cs.sgd.game.view.HighlightType;
 import edu.virginia.cs.sgd.game.view.RenderSystem;
+import edu.virginia.cs.sgd.game.view.SelectionType;
 import edu.virginia.cs.sgd.util.Point;
-import edu.virginia.cs.sgd.util.Triple;
 
 public class Map {
 
@@ -48,13 +43,6 @@ public class Map {
 
 		world.setSystem(new DeathSystem(this));
 		world.setSystem(renderer);
-
-		MapProperties prop = map.getProperties();
-		int mapWidth = prop.get("tilewidth", Integer.class);
-		int mapHeight = prop.get("tileheight", Integer.class);
-		
-		world.setSystem(new HighlightSystem(mapWidth, mapHeight, renderer.getSpriteBatch()));
-		
 		world.setManager(new PlayerManager());
 
 		add(1,3,"berserker", false);
@@ -131,70 +119,13 @@ public class Map {
 		return env && entity && bounds;
 	}
 	
-	private ArrayList<Point> selectTiles(int min, int max, Point s, boolean collision) {
-
-		ArrayList<Point> res = new ArrayList<Point>();
-		
-		Collection<Point> mem = new ArrayList<Point>();
-		
-		Triple start = new Triple(0, s.getX(), s.getY());
-		Queue<Triple> q = new LinkedList<Triple>();
-		q.add(start);
-//		mem.add(start);
-		
-		while (!q.isEmpty()) {
-			//System.out.println("loop");
-			Triple t = q.poll();
-
-			Point p = new Point(t.getX(), t.getY());
-
-			if(mem.contains(p)) {
-				continue;
-			}
-			
-			mem.add(p);
-
-			if((collision && !pointFree(p) && t != start) || t.getMvn() > max) {
-				continue;
-			}
-			
-			if(t.getMvn() >= min) {
-				res.add(p);
-			}
-			
-			Triple tl = new Triple(t.getMvn() + 1, t.getX() - 1, t.getY());
-			if (!q.contains(tl)) {
-				q.add(tl);
-			}
-
-			Triple tr = new Triple(t.getMvn() + 1, t.getX() + 1, t.getY());
-			if (!q.contains(tr)) {
-				q.add(tr);
-			}
-
-			Triple tu = new Triple(t.getMvn() + 1, t.getX(), t.getY() + 1);
-			if (!q.contains(tu)) {
-				q.add(tu);
-			}
-
-			Triple td = new Triple(t.getMvn() + 1, t.getX(), t.getY() - 1);
-			if (!q.contains(td)) {
-				q.add(td);
-			}
-//			q.add(t);
-		}
-		//System.out.println(q);
-
-		return res;
-	}
-	
 	public void attack(int id, Point p) {
 		Entity e = world.getEntity(id);
 		
 		Entity def = getEntityAt(p);
 		if(def != null) {
 			Selection sel = e.getComponent(Selection.class);
-			if(sel.getType(p) == HighlightType.ATTACK) {
+			if(sel.getType(p) == SelectionType.ATTACK) {
 				Battle.OneOnOneFight(e, def);
 			}
 		}
@@ -208,23 +139,13 @@ public class Map {
 		Entity e = world.getEntity(id);
 		Selection sel = e.getComponent(Selection.class);
 
-		if(sel.getType(p) == HighlightType.MOVE) {
+		if(sel.getType(p) == SelectionType.MOVE) {
 
 			MapPosition m = e.getComponent(MapPosition.class);
 			m.setX(p.getX());
 			m.setY(p.getY());
 
 			e.changedInWorld();
-			Weapon w = e.getComponent(Weapon.class);
-			
-			ArrayList<Point> tiles = selectTiles(w.getMinRange(), w.getMaxRange(), m.getPoint(), false);
-			
-			Selection sele = new Selection();
-			
-			for(Point tile : tiles) {
-				sele.addTile(tile, HighlightType.ATTACK);
-			}
-			e.addComponent(sele);
 			
 		}
 		else {
@@ -267,5 +188,9 @@ public class Map {
 	
 	public MapOperator getOperator() {
 		return new MapOperator(this);
+	}
+
+	public Entity getEntity(int id) {
+		return world.getEntity(id);
 	}
 }

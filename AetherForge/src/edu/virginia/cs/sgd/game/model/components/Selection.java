@@ -4,57 +4,47 @@ import java.util.ArrayList;
 
 import com.artemis.Component;
 
-import edu.virginia.cs.sgd.game.view.HighlightType;
+import edu.virginia.cs.sgd.game.view.SelectionType;
 import edu.virginia.cs.sgd.util.Point;
 
 public class Selection extends Component {
 
-	private boolean moved;
-	private ArrayList<Point> highlightPos;
-	private ArrayList<HighlightType> highlightType;
+	private ArrayList<Point> selPos;
+	private ArrayList<SelectionType> selType;
 	
 	public Selection() {
-		moved = false;
 		
-		highlightPos = new ArrayList<Point>();
-		highlightType = new ArrayList<HighlightType>();
-	}
-	
-	public boolean isMoved() {
-		return moved;
+		selPos = new ArrayList<Point>();
+		selType = new ArrayList<SelectionType>();
 	}
 
-	public void setMoved(boolean moved) {
-		this.moved = moved;
+	public ArrayList<Point> getSelPos() {
+		return selPos;
 	}
 
-	public ArrayList<Point> getHighlightPos() {
-		return highlightPos;
+	public ArrayList<SelectionType> getSelType() {
+		return selType;
 	}
 
-	public ArrayList<HighlightType> getHighlightType() {
-		return highlightType;
-	}
-
-	public void addTile(Point pos, HighlightType type) {
-		highlightPos.add(pos);
-		highlightType.add(type);
+	public void addTile(Point pos, SelectionType type) {
+		selPos.add(pos);
+		selType.add(type);
 	}
 	
 	public void resetTiles() {
-		highlightPos.clear();
-		highlightType.clear();
+		selPos.clear();
+		selType.clear();
 	}
 	
-	public HighlightType getType(Point pos) {
-		for(int i = 0; i < highlightPos.size(); i++) {
-			Point p = highlightPos.get(i);
+	public SelectionType getType(Point pos) {
+		for(int i = 0; i < selPos.size(); i++) {
+			Point p = selPos.get(i);
 			if(p.equals(pos)) {
-				return highlightType.get(i);
+				return selType.get(i);
 			}
 		}
 		
-		return HighlightType.NONE;
+		return SelectionType.NONE;
 	}
 	
 }

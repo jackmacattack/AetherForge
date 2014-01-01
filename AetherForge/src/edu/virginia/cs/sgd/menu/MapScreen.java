@@ -70,7 +70,7 @@ public class MapScreen extends AbstractScreen {
 	    
 		level.update();
 
-		viewer.renderUI();
+		viewer.renderUI(level);
 	}
 
 	@Override

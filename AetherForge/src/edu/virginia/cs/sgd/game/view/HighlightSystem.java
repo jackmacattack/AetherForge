@@ -35,7 +35,7 @@ public class HighlightSystem extends EntityProcessingSystem {
 		this.batch = batch;
 	}
 
-	private Color getColor(HighlightType type) {
+	private Color getColor(SelectionType type) {
 		switch(type) {
 		case MOVE:
 			return new Color(0, 0, 1, .5f);
@@ -52,15 +52,15 @@ public class HighlightSystem extends EntityProcessingSystem {
 		Selection sel = e.getComponent(Selection.class);//mapper.get(e);
 
 		if(sel != null) {
-			ArrayList<Point> highlightPos = sel.getHighlightPos();
-			ArrayList<HighlightType> highlightType = sel.getHighlightType();
+			ArrayList<Point> highlightPos = sel.getSelPos();
+			ArrayList<SelectionType> highlightType = sel.getSelType();
 
 			batch.begin();
 
 			for(int i = 0; i < highlightPos.size(); i++) {
 
 				Point pos = highlightPos.get(i);
-				HighlightType type = highlightType.get(i);
+				SelectionType type = highlightType.get(i);
 
 				Pixmap p = new Pixmap(width, height, Pixmap.Format.RGBA8888);
 				p.setColor(getColor(type));

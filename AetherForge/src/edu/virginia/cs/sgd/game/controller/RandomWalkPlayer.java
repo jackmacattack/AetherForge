@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 
 import edu.virginia.cs.sgd.game.model.MapOperator;
 import edu.virginia.cs.sgd.game.model.components.Selection;
-import edu.virginia.cs.sgd.game.view.HighlightType;
+import edu.virginia.cs.sgd.game.view.SelectionType;
 import edu.virginia.cs.sgd.util.Point;
 
 public class RandomWalkPlayer extends Player {
@@ -30,11 +30,11 @@ public class RandomWalkPlayer extends Player {
 
 			Point newP = null;
 			do {
-				List<Point> move = sel.getHighlightPos();
+				List<Point> move = sel.getSelPos();
 				int rand = MathUtils.random(move.size()-1);
 				newP = move.get(rand);
 			}
-			while(sel.getType(newP) != HighlightType.MOVE);
+			while(sel.getType(newP) != SelectionType.MOVE);
 
 			map.onTouch(newP, name);
 			map.onTouch(newP, name);

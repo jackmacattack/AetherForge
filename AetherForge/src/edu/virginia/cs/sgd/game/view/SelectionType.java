@@ -1,6 +1,6 @@
 package edu.virginia.cs.sgd.game.view;
 
-public enum HighlightType {
+public enum SelectionType {
 
 	MOVE, ATTACK, NONE;
 }

@@ -1,4 +1,4 @@
-package edu.virginia.cs.sgd.game.model.components;
+package edu.virginia.cs.sgd.game.model;
 
 import java.util.ArrayList;
 

@@ -9,7 +9,6 @@ import java.util.Queue;
 import com.artemis.Entity;
 
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
-import edu.virginia.cs.sgd.game.model.components.Selection;
 import edu.virginia.cs.sgd.game.model.components.Stats;
 import edu.virginia.cs.sgd.game.model.components.Weapon;
 import edu.virginia.cs.sgd.game.view.SelectionType;

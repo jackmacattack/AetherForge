@@ -13,8 +13,8 @@ import com.badlogic.gdx.math.Vector3;
 
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.game.model.MapOperator;
+import edu.virginia.cs.sgd.game.model.Selection;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
-import edu.virginia.cs.sgd.game.model.components.Selection;
 import edu.virginia.cs.sgd.util.Point;
 
 

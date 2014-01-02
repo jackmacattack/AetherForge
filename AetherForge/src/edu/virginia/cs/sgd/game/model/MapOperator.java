@@ -20,18 +20,18 @@ import edu.virginia.cs.sgd.util.Triple;
 public class MapOperator {
 
 	private Map map;
-	
+
 	private int selectedId;
 	private Selection selTiles;
 	private StateMachine state;
-	
+
 	public MapOperator(Map map) {
 
 		this.map = map;
-		
+
 		selectedId = -1;
 		selTiles = null;
-		
+
 		int[][] arr = {{0, 1}, {0, 2}, {0, 0}};
 		state = new StateMachine(arr, 0);
 	}
@@ -39,26 +39,26 @@ public class MapOperator {
 	public List<Point> getUnits(String player) {
 		return map.getUnits(player);
 	}
-	
+
 	public Entity getEntityAt(Point p) {
 		return map.getEntityAt(p);
 	}
-	
+
 	public Entity getEntity(int id) {
 		return map.getEntity(id);
 	}
-	
+
 	private List<Point> selectTiles(int min, int max, Point s, boolean collision) {
 
 		List<Point> res = new ArrayList<Point>();
-		
+
 		Collection<Point> mem = new ArrayList<Point>();
-		
+
 		Triple start = new Triple(0, s.getX(), s.getY());
 		Queue<Triple> q = new LinkedList<Triple>();
 		q.add(start);
-//		mem.add(start);
-		
+		//		mem.add(start);
+
 		while (!q.isEmpty()) {
 			//System.out.println("loop");
 			Triple t = q.poll();
@@ -68,17 +68,18 @@ public class MapOperator {
 			if(mem.contains(p)) {
 				continue;
 			}
-			
+
 			mem.add(p);
 
-			if((collision && !map.pointFree(p) && t != start) || t.getMvn() > max) {
+			boolean collide = collision ? !map.pointFree(p) && t != start : false;
+			if(collide || t.getMvn() > max) {
 				continue;
 			}
-			
+
 			if(t.getMvn() >= min) {
 				res.add(p);
 			}
-			
+
 			Triple tl = new Triple(t.getMvn() + 1, t.getX() - 1, t.getY());
 			if (!q.contains(tl)) {
 				q.add(tl);
@@ -98,7 +99,7 @@ public class MapOperator {
 			if (!q.contains(td)) {
 				q.add(td);
 			}
-//			q.add(t);
+			//			q.add(t);
 		}
 		//System.out.println(q);
 
@@ -110,60 +111,68 @@ public class MapOperator {
 		MapPosition m = e.getComponent(MapPosition.class);
 		Weapon w = e.getComponent(Weapon.class);
 		List<Point> tiles = selectTiles(w.getMinRange(), w.getMaxRange(), m.getPoint(), false);
-		
+
 		Selection sel = new Selection();
-		
+
 		for(Point tile : tiles) {
 			sel.addTile(tile, SelectionType.ATTACK);
 		}
-		e.addComponent(sel);
 		e.changedInWorld();
 		selTiles = sel;
 	}
-	
+
+	private void setMoveTiles(Entity e) {
+
+		MapPosition m = e.getComponent(MapPosition.class);
+		Stats s = e.getComponent(Stats.class);
+
+		List<Point> tiles = selectTiles(0, s.getMovement(), m.getPoint(), true);
+
+		Selection sel = new Selection();
+
+		for(Point pos : tiles) {
+			sel.addTile(pos, SelectionType.MOVE);
+		}
+		e.changedInWorld();
+		selTiles = sel;
+
+	}
+
 	private void select(Entity e, String player) {
 
 		String owner = map.getPlayer(e);
-		
-		if(owner.equals(player)){
-			
-			selectedId = e.getId();
-			
-			MapPosition m = e.getComponent(MapPosition.class);
-			Stats s = e.getComponent(Stats.class);
-			
-			List<Point> tiles = selectTiles(0, s.getMovement(), m.getPoint(), true);
 
-			Selection sel = new Selection();
-			
-			for(Point pos : tiles) {
-				sel.addTile(pos, SelectionType.MOVE);
-			}
-			e.addComponent(sel);
-			e.changedInWorld();
-			selTiles = sel;
+		if(owner.equals(player)) {
+
+			selectedId = e.getId();
+
+			setMoveTiles(e);
 		}
-		else{
+		else {
 			System.out.println("That is not your unit!");
 		}
-		
+
 	}
-	
+
 	private void deselect() {
 		selectedId =  -1;
 		selTiles = null;
 	}
-	
+
 	public void onTouch(Point p, String player) {
-		
+
 		switch(state.getState()) {
 		case MapState.MOVED:
-			map.attack(selectedId, p);
-			deselect();
+			if(selTiles.getType(p) == SelectionType.ATTACK) {
+				map.attack(selectedId, p);
+				deselect();
+			}
 			break;
 		case MapState.SELECT:
-			map.move(selectedId, p);
-			setAttackTiles(getEntity(selectedId));
+			if(selTiles.getType(p) == SelectionType.MOVE) {
+				map.move(selectedId, p);
+				setAttackTiles(getEntity(selectedId));
+			}
 			break;
 		case MapState.NORMAL:
 			Entity e = getEntityAt(p);
@@ -172,13 +181,13 @@ public class MapOperator {
 			}
 			break;
 		}
-		
+
 		state.transition(1);
 	}
 
 	public Selection getSelection() {
-		
+
 		return selTiles;
 	}
-	
+
 }

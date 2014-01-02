@@ -16,20 +16,18 @@ import edu.virginia.cs.sgd.game.controller.Battle;
 import edu.virginia.cs.sgd.game.controller.DeathSystem;
 import edu.virginia.cs.sgd.game.model.components.HP;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
-import edu.virginia.cs.sgd.game.model.components.Selection;
 import edu.virginia.cs.sgd.game.model.components.Stats;
 import edu.virginia.cs.sgd.game.model.components.TextureName;
 import edu.virginia.cs.sgd.game.model.components.Weapon;
 import edu.virginia.cs.sgd.game.view.RenderSystem;
-import edu.virginia.cs.sgd.game.view.SelectionType;
 import edu.virginia.cs.sgd.util.Point;
 
 public class Map {
 
 	private World world;
-	
+
 	private TiledMap map;
-	
+
 	public Map(TiledMap map, RenderSystem renderer) {
 
 		this.map = map;
@@ -45,9 +43,9 @@ public class Map {
 		world.setSystem(renderer);
 		world.setManager(new PlayerManager());
 
-		add(1,3,"berserker", false);
-		add(1,5,"cleric", true);
-		add(3,4,"archer", true);
+		add(1, 3, "berserker", false);
+		add(1, 5, "cleric", true);
+		add(3, 4, "archer", true);
 
 	}
 
@@ -79,7 +77,7 @@ public class Map {
 
 		//		world.deleteSystem(damageSystem);
 	}
-	
+
 	public List<Point> getUnits(String player) {
 		PlayerManager man = world.getManager(PlayerManager.class);
 		ComponentMapper<MapPosition> mapper = world.getMapper(MapPosition.class);
@@ -91,10 +89,10 @@ public class Map {
 			MapPosition m = mapper.get(e);
 			res.add(m.getPoint());
 		}
-		
+
 		return res;
 	}
-	
+
 	public Entity getEntityAt(Point p) {
 		PositionManager pos = world.getManager(PositionManager.class);
 		int id = pos.getEntityAt(p);
@@ -105,58 +103,43 @@ public class Map {
 
 		return world.getEntity(id);
 	}
-	
+
 	public boolean pointFree(Point p) {
-	
+
 		boolean env = true;
 		boolean entity = getEntityAt(p) == null;
 
 		boolean xBounds = p.getX() > -1 && p.getX() < getMapWidth();
 		boolean yBounds = p.getY() > -1 && p.getY() < getMapHeight();
-		
+
 		boolean bounds = xBounds && yBounds;
-		
+
 		return env && entity && bounds;
 	}
-	
+
 	public void attack(int id, Point p) {
 		Entity e = world.getEntity(id);
-		
+
 		Entity def = getEntityAt(p);
 		if(def != null) {
-			Selection sel = e.getComponent(Selection.class);
-			if(sel.getType(p) == SelectionType.ATTACK) {
-				Battle.OneOnOneFight(e, def);
-			}
+			Battle.OneOnOneFight(e, def);
 		}
-		
-		e.removeComponent(Selection.class);
+
 		e.changedInWorld();
-		
+
 	}
-	
+
 	public void move(int id, Point p) {
 		Entity e = world.getEntity(id);
-		Selection sel = e.getComponent(Selection.class);
 
-		if(sel.getType(p) == SelectionType.MOVE) {
-
-			MapPosition m = e.getComponent(MapPosition.class);
-			m.setX(p.getX());
-			m.setY(p.getY());
-
-			e.changedInWorld();
-			
-		}
-		else {
-
-			e.removeComponent(Selection.class);
-			
-		}
+		MapPosition m = e.getComponent(MapPosition.class);
+		m.setX(p.getX());
+		m.setY(p.getY());
 
 		e.changedInWorld();
+
 	}
-	
+
 	public void add(int x, int y, String name, boolean enemy) {
 		Entity e = world.createEntity();
 		e.addComponent(new MapPosition(x,y));
@@ -165,19 +148,19 @@ public class Map {
 		e.addComponent(new Weapon());
 		e.addComponent(new TextureName(name));
 		e.addToWorld();
-		
+
 		PlayerManager teams = world.getManager(PlayerManager.class);
 		teams.setPlayer(e, enemy ? "Enemy" : "Human");
-		
+
 	}
 	public void remove(Entity e) {
 		PlayerManager teams = world.getManager(PlayerManager.class);
 		teams.removeFromPlayer(e);
 		world.deleteEntity(e);
 	}
-	
+
 	public void addSystem(EntitySystem sys) {
-		
+
 		world.setSystem(sys);
 	}
 
@@ -185,7 +168,7 @@ public class Map {
 		PlayerManager teams = world.getManager(PlayerManager.class);
 		return teams.getPlayer(e);
 	}
-	
+
 	public MapOperator getOperator() {
 		return new MapOperator(this);
 	}

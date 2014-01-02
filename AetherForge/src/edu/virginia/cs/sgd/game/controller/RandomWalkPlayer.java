@@ -2,7 +2,6 @@ package edu.virginia.cs.sgd.game.controller;
 
 import java.util.List;
 
-import com.artemis.Entity;
 import com.badlogic.gdx.math.MathUtils;
 
 import edu.virginia.cs.sgd.game.model.MapOperator;
@@ -24,10 +23,8 @@ public class RandomWalkPlayer extends Player {
 			Point p = units.get(i);
 
 			map.onTouch(p, name);
-			Entity e = map.getEntityAt(p);
-
-			Selection sel = e.getComponent(Selection.class);
-
+			
+			Selection sel = map.getSelection();
 			Point newP = null;
 			do {
 				List<Point> move = sel.getSelPos();

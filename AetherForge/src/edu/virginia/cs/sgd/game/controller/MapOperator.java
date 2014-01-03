@@ -1,4 +1,4 @@
-package edu.virginia.cs.sgd.game.model;
+package edu.virginia.cs.sgd.game.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,8 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import com.artemis.Entity;
-
+import edu.virginia.cs.sgd.game.model.Map;
+import edu.virginia.cs.sgd.game.model.MapState;
+import edu.virginia.cs.sgd.game.model.Selection;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.model.components.Stats;
 import edu.virginia.cs.sgd.game.model.components.Weapon;
@@ -39,12 +40,8 @@ public class MapOperator {
 		return map.getUnits(player);
 	}
 
-	public Entity getEntityAt(Point p) {
+	public int getEntityAt(Point p) {
 		return map.getEntityAt(p);
-	}
-
-	public Entity getEntity(int id) {
-		return map.getEntity(id);
 	}
 
 	private List<Point> selectTiles(int min, int max, Point s, boolean collision) {
@@ -105,10 +102,10 @@ public class MapOperator {
 		return res;
 	}
 
-	private void setAttackTiles(Entity e) {
+	private void setAttackTiles(int id) {
 
-		MapPosition m = e.getComponent(MapPosition.class);
-		Weapon w = e.getComponent(Weapon.class);
+		MapPosition m = map.getComponent(id, MapPosition.class);
+		Weapon w = map.getComponent(id, Weapon.class);
 		List<Point> tiles = selectTiles(w.getMinRange(), w.getMaxRange(), m.getPoint(), false);
 
 		Selection sel = new Selection();
@@ -116,14 +113,13 @@ public class MapOperator {
 		for(Point tile : tiles) {
 			sel.addTile(tile, SelectionType.ATTACK);
 		}
-		e.changedInWorld();
 		selTiles = sel;
 	}
 
-	private void setMoveTiles(Entity e) {
+	private void setMoveTiles(int id) {
 
-		MapPosition m = e.getComponent(MapPosition.class);
-		Stats s = e.getComponent(Stats.class);
+		MapPosition m = map.getComponent(id, MapPosition.class);
+		Stats s = map.getComponent(id, Stats.class);
 
 		List<Point> tiles = selectTiles(0, s.getMovement(), m.getPoint(), true);
 
@@ -132,20 +128,19 @@ public class MapOperator {
 		for(Point pos : tiles) {
 			sel.addTile(pos, SelectionType.MOVE);
 		}
-		e.changedInWorld();
 		selTiles = sel;
 
 	}
 
-	private void select(Entity e, String player) {
+	private void select(int id, String player) {
 
-		String owner = map.getPlayer(e);
+		String owner = map.getPlayer(id);
 
 		if(owner.equals(player)) {
 
-			selectedId = e.getId();
+			selectedId = id;
 
-			setMoveTiles(e);
+			setMoveTiles(id);
 		}
 		else {
 			System.out.println("That is not your unit!");
@@ -170,13 +165,13 @@ public class MapOperator {
 		case MapState.SELECT:
 			if(selTiles.getType(p) == SelectionType.MOVE) {
 				map.move(selectedId, p);
-				setAttackTiles(getEntity(selectedId));
+				setAttackTiles(selectedId);//(getEntity(selectedId));
 			}
 			break;
 		case MapState.NORMAL:
-			Entity e = getEntityAt(p);
-			if(e != null) {
-				select(e, player);
+			int id = getEntityAt(p);
+			if(id != -1) {
+				select(id, player);
 			}
 			break;
 		}

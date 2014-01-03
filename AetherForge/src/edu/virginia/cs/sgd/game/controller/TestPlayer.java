@@ -3,7 +3,6 @@ package edu.virginia.cs.sgd.game.controller;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import edu.virginia.cs.sgd.game.model.MapOperator;
 import edu.virginia.cs.sgd.util.Point;
 
 public class TestPlayer extends Player implements UserInput {

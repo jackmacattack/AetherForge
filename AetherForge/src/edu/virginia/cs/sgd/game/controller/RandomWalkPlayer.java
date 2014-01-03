@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.badlogic.gdx.math.MathUtils;
 
-import edu.virginia.cs.sgd.game.model.MapOperator;
 import edu.virginia.cs.sgd.game.model.Selection;
 import edu.virginia.cs.sgd.game.view.SelectionType;
 import edu.virginia.cs.sgd.util.Point;

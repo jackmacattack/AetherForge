@@ -1,6 +1,5 @@
 package edu.virginia.cs.sgd.game.controller;
 
-import edu.virginia.cs.sgd.game.model.MapOperator;
 
 
 public abstract class Player {

@@ -1,4 +1,4 @@
-package edu.virginia.cs.sgd.game.model;
+package edu.virginia.cs.sgd.game.model.managers;
 
 import com.artemis.Entity;
 import com.artemis.Manager;

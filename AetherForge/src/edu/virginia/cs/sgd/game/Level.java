@@ -3,11 +3,11 @@ package edu.virginia.cs.sgd.game;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import edu.virginia.cs.sgd.game.controller.Controller;
+import edu.virginia.cs.sgd.game.controller.MapOperator;
 import edu.virginia.cs.sgd.game.controller.Player;
 import edu.virginia.cs.sgd.game.controller.RandomWalkPlayer;
 import edu.virginia.cs.sgd.game.controller.TestPlayer;
 import edu.virginia.cs.sgd.game.model.Map;
-import edu.virginia.cs.sgd.game.model.MapOperator;
 import edu.virginia.cs.sgd.game.view.RenderSystem;
 import edu.virginia.cs.sgd.util.Point;
 

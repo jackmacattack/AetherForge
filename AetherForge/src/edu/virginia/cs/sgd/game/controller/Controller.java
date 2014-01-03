@@ -3,7 +3,6 @@ package edu.virginia.cs.sgd.game.controller;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import edu.virginia.cs.sgd.game.model.MapOperator;
 import edu.virginia.cs.sgd.util.Point;
 
 public class Controller {

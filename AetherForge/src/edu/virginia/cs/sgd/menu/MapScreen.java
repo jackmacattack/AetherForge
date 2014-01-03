@@ -68,7 +68,9 @@ public class MapScreen extends AbstractScreen {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 	    Gdx.gl.glEnable(GL20.GL_BLEND);
 	    
-		level.update();
+		if(level.update()) {
+			gameOver();
+		}
 
 		viewer.renderUI(level);
 	}

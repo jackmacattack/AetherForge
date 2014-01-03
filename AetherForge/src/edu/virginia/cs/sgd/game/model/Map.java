@@ -20,11 +20,10 @@ import edu.virginia.cs.sgd.game.model.managers.PositionManager;
 import edu.virginia.cs.sgd.game.view.RenderSystem;
 import edu.virginia.cs.sgd.util.Point;
 
-public class Map {
+public abstract class Map {
 
-	private World world;
-
-	private TiledMap map;
+	protected World world;
+	protected TiledMap map;
 
 	public Map(TiledMap map, RenderSystem renderer) {
 
@@ -162,5 +161,7 @@ public class Map {
 		return type.cast(e.getComponent(ComponentType.getTypeFor(type)));
 
 	}
+
+	public abstract int checkEnd();
 
 }

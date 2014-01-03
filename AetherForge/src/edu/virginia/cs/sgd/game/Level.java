@@ -7,6 +7,7 @@ import edu.virginia.cs.sgd.game.controller.InputPlayer;
 import edu.virginia.cs.sgd.game.controller.MapOperator;
 import edu.virginia.cs.sgd.game.controller.Player;
 import edu.virginia.cs.sgd.game.controller.RandomWalkPlayer;
+import edu.virginia.cs.sgd.game.model.KillAllMap;
 import edu.virginia.cs.sgd.game.model.Map;
 import edu.virginia.cs.sgd.game.view.RenderSystem;
 import edu.virginia.cs.sgd.util.Point;
@@ -20,18 +21,24 @@ public class Level {
 	
 	public Level(TiledMap tileMap, RenderSystem renderer) {
 		
-		map = new Map(tileMap, renderer);
+		String[] arr = {"Human", "Enemy"};
+		map = new KillAllMap(tileMap, renderer, arr);
 		
-		Player[] arr = {new InputPlayer("Human"), new RandomWalkPlayer("Enemy")};
-		c = new Controller(arr);
+		Player[] arr2 = {new InputPlayer("Human"), new RandomWalkPlayer("Enemy")};
+		c = new Controller(arr2);
 
 	}
 
+	private void startTurn() {
+
+		o = new MapOperator(map, c.getActivePlayer());
+		c.startTurn(o);
+		
+	}
+	
 	public void initialize() {
 		map.initialize();
-
-		o = new MapOperator(map, c.getActivePlayer().getName());
-		c.startTurn(o);
+		startTurn();
 	}
 	
 	public void onTouch(Point p) {
@@ -42,13 +49,19 @@ public class Level {
 		map.dispose();
 	}
 	
-	public void update() {
+	public boolean update() {
+		int end = map.checkEnd();
+		if(end != -1) {
+			return true;
+		}
+		
 		if(!c.checkTurn() || !o.checkTurn()) {
 			c.endTurn();
-			o = new MapOperator(map, c.getActivePlayer().getName());
-			c.startTurn(o);
+			startTurn();
 		}
 		map.update();
+		
+		return false;
 	}
 
 	public MapOperator getCurrentOperator() {

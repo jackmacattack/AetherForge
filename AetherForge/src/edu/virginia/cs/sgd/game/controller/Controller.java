@@ -19,14 +19,15 @@ public class Controller {
 
 	}
 	
-	public Player getActivePlayer() {
-		return players.peek();
+	public String getActivePlayer() {
+		Player active = players.peek();
+		return active.getName();
 	}
 	public void startTurn(MapOperator map) {
-		Player active = getActivePlayer();
+		Player active = players.peek();
 		active.processTurn(map);
 
-		System.out.println(getActivePlayer().getName());
+		System.out.println(active.getName());
 	}
 
 	public void endTurn() {
@@ -37,13 +38,13 @@ public class Controller {
 	}
 	
 	public boolean checkTurn() {
-		Player active = getActivePlayer();
+		Player active = players.peek();
 		
 		return active.takingTurn();
 	}
 
 	public void onTouch(Point p) {
-		Player active = getActivePlayer();
+		Player active = players.peek();
 		
 		if(active instanceof UserInput) {
 			((UserInput) active).onTouch(p);

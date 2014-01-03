@@ -21,14 +21,19 @@ public class MapOperator {
 
 	private Map map;
 
+	private List<Integer> activeUnits;
+	
 	private int selectedId;
 	private Selection selTiles;
 	private StateMachine state;
 
-	public MapOperator(Map map) {
+	public MapOperator(Map map, String player) {
 
 		this.map = map;
 
+		activeUnits = getUnits(player);
+		System.out.println(player + ": " + activeUnits);
+		
 		selectedId = -1;
 		selTiles = null;
 
@@ -36,8 +41,12 @@ public class MapOperator {
 		state = new StateMachine(arr, 0);
 	}
 
-	public List<Point> getUnits(String player) {
+	public List<Integer> getUnits(String player) {
 		return map.getUnits(player);
+	}
+	
+	public List<Point> getUnitComponents(String player) {
+		return map.getUnitComponents(player);
 	}
 
 	public int getEntityAt(Point p) {
@@ -132,19 +141,29 @@ public class MapOperator {
 
 	}
 
-	private void select(int id, String player) {
+	private boolean select(int id, String player) {
 
 		String owner = map.getPlayer(id);
 
 		if(owner.equals(player)) {
 
-			selectedId = id;
+			if(activeUnits.contains(id)) {
 
-			setMoveTiles(id);
+				selectedId = id;
+
+				setMoveTiles(id);
+				
+				return true;
+			}
+			else {
+				System.out.println("This unit has taken its turn!");
+			}
 		}
 		else {
 			System.out.println("That is not your unit!");
 		}
+		
+		return false;
 
 	}
 
@@ -155,33 +174,47 @@ public class MapOperator {
 
 	public void onTouch(Point p, String player) {
 
+		int event = 0;
+		
 		switch(state.getState()) {
 		case MapState.MOVED:
 			if(selTiles.getType(p) == SelectionType.ATTACK) {
-				map.attack(selectedId, p);
-				deselect();
+				int defId = getEntityAt(p);
+				if(defId != -1 && !map.getPlayer(defId).equals(player)) {
+					map.attack(selectedId, defId);
+				}
 			}
+			activeUnits.remove(new Integer(selectedId));
+			deselect();
+			event = 1;
 			break;
 		case MapState.SELECT:
 			if(selTiles.getType(p) == SelectionType.MOVE) {
 				map.move(selectedId, p);
-				setAttackTiles(selectedId);//(getEntity(selectedId));
+				setAttackTiles(selectedId);
+				event = 1;
 			}
 			break;
 		case MapState.NORMAL:
 			int id = getEntityAt(p);
 			if(id != -1) {
-				select(id, player);
+				if(select(id, player)) {
+					event = 1;
+				}
 			}
 			break;
 		}
 
-		state.transition(1);
+		state.transition(event);
 	}
 
 	public Selection getSelection() {
 
 		return selTiles;
+	}
+
+	public boolean checkTurn() {
+		return activeUnits.size() > 0;
 	}
 
 }

@@ -17,7 +17,7 @@ public class RandomWalkPlayer extends Player {
 	@Override
 	protected void takeTurn(MapOperator map) {
 
-		List<Point> units = map.getUnits(name);
+		List<Point> units = map.getUnitComponents(name);
 		for(int i = 0; i < units.size(); i++) {
 			Point p = units.get(i);
 

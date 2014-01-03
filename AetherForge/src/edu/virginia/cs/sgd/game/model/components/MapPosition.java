@@ -16,6 +16,10 @@ public class MapPosition extends Component {
 		this.y = y;
 	}
 	
+	public MapPosition(Point p) {
+		this(p.getX(), p.getY());
+	}
+
 	public int getOldX(){
 		return oldX;
 	}

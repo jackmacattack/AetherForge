@@ -3,10 +3,10 @@ package edu.virginia.cs.sgd.game;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import edu.virginia.cs.sgd.game.controller.Controller;
+import edu.virginia.cs.sgd.game.controller.InputPlayer;
 import edu.virginia.cs.sgd.game.controller.MapOperator;
 import edu.virginia.cs.sgd.game.controller.Player;
 import edu.virginia.cs.sgd.game.controller.RandomWalkPlayer;
-import edu.virginia.cs.sgd.game.controller.TestPlayer;
 import edu.virginia.cs.sgd.game.model.Map;
 import edu.virginia.cs.sgd.game.view.RenderSystem;
 import edu.virginia.cs.sgd.util.Point;
@@ -22,7 +22,7 @@ public class Level {
 		
 		map = new Map(tileMap, renderer);
 		
-		Player[] arr = {new TestPlayer("Human"), new RandomWalkPlayer("Enemy")};
+		Player[] arr = {new InputPlayer("Human"), new RandomWalkPlayer("Enemy")};
 		c = new Controller(arr);
 
 	}
@@ -30,7 +30,7 @@ public class Level {
 	public void initialize() {
 		map.initialize();
 
-		o = map.getOperator();
+		o = new MapOperator(map, c.getActivePlayer().getName());
 		c.startTurn(o);
 	}
 	
@@ -43,9 +43,9 @@ public class Level {
 	}
 	
 	public void update() {
-		if(!c.checkTurn()) {
+		if(!c.checkTurn() || !o.checkTurn()) {
 			c.endTurn();
-			o = map.getOperator();
+			o = new MapOperator(map, c.getActivePlayer().getName());
 			c.startTurn(o);
 		}
 		map.update();

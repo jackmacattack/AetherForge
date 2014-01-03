@@ -7,15 +7,6 @@ public class Stats extends HP {
 	private int health, mana, meleeAtk, rangeAtk, defense, resistance, accuracy, agility, movement;
 	private ArrayList<String> skills;
 	public int experience, next, level, carrying_capacity;
-	public boolean hasTakenTurn = false;
-	
-	public boolean isHasTakenTurn() {
-		return hasTakenTurn;
-	}
-
-	public void setHasTakenTurn(boolean hasTakenTurn) {
-		this.hasTakenTurn = hasTakenTurn;
-	}
 
 	public Stats()
 	{

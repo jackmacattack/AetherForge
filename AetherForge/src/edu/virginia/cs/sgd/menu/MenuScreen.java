@@ -1,48 +1,40 @@
 package edu.virginia.cs.sgd.menu;
 
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import edu.virginia.cs.sgd.Entry;
-
 
 
 public class MenuScreen extends AbstractScreen {
-	private Menu menu;
 
-	public MenuScreen(Menu m) {
+	private Table table;
+	
+	public MenuScreen() {
 		super();
-		menu = m;
 	}
 	
 	@Override
 	public void show() {
 		super.show();
 		
-		
-		
-		// retrieve the default table actor aa
-        Table table = super.getTable();
+        table = new Table(skin);
+
+		table.setFillParent(true);
+		stage.addActor(table);
+        
         table.add( "Welcome to AetherForge" ).spaceBottom( 50 );
         table.row();
         
         //start game
-        TextButton startGameButton = new TextButton( "Start game", getSkin() );
+        TextButton startGameButton = new TextButton( "Start game", skin);
         startGameButton.addListener( new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button)
             {
-            	Entry.getManager().load("data/AF Battle Theme.mp3", Music.class);
-        		Entry.getManager().finishLoading();
-        		menu.getMusic().stop();
-        		Music theme = Entry.getManager().get("data/AF Battle Theme.mp3", Music.class);	
-        		menu.setMusic(theme);
-        		menu.getMusic().play();
-        		menu.getMusic().setLooping(true);
-            	menu.setScreen( menu.getMapscreen() );
+            	changeScreen(MapScreen.class);
             }
         } );
         
@@ -50,15 +42,16 @@ public class MenuScreen extends AbstractScreen {
         table.row();
 
         // register the button "options"
-        TextButton creditsButton = new TextButton( "Credits", getSkin() );
+        TextButton creditsButton = new TextButton( "Credits", skin);
 
         creditsButton.addListener( new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button)
             {
-            	menu.setScreen( menu.getCreditsscreen() );
+            	changeScreen(CreditsScreen.class);
             }
         } );
+        
         table.add( creditsButton ).uniform().fill().spaceBottom( 10 );
         table.row();
 	}

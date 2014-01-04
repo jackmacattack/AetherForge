@@ -3,98 +3,43 @@ package edu.virginia.cs.sgd.menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import edu.virginia.cs.sgd.Entry;
 import edu.virginia.cs.sgd.input.InputListener;
+import edu.virginia.cs.sgd.util.SingletonAssetManager;
 
 /**
  * The base class for all game screens.
  */
 public abstract class AbstractScreen implements Screen, InputListener {
-	public static final int GAME_VIEWPORT_WIDTH = 400,
-			GAME_VIEWPORT_HEIGHT = 240;
-	public static final int MENU_VIEWPORT_WIDTH = 800,
-			MENU_VIEWPORT_HEIGHT = 480;
+	public static final int VIEWPORT_WIDTH = 800,
+			VIEWPORT_HEIGHT = 480;
 
 
 	protected final Stage stage;
-	
-	private BitmapFont font;
-	protected SpriteBatch batch;
-	private Skin skin;
-	private TextureAtlas atlas;
-	private Table table;
+	protected Skin skin;
 
+	private Class<? extends AbstractScreen> newScreen;
+	
 	public AbstractScreen() {
-		int width = (isGameScreen() ? GAME_VIEWPORT_WIDTH : MENU_VIEWPORT_WIDTH);
-		int height = (isGameScreen() ? GAME_VIEWPORT_HEIGHT
-				: MENU_VIEWPORT_HEIGHT);
+		int width = VIEWPORT_WIDTH;
+		int height = VIEWPORT_HEIGHT;
 		this.stage = new Stage(width, height, true);
+
 	}
 
 	protected String getName() {
 		return getClass().getName();
 	}
 
-	protected boolean isGameScreen() {
-		return false;
-	}
-
-	// Lazily loaded collaborators
-
-	public BitmapFont getFont() {
-		if (font == null) {
-			font = new BitmapFont();
-		}
-		return font;
-	}
-
-	public SpriteBatch getBatch() {
-		if (batch == null) {
-			batch = new SpriteBatch();
-		}
-		return batch;
-	}
-
-	public TextureAtlas getAtlas() {
-		if (atlas == null) {
-			atlas = new TextureAtlas(Gdx.files.internal("data/uiskin.atlas"));
-		}
-		return atlas;
-	}
-
-	protected Skin getSkin() {
-		if (skin == null) {
-			Entry.getManager().load("data/uiskin.json", Skin.class);
-			Entry.getManager().finishLoading();
-            skin = Entry.getManager().get("data/uiskin.json");
-		}
-		return skin;
-	}
-
-	protected Table getTable() {
-		if (table == null) {
-			table = new Table(getSkin());
-			table.setFillParent(true);
-			stage.addActor(table);
-		}
-		return table;
-	}
-
-	// Screen implementation
-
 	@Override
 	public void show() {
 		Gdx.app.log(Entry.LOG, "Showing screen: " + getName());
 
-		// set the stage as the input processor
-		//Gdx.input.setInputProcessor(stage);
+        skin = SingletonAssetManager.getInstance().get("data/uiskin.json");
 	}
 
 	@Override
@@ -148,23 +93,16 @@ public abstract class AbstractScreen implements Screen, InputListener {
 	@Override
 	public void dispose() {
 		Gdx.app.log(Entry.LOG, "Disposing screen: " + getName());
-
-		// the following call disposes the screen's stage, but on my computer it
-		// crashes the game so I commented it out; more info can be found at:
-		// http://www.badlogicgames.com/forum/viewtopic.php?f=11&t=3624
-		// stage.dispose();
-
-		// as the collaborators are lazily loaded, they may be null
-		if (font != null)
-			font.dispose();
-		if (batch != null)
-			batch.dispose();
-		if (skin != null)
-			skin.dispose();
-		if (atlas != null)
-			atlas.dispose();
 	}
 
+	public void changeScreen(Class<? extends AbstractScreen> newScreen) {
+		this.newScreen = newScreen;
+	}
+	
+	public Class<? extends AbstractScreen> checkScreenChange() {
+		return newScreen;
+	}
+	
 	@Override
 	public void keyDown(int keyCode) {
 

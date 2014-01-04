@@ -6,8 +6,6 @@ import java.util.Map;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import edu.virginia.cs.sgd.Entry;
-
 public class TextureRegionManager {
 
 	private Map<String, TextureRegion> map;
@@ -16,21 +14,23 @@ public class TextureRegionManager {
 		
 		map = new HashMap<String, TextureRegion>();
 		
-		TextureRegion tre = new TextureRegion(Entry.getManager().get(sheetName, Texture.class));
-		TextureRegion[][] tr = tre.split(width, height);
+		Texture tex = SingletonAssetManager.getInstance().get(sheetName, Texture.class);
+		TextureRegion texRe = new TextureRegion(tex);
 		
-		if(tr.length == 0 || names.length != tr.length * tr[0].length) {
+		TextureRegion[][] texArr = texRe.split(width, height);
+		
+		if(texArr.length == 0 || names.length != texArr.length * texArr[0].length) {
 			throw new IllegalArgumentException("Number of names does not match number of regions.");
 		}
 		
-		for(int i = 0; i < tr.length; i++) {
-			TextureRegion[] row = tr[i];
+		for(int i = 0; i < texArr.length; i++) {
+			TextureRegion[] row = texArr[i];
 			
 			for(int j = 0; j < row.length; j++) {
-				TextureRegion tex = row[j];
-				String name = names[i * tr.length + j];
+				TextureRegion t = row[j];
+				String name = names[i * texArr.length + j];
 				
-				map.put(name, tex);
+				map.put(name, t);
 			}
 		}
 	}

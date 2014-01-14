@@ -29,7 +29,7 @@ public class SplashScreen extends AbstractScreen {
 		super.show();
 
 		// load the splash image and create the texture region
-		Texture splashTexture = SingletonAssetManager.getInstance().get("data/logo.png", Texture.class);
+		Texture splashTexture = SingletonAssetManager.getInstance().get("Logo");
 		TextureRegion tr = new TextureRegion(splashTexture);
 		Drawable splashDrawable = new TextureRegionDrawable(tr);
 

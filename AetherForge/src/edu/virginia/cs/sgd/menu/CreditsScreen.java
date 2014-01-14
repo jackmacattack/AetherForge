@@ -25,7 +25,7 @@ public class CreditsScreen extends AbstractScreen {
 		SingletonAssetManager.getInstance().finishLoading();
 
 		// load the splash image and create the texture region
-		Texture splashTexture = SingletonAssetManager.getInstance().get("data/Credits.png", Texture.class);
+		Texture splashTexture = SingletonAssetManager.getInstance().get("Credits");
 		TextureRegion tr = new TextureRegion(splashTexture);
 		Drawable splashDrawable = new TextureRegionDrawable(tr);
 

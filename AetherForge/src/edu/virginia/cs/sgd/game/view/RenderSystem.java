@@ -41,7 +41,7 @@ public class RenderSystem extends EntityProcessingSystem {
 		this.renderer = new OrthogonalTiledMapRenderer(map, scale);	
 
 		String[] names = {"swordsman", "spearman", "gunner", "cleric", "archer", "berserker", "sorc", "sample"};
-		texManager = new TextureRegionManager("data/charactersheet.png", width, height, names);
+		texManager = new TextureRegionManager("Characters", width, height, names);
 //		texManager.addRegion("swordsman", texManager.getTr()[0][0]);
 //		texManager.addRegion("spearman", texManager.getTr()[0][1]);
 //		texManager.addRegion("gunner", texManager.getTr()[0][2]);

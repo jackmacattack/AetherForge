@@ -1,16 +1,25 @@
 package edu.virginia.cs.sgd.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
-public class SingletonAssetManager extends AssetManager {
+public class SingletonAssetManager {
 
+	private Map<String, String> map;
+	private AssetManager manager;
+	
 	private SingletonAssetManager() {
 		super();
 
-		setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+		map = new HashMap<String, String>();
+		manager = new AssetManager();
+		
+		manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 	}
 	
 	private static SingletonAssetManager instance;
@@ -20,5 +29,19 @@ public class SingletonAssetManager extends AssetManager {
 		}
 		
 		return instance;
+	}
+	
+	public void load(String name, String fileName, Class<?> type) {
+		manager.load(fileName, type);
+		map.put(name, fileName);
+	}
+	
+	public <T> T get(String name) {
+		String fileName = map.get(name);
+		return manager.get(fileName);
+	}
+	
+	public void finishLoading() {
+		manager.finishLoading();
 	}
 }

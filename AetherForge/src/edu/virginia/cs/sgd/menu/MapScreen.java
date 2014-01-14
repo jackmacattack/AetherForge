@@ -26,7 +26,7 @@ public class MapScreen extends AbstractScreen {
 		
 		SingletonAssetManager.getInstance().finishLoading();
 
-		TiledMap map = SingletonAssetManager.getInstance().get("data/map1.tmx", TiledMap.class);
+		TiledMap map = SingletonAssetManager.getInstance().get("Map 1");
 
 		MapProperties prop = map.getProperties();
 		int mapWidth = prop.get("tilewidth", Integer.class);

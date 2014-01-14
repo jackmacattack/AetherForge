@@ -14,7 +14,7 @@ public class TextureRegionManager {
 		
 		map = new HashMap<String, TextureRegion>();
 		
-		Texture tex = SingletonAssetManager.getInstance().get(sheetName, Texture.class);
+		Texture tex = SingletonAssetManager.getInstance().get(sheetName);
 		TextureRegion texRe = new TextureRegion(tex);
 		
 		TextureRegion[][] texArr = texRe.split(width, height);

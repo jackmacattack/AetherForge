@@ -84,18 +84,18 @@ public class Entry extends Game implements ApplicationListener {
 	private void loadImmediateAssets() {
 
 		SingletonAssetManager m = SingletonAssetManager.getInstance();
-		m.load("UISkin", "data/uiskin.json", Skin.class);
-		m.load("Logo", "data/logo.png", Texture.class);
-		m.load("Main Theme", "data/GOS+Main+Theme.mp3", Music.class);
+		m.load("UISkin", "skins/uiskin.json", Skin.class);
+		m.load("Logo", "screens/logo.png", Texture.class);
+		m.load("Main Theme", "music/Main Theme.mp3", Music.class);
 		m.finishLoading();
 	}
 	
 	private void loadAssets() {
 		SingletonAssetManager m = SingletonAssetManager.getInstance();
-		m.load("Characters", "data/charactersheet.png", Texture.class);
-		m.load("Credits", "data/Credits.png", Texture.class);
-		m.load("Map 1", "data/map1.tmx", TiledMap.class);
-		m.load("Battle Theme", "data/AF Battle Theme.mp3", Music.class);
+		m.load("Characters", "sprites/charactersheet.png", Texture.class);
+		m.load("Credits", "screens/Credits.png", Texture.class);
+		m.load("Map 1", "maps/map1.tmx", TiledMap.class);
+		m.load("Battle Theme", "music/Battle Theme.mp3", Music.class);
 		
 	}
 }

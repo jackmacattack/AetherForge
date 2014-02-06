@@ -1,7 +1,5 @@
 package edu.virginia.cs.sgd.game.controller;
 
-
-
 public abstract class Player {
 	
 	private Thread t;

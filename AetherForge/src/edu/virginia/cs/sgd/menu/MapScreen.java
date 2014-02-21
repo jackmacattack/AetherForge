@@ -21,8 +21,10 @@ public class MapScreen extends AbstractScreen {
 	private Viewer viewer;
 	private Level level;
 	
+	//Setup map screen
 	public MapScreen() {
 		super();
+		
 		
 		SingletonAssetManager.getInstance().finishLoading();
 

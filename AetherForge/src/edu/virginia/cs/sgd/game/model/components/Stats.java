@@ -4,22 +4,22 @@ import java.util.ArrayList;
 import com.badlogic.gdx.math.MathUtils;
 public class Stats extends HP {
 
-	private int health, mana, meleeAtk, rangeAtk, defense, resistance, accuracy, agility, movement;
-	private ArrayList<String> skills;
+	private int health, meleeAtk, defense, accuracy, agility, movement;
+	//private ArrayList<String> skills;
 	public int experience, next, level, carrying_capacity;
 
 	public Stats()
 	{
 		health = MathUtils.random(10,20);
-		mana = MathUtils.random(10,20);
+//		mana = MathUtils.random(10,20);
 		meleeAtk = MathUtils.random(10,20);
-		rangeAtk = MathUtils.random(10,20);
+//		rangeAtk = MathUtils.random(10,20);
 		defense = MathUtils.random(10,20);
-		resistance = MathUtils.random(10,20);
+//		resistance = MathUtils.random(10,20);
 		accuracy = MathUtils.random(10,20);
 		agility = MathUtils.random(10,20);
 		movement = 5;
-		skills = null;
+		//skills = null;
 		
 		experience = 0;
 		next = 40;
@@ -35,13 +35,13 @@ public class Stats extends HP {
 		this.health = health;
 	}
 
-	public int getMana() {
-		return mana;
-	}
-
-	public void setMana(int mana) {
-		this.mana = mana;
-	}
+//	public int getMana() {
+//		return mana;
+//	}
+//
+//	public void setMana(int mana) {
+//		this.mana = mana;
+//	}
 
 	public int getMeleeAtk() {
 		return meleeAtk;
@@ -51,13 +51,13 @@ public class Stats extends HP {
 		this.meleeAtk = meleeAtk;
 	}
 
-	public int getRangeAtk() {
-		return rangeAtk;
-	}
-
-	public void setRangeAtk(int rangeAtk) {
-		this.rangeAtk = rangeAtk;
-	}
+//	public int getRangeAtk() {
+//		return rangeAtk;
+//	}
+//
+//	public void setRangeAtk(int rangeAtk) {
+//		this.rangeAtk = rangeAtk;
+//	}
 
 	public int getDefense() {
 		return defense;
@@ -67,13 +67,13 @@ public class Stats extends HP {
 		this.defense = defense;
 	}
 
-	public int getResistance() {
-		return resistance;
-	}
-
-	public void setResistance(int resistance) {
-		this.resistance = resistance;
-	}
+//	public int getResistance() {
+//		return resistance;
+//	}
+//
+//	public void setResistance(int resistance) {
+//		this.resistance = resistance;
+//	}
 
 	public int getAccuracy() {
 		return accuracy;
@@ -99,13 +99,13 @@ public class Stats extends HP {
 		this.movement = movement;
 	}
 
-	public ArrayList<String> getSkills() {
-		return skills;
-	}
-
-	public void setSkills(ArrayList<String> skills) {
-		this.skills = skills;
-	}
+//	public ArrayList<String> getSkills() {
+//		return skills;
+//	}
+//
+//	public void setSkills(ArrayList<String> skills) {
+//		this.skills = skills;
+//	}
 
 	public int getExperience() {
 		return experience;

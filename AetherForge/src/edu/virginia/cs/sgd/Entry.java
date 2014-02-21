@@ -23,7 +23,7 @@ public class Entry extends Game implements ApplicationListener {
 	public Entry() {
 		
 	}
-	
+	//Create and setup the game
 	@Override
 	public void create() {
 		input = new Input();
@@ -39,7 +39,7 @@ public class Entry extends Game implements ApplicationListener {
 	public void dispose() {
 		super.dispose();
 	}
-
+	
 	@Override
 	public void render() {
 		Class<? extends AbstractScreen> newScreen = screen.checkScreenChange();
@@ -65,6 +65,7 @@ public class Entry extends Game implements ApplicationListener {
 		super.resume();
 	}
 	
+	//create and set the screen to the current screen
 	private void createScreen(Class<? extends AbstractScreen> type) {
 		screen = null;
 		try {
@@ -81,6 +82,9 @@ public class Entry extends Game implements ApplicationListener {
 		setScreen(screen);
 	}
 	
+	
+	//Load assets from the android folder
+	//If you're having issues, you need to change the path to the assets directory
 	private void loadImmediateAssets() {
 
 		SingletonAssetManager m = SingletonAssetManager.getInstance();

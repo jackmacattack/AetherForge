@@ -24,25 +24,25 @@ public class EntityType {
 		
 		// set the variable attributes
 		entityStat.setHealth(choose(health));
-		entityStat.setMana(choose(mana));
+//		entityStat.setMana(choose(mana));
 		entityStat.setMeleeAtk(choose(meleeAtk));
-		entityStat.setRangeAtk(choose(rangeAtk));
+//		entityStat.setRangeAtk(choose(rangeAtk));
 		entityStat.setDefense(choose(defense));
-		entityStat.setResistance(choose(resistance));
-		entityStat.setAccuracy(choose(accuracy));
-		entityStat.setAgility(choose(agility));
+//		entityStat.setResistance(choose(resistance));
+//		entityStat.setAccuracy(choose(accuracy));
+//		entityStat.setAgility(choose(agility));
 		
-		// determine all the skills that should be available to the entity
-		for(String i : skillTree.keySet()){
-			ArrayList<String> skillList = null;
-			if(skillTree.get(i)<=level){
-				// add the skill to the entity's Skill array
-				skillList.add(i);
-			}
-			// Set the entity's skill
-			entityStat.setSkills(skillList);
-		}
-		
+		// determine all the skills that should be available to the entity (Not Implemented)
+//		for(String i : skillTree.keySet()){
+//			ArrayList<String> skillList = null;
+//			if(skillTree.get(i)<=level){
+//				// add the skill to the entity's Skill array
+//				skillList.add(i);
+//			}
+//			// Set the entity's skill
+//			entityStat.setSkills(skillList);
+//		}
+//		
 		return entityStat;
 	}
 	

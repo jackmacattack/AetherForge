@@ -7,6 +7,7 @@ import edu.virginia.cs.sgd.game.controller.InputPlayer;
 import edu.virginia.cs.sgd.game.controller.MapOperator;
 import edu.virginia.cs.sgd.game.controller.Player;
 import edu.virginia.cs.sgd.game.controller.RandomWalkPlayer;
+import edu.virginia.cs.sgd.game.controller.TestPlayer;
 import edu.virginia.cs.sgd.game.model.KillAllMap;
 import edu.virginia.cs.sgd.game.model.Map;
 import edu.virginia.cs.sgd.game.view.RenderSystem;
@@ -24,7 +25,7 @@ public class Level {
 		String[] arr = {"Human", "Enemy"};
 		map = new KillAllMap(tileMap, renderer, arr);
 		
-		Player[] arr2 = {new InputPlayer("Human"), new RandomWalkPlayer("Enemy")};
+		Player[] arr2 = {new InputPlayer("Human"), new TestPlayer("Enemy")};
 		c = new Controller(arr2);
 
 	}

@@ -10,6 +10,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.PlayerManager;
 import com.artemis.utils.ImmutableBag;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
@@ -113,6 +114,12 @@ public abstract class Map {
 
 		boolean env = true;
 		boolean entity = getEntityAt(p) == -1;
+		
+		boolean notBlocked = true;
+		
+		MapObjects blockObjects = map.getLayers().get("block").getObjects();
+		for (MapObject o: blockObjects)
+			
 
 		boolean xBounds = p.getX() > -1 && p.getX() < getMapWidth();
 		boolean yBounds = p.getY() > -1 && p.getY() < getMapHeight();

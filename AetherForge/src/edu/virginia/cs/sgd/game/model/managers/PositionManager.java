@@ -65,7 +65,7 @@ public class PositionManager extends Manager {
 		int x = p.getX();
 		int y = p.getY();
 		
-		if(x < 0 || y < 0) {
+		if(x < 0 || y < 0 || x >= entityMap.length || y >= entityMap[0].length) {
 			return -1;
 		}
 		return entityMap[x][y];

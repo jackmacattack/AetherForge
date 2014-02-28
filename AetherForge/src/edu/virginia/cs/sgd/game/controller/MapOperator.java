@@ -65,7 +65,6 @@ public class MapOperator {
 		//		mem.add(start);
 
 		while (!q.isEmpty()) {
-			//System.out.println("loop");
 			Triple t = q.poll();
 
 			Point p = new Point(t.getX(), t.getY());
@@ -76,7 +75,15 @@ public class MapOperator {
 
 			mem.add(p);
 
-			boolean collide = collision ? !map.pointFree(p) && t != start : false;
+			boolean collide = false;
+			if (collision) {
+				if (!map.pointFree(p)) {
+					if (t != start)
+						collide = true;
+				}
+			}
+			
+			//boolean collide = collision ? !map.pointFree(p) && t != start : false;
 			if(collide || t.getMvn() > max) {
 				continue;
 			}

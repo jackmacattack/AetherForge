@@ -10,8 +10,10 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.PlayerManager;
 import com.artemis.utils.ImmutableBag;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import edu.virginia.cs.sgd.game.controller.Battle;
 import edu.virginia.cs.sgd.game.controller.DeathSystem;
@@ -113,13 +115,24 @@ public abstract class Map {
 
 		boolean env = true;
 		boolean entity = getEntityAt(p) == -1;
-
+				
+		MapLayer blockLayer = map.getLayers().get("block");
+		
+		boolean notBlocked = true;
+		
+		TiledMapTileLayer.Cell blockCheck = ((TiledMapTileLayer) blockLayer).getCell(p.getX(), p.getY());
+		
+		if (blockCheck != null) {
+			System.out.println("block: (" + p.getX() + ", " + p.getY() + ")");
+			notBlocked = false;
+		}
+		
 		boolean xBounds = p.getX() > -1 && p.getX() < getMapWidth();
 		boolean yBounds = p.getY() > -1 && p.getY() < getMapHeight();
 
 		boolean bounds = xBounds && yBounds;
 
-		return env && entity && bounds;
+		return env && entity && bounds && notBlocked;
 	}
 
 	public void attack(int id, int defId) {

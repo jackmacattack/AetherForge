@@ -49,7 +49,7 @@ public class MapPosition extends Component {
 	}
 	
 	public String toString(){
-	return "("+x+", "+y+")";
+		return "("+x+", "+y+")";
 	}
 	
 	public static int calculateDistance(MapPosition a, MapPosition b) {

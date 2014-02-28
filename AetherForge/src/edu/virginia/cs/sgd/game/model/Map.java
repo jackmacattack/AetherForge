@@ -26,6 +26,7 @@ public abstract class Map {
 
 	protected World world;
 	protected TiledMap map;
+	protected MapLayer blockLayer = null;
 
 	public Map(TiledMap map, RenderSystem renderer) {
 
@@ -46,6 +47,7 @@ public abstract class Map {
 		addEntity(new Point(1, 5), "cleric", "Enemy");
 		addEntity(new Point(3, 4), "archer", "Enemy");
 
+		blockLayer = this.map.getLayers().get("block");
 	}
 
 	public void initialize() {
@@ -111,22 +113,22 @@ public abstract class Map {
 		return id;
 	}
 
-	public boolean pointFree(Point p) {
+	public boolean pointFree(Point p, boolean collideWithEntities) {
 
 		boolean env = true;
-		boolean entity = getEntityAt(p) == -1;
+		boolean entity = (getEntityAt(p) == -1);
+		if (collideWithEntities == false)
+			entity = true;
 				
-		MapLayer blockLayer = map.getLayers().get("block");
-		
 		boolean notBlocked = true;
+		if (blockLayer != null) {
+			TiledMapTileLayer.Cell blockCheck = ((TiledMapTileLayer) blockLayer).getCell(p.getX(), p.getY());
 		
-		TiledMapTileLayer.Cell blockCheck = ((TiledMapTileLayer) blockLayer).getCell(p.getX(), p.getY());
-		
-		if (blockCheck != null) {
-			System.out.println("block: (" + p.getX() + ", " + p.getY() + ")");
-			notBlocked = false;
+			if (blockCheck != null) {
+				System.out.println("block: (" + p.getX() + ", " + p.getY() + ")");
+				notBlocked = false;
+			}
 		}
-		
 		boolean xBounds = p.getX() > -1 && p.getX() < getMapWidth();
 		boolean yBounds = p.getY() > -1 && p.getY() < getMapHeight();
 
@@ -157,7 +159,7 @@ public abstract class Map {
 	}
 
 	public void addEntity(Point p, String name, String player) {
-		if(pointFree(p)) {
+		if(pointFree(p, true)) {
 			EntityFactory.createCharacter(world, p, name, player);
 		}
 	}

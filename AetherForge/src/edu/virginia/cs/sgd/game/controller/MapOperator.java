@@ -76,11 +76,9 @@ public class MapOperator {
 			mem.add(p);
 
 			boolean collide = false;
-			if (collision) {
-				if (!map.pointFree(p)) {
-					if (t != start)
-						collide = true;
-				}
+			if (!map.pointFree(p, collision)) {
+				if (t != start)
+					collide = true;
 			}
 			
 			//boolean collide = collision ? !map.pointFree(p) && t != start : false;

@@ -12,7 +12,7 @@ public class EntityType {
 	private int[] health, mana, meleeAtk, rangeAtk, defense, resistance, accuracy, agility;
 	private int movement;
 	private TreeMap<String, Integer> skillTree;
-	private String sprite;
+	//private String sprite;
 	
 	public Stats createEntity(int level){
 		
@@ -34,7 +34,8 @@ public class EntityType {
 		
 		// determine all the skills that should be available to the entity
 		for(String i : skillTree.keySet()){
-			ArrayList<String> skillList = null;
+			//ArrayList<String> skillList = null;
+			ArrayList<String> skillList = new ArrayList<String>();
 			if(skillTree.get(i)<=level){
 				// add the skill to the entity's Skill array
 				skillList.add(i);

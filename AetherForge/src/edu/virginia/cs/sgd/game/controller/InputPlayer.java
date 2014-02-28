@@ -31,7 +31,7 @@ public class InputPlayer extends Player implements UserInput {
 			Point p = q.poll();
 			
 			if(p != null) {
-//				System.out.println(p);
+				System.out.println(p);
 				map.onTouch(p, name);
 			}
 			

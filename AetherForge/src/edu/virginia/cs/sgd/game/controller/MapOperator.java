@@ -65,7 +65,6 @@ public class MapOperator {
 		//		mem.add(start);
 
 		while (!q.isEmpty()) {
-			//System.out.println("loop");
 			Triple t = q.poll();
 
 			Point p = new Point(t.getX(), t.getY());

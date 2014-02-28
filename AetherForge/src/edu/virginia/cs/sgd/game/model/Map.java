@@ -118,8 +118,15 @@ public abstract class Map {
 				
 		MapLayer blockLayer = map.getLayers().get("block");
 		
-		boolean notBlocked = ( ((TiledMapTileLayer) blockLayer).getCell(p.getX(), p.getY()) == null);
-				
+		boolean notBlocked = true;
+		
+		TiledMapTileLayer.Cell blockCheck = ((TiledMapTileLayer) blockLayer).getCell(p.getX(), p.getY());
+		
+		if (blockCheck != null) {
+			System.out.println("block: (" + p.getX() + ", " + p.getY() + ")");
+			notBlocked = false;
+		}
+		
 		boolean xBounds = p.getX() > -1 && p.getX() < getMapWidth();
 		boolean yBounds = p.getY() > -1 && p.getY() < getMapHeight();
 

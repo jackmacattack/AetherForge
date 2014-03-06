@@ -195,6 +195,7 @@ public class MapOperator {
 			break;
 		case MapState.SELECT:
 			if(selTiles.getType(p) == SelectionType.MOVE) {
+				selTiles = null;
 				map.move(selectedId, p);
 				setAttackTiles(selectedId);
 				event = 1;

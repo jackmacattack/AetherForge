@@ -1,7 +1,6 @@
 package edu.virginia.cs.sgd.game.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 
 import com.artemis.Aspect;
@@ -15,7 +14,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.menu.MapScreen;
-import edu.virginia.cs.sgd.util.PathfindingPoint;
 import edu.virginia.cs.sgd.util.Point;
 import edu.virginia.cs.sgd.util.Triple;
 

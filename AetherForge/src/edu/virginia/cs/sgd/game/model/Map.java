@@ -127,7 +127,6 @@ public abstract class Map {
 			TiledMapTileLayer.Cell blockCheck = ((TiledMapTileLayer) blockLayer).getCell(p.getX(), p.getY());
 		
 			if (blockCheck != null) {
-				System.out.println("block: (" + p.getX() + ", " + p.getY() + ")");
 				notBlocked = false;
 			}
 		}
@@ -157,6 +156,11 @@ public abstract class Map {
 		//m.setY(p.getY());
 		
 		ArrayList<Point> path = createPathAStar(new Point(m.getX(), m.getY()), p);
+		if (path == null) {
+			// Apparently there is no way to get to the point we have selected
+			return;
+		}
+		
 		
 		for (Point tp: path) {
 			m.setX(tp.getX());
@@ -200,8 +204,10 @@ public abstract class Map {
 	
 	public ArrayList<Point> createPathAStar(Point s, Point g) {
 		
-		int maxWidth = map.getProperties().get("width", Integer.class);
-		int maxHeight = map.getProperties().get("height", Integer.class);
+		int maxWidth = getMapWidth();
+		int maxHeight = getMapHeight();
+		
+		System.out.println("(" + s.getX() + ", " + s.getY() + ") -> (" + g.getX() + ", " + g.getY() + ")");
 		
 		ArrayList<PathfindingPoint> open = new ArrayList<PathfindingPoint>();
 		ArrayList<PathfindingPoint> closed = new ArrayList<PathfindingPoint>();
@@ -221,11 +227,14 @@ public abstract class Map {
 		
 		PathfindingPoint current = null;
 		while (open.size() > 0) {
+			
+			// Find the element with the lowest score
 			current = open.get(0);
-			for (PathfindingPoint x: open)
+			for (PathfindingPoint x: open) {
 				if (x.getFuture() < current.getFuture())
 					current = x;
-			
+			}
+				
 			if (current.equals(goal)) {
 				break;
 			}
@@ -234,61 +243,57 @@ public abstract class Map {
 			closed.add(current);
 			if (current.getX() > 0) {
 				PathfindingPoint neighbor = new PathfindingPoint(current.getX() - 1, current.getY());
-				if (pointFree(neighbor, true) == true) {
-					double tent = current.getPast() + pathHeuristic(current, neighbor);
+				if (pointFree(neighbor, true) == true && closed.contains(neighbor) == false) {
+					double tent = current.getPast() + 1;
 					
 					if (open.contains(neighbor) == false || tent < open.get(open.indexOf(neighbor)).getPast()) {
 						neighbor.setParent(current);
 						neighbor.setPast(tent);
 						neighbor.setFuture(tent + pathHeuristic(neighbor, goal));
-						if (open.contains(neighbor))
-							open.remove(neighbor);
-						open.add(neighbor);
+						if (open.contains(neighbor) == false)
+							open.add(neighbor);
 					}
 				}
 			}
 			if (current.getX() < maxWidth) {
 				PathfindingPoint neighbor = new PathfindingPoint(current.getX() + 1, current.getY());
-				if (pointFree(neighbor, true) == true) {
-					double tent = current.getPast() + pathHeuristic(current, neighbor);
+				if (pointFree(neighbor, true) == true && closed.contains(neighbor) == false) {
+					double tent = current.getPast() + 1;
 					
 					if (open.contains(neighbor) == false || tent < open.get(open.indexOf(neighbor)).getPast()) {
 						neighbor.setParent(current);
 						neighbor.setPast(tent);
 						neighbor.setFuture(tent + pathHeuristic(neighbor, goal));
-						if (open.contains(neighbor))
-							open.remove(neighbor);
-						open.add(neighbor);
+						if (open.contains(neighbor) == false)
+							open.add(neighbor);
 					}
 				}
 			}
 			if (current.getY() > 0) {
-				PathfindingPoint neighbor = new PathfindingPoint(current.getX() - 1, current.getY() - 1);
-				if (pointFree(neighbor, true) == true) {
-					double tent = current.getPast() + pathHeuristic(current, neighbor);
+				PathfindingPoint neighbor = new PathfindingPoint(current.getX(), current.getY() - 1);
+				if (pointFree(neighbor, true) == true && closed.contains(neighbor) == false) {
+					double tent = current.getPast() + 1;
 					
 					if (open.contains(neighbor) == false || tent < open.get(open.indexOf(neighbor)).getPast()) {
 						neighbor.setParent(current);
 						neighbor.setPast(tent);
 						neighbor.setFuture(tent + pathHeuristic(neighbor, goal));
-						if (open.contains(neighbor))
-							open.remove(neighbor);
-						open.add(neighbor);
+						if (open.contains(neighbor) == false)
+							open.add(neighbor);
 					}
 				}
 			}
 			if (current.getY() < maxHeight) {
 				PathfindingPoint neighbor = new PathfindingPoint(current.getX(), current.getY() + 1);
-				if (pointFree(neighbor, true) == true) {
-					double tent = current.getPast() + pathHeuristic(current, neighbor);
+				if (pointFree(neighbor, true) == true && closed.contains(neighbor) == false) {
+					double tent = current.getPast() + 1;
 					
 					if (open.contains(neighbor) == false || tent < open.get(open.indexOf(neighbor)).getPast()) {
 						neighbor.setParent(current);
 						neighbor.setPast(tent);
 						neighbor.setFuture(tent + pathHeuristic(neighbor, goal));
-						if (open.contains(neighbor))
-							open.remove(neighbor);
-						open.add(neighbor);
+						if (open.contains(neighbor) == false)
+							open.add(neighbor);
 					}
 				}
 			}

@@ -1,6 +1,7 @@
 package edu.virginia.cs.sgd.game.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 
 import com.artemis.Aspect;
@@ -14,6 +15,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.menu.MapScreen;
+import edu.virginia.cs.sgd.util.PathfindingPoint;
+import edu.virginia.cs.sgd.util.Point;
 import edu.virginia.cs.sgd.util.Triple;
 
 public class MovementSystem extends EntityProcessingSystem {
@@ -129,10 +132,13 @@ public class MovementSystem extends EntityProcessingSystem {
 
 	}
 	
+	public boolean pointFree(Point p, boolean lol) {
+		return true;
+	}
+	
 	/*public static void main(String[] args) {
 		MovementSystem test = new MovementSystem(null, null);
 		//ArrayList<Triple> path = test.createPath(1, 5, 3, 8, 11);
-		ArrayList<Point> path = test.createPathAStar(new Point(1, 1), new Point(1, 5));
 		for (Point x: path)
 			System.out.println("(" + x.getX() + ", " + x.getY() + ")");
 	}*/

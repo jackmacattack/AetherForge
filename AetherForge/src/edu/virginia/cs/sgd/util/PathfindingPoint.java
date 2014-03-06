@@ -44,4 +44,13 @@ public class PathfindingPoint extends Point {
 		this.past = past;
 	}
 	
+	public boolean equals(Object o) {
+		if(o instanceof PathfindingPoint) {
+			PathfindingPoint p = (PathfindingPoint) o;
+			return p.getX() == x && p.getY() == y;
+		}
+		
+		return false;
+	}
+	
 }

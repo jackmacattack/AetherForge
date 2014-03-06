@@ -1,6 +1,7 @@
 package edu.virginia.cs.sgd.game.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.artemis.Component;
@@ -20,6 +21,7 @@ import edu.virginia.cs.sgd.game.controller.DeathSystem;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.model.managers.PositionManager;
 import edu.virginia.cs.sgd.game.view.RenderSystem;
+import edu.virginia.cs.sgd.util.PathfindingPoint;
 import edu.virginia.cs.sgd.util.Point;
 
 public abstract class Map {
@@ -125,7 +127,6 @@ public abstract class Map {
 			TiledMapTileLayer.Cell blockCheck = ((TiledMapTileLayer) blockLayer).getCell(p.getX(), p.getY());
 		
 			if (blockCheck != null) {
-				System.out.println("block: (" + p.getX() + ", " + p.getY() + ")");
 				notBlocked = false;
 			}
 		}
@@ -151,11 +152,28 @@ public abstract class Map {
 		Entity e = world.getEntity(id);
 
 		MapPosition m = e.getComponent(MapPosition.class);
-		m.setX(p.getX());
-		m.setY(p.getY());
+		//m.setX(p.getX());
+		//m.setY(p.getY());
+		
+		ArrayList<Point> path = createPathAStar(new Point(m.getX(), m.getY()), p);
+		if (path == null) {
+			// Apparently there is no way to get to the point we have selected
+			return;
+		}
+		
+		
+		for (Point tp: path) {
+			m.setX(tp.getX());
+			m.setY(tp.getY());
+			e.changedInWorld();
+			try {
+			    Thread.sleep(100);
+			} catch(InterruptedException ex) {
+			    Thread.currentThread().interrupt();
+			}
+		}
 
-		e.changedInWorld();
-
+		//e.changedInWorld();
 	}
 
 	public void addEntity(Point p, String name, String player) {
@@ -178,5 +196,118 @@ public abstract class Map {
 	}
 
 	public abstract int checkEnd();
+	
+	// Use the distance formula to determine a heuristic for the distance
+	private double pathHeuristic(Point start, Point goal) {
+		return Math.sqrt( (goal.getX() - start.getX())*(goal.getX() - start.getX()) + (goal.getY() - start.getY())*(goal.getY() - start.getY()) );
+	}
+	
+	public ArrayList<Point> createPathAStar(Point s, Point g) {
+		
+		int maxWidth = getMapWidth();
+		int maxHeight = getMapHeight();
+		
+		System.out.println("(" + s.getX() + ", " + s.getY() + ") -> (" + g.getX() + ", " + g.getY() + ")");
+		
+		ArrayList<PathfindingPoint> open = new ArrayList<PathfindingPoint>();
+		ArrayList<PathfindingPoint> closed = new ArrayList<PathfindingPoint>();
+		
+		PathfindingPoint start = new PathfindingPoint(s.getX(), s.getY());
+		PathfindingPoint goal = new PathfindingPoint(g.getX(), g.getY());
+		
+		// Check if the goal is clear
+		if (pointFree(goal, true) == false)
+			return null;
+		
+		// Add the starting node to the list
+		open.add((PathfindingPoint) start);
+		
+		start.setPast(0);
+		start.setFuture(pathHeuristic(start, goal));
+		
+		PathfindingPoint current = null;
+		while (open.size() > 0) {
+			
+			// Find the element with the lowest score
+			current = open.get(0);
+			for (PathfindingPoint x: open) {
+				if (x.getFuture() < current.getFuture())
+					current = x;
+			}
+				
+			if (current.equals(goal)) {
+				break;
+			}
+			
+			open.remove(current);
+			closed.add(current);
+			if (current.getX() > 0) {
+				PathfindingPoint neighbor = new PathfindingPoint(current.getX() - 1, current.getY());
+				if (pointFree(neighbor, true) == true && closed.contains(neighbor) == false) {
+					double tent = current.getPast() + 1;
+					
+					if (open.contains(neighbor) == false || tent < open.get(open.indexOf(neighbor)).getPast()) {
+						neighbor.setParent(current);
+						neighbor.setPast(tent);
+						neighbor.setFuture(tent + pathHeuristic(neighbor, goal));
+						if (open.contains(neighbor) == false)
+							open.add(neighbor);
+					}
+				}
+			}
+			if (current.getX() < maxWidth) {
+				PathfindingPoint neighbor = new PathfindingPoint(current.getX() + 1, current.getY());
+				if (pointFree(neighbor, true) == true && closed.contains(neighbor) == false) {
+					double tent = current.getPast() + 1;
+					
+					if (open.contains(neighbor) == false || tent < open.get(open.indexOf(neighbor)).getPast()) {
+						neighbor.setParent(current);
+						neighbor.setPast(tent);
+						neighbor.setFuture(tent + pathHeuristic(neighbor, goal));
+						if (open.contains(neighbor) == false)
+							open.add(neighbor);
+					}
+				}
+			}
+			if (current.getY() > 0) {
+				PathfindingPoint neighbor = new PathfindingPoint(current.getX(), current.getY() - 1);
+				if (pointFree(neighbor, true) == true && closed.contains(neighbor) == false) {
+					double tent = current.getPast() + 1;
+					
+					if (open.contains(neighbor) == false || tent < open.get(open.indexOf(neighbor)).getPast()) {
+						neighbor.setParent(current);
+						neighbor.setPast(tent);
+						neighbor.setFuture(tent + pathHeuristic(neighbor, goal));
+						if (open.contains(neighbor) == false)
+							open.add(neighbor);
+					}
+				}
+			}
+			if (current.getY() < maxHeight) {
+				PathfindingPoint neighbor = new PathfindingPoint(current.getX(), current.getY() + 1);
+				if (pointFree(neighbor, true) == true && closed.contains(neighbor) == false) {
+					double tent = current.getPast() + 1;
+					
+					if (open.contains(neighbor) == false || tent < open.get(open.indexOf(neighbor)).getPast()) {
+						neighbor.setParent(current);
+						neighbor.setPast(tent);
+						neighbor.setFuture(tent + pathHeuristic(neighbor, goal));
+						if (open.contains(neighbor) == false)
+							open.add(neighbor);
+					}
+				}
+			}
+		}
+		
+		ArrayList<Point> ret = new ArrayList<Point>();
+		while(current != null) {
+			ret.add(new Point(current.getX(), current.getY()));
+			current = current.getParent();
+		}
+		
+		Collections.reverse(ret);
+		
+		return ret;
+	}
 
 }

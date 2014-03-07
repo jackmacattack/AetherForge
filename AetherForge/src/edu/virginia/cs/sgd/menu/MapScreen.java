@@ -27,6 +27,7 @@ public class MapScreen extends AbstractScreen {
 		SingletonAssetManager.getInstance().finishLoading();
 
 		TiledMap map = SingletonAssetManager.getInstance().get("Map 1");
+		Audio.getInstance().play("Battle Theme");
 
 		MapProperties prop = map.getProperties();
 		int mapWidth = prop.get("tilewidth", Integer.class);

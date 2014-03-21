@@ -3,7 +3,6 @@ package edu.virginia.cs.sgd.game.model.components;
 import java.util.ArrayList;
 
 import com.artemis.Component;
-import com.badlogic.gdx.math.MathUtils;
 
 public class Weapon extends Component{
 	private enum Property {

@@ -34,7 +34,6 @@ public class MapOperator {
 		this.map = map;
 
 		activeUnits = getUnits(player);
-//		System.out.println(player + ": " + activeUnits);
 		
 		selectedId = -1;
 		selTiles = null;
@@ -64,7 +63,6 @@ public class MapOperator {
 		Triple start = new Triple(0, s.getX(), s.getY());
 		Queue<Triple> q = new LinkedList<Triple>();
 		q.add(start);
-		//		mem.add(start);
 
 		while (!q.isEmpty()) {
 			Triple t = q.poll();
@@ -83,7 +81,6 @@ public class MapOperator {
 					collide = true;
 			}
 			
-			//boolean collide = collision ? !map.pointFree(p) && t != start : false;
 			if(collide || t.getMvn() > max) {
 				continue;
 			}
@@ -111,9 +108,7 @@ public class MapOperator {
 			if (!q.contains(td)) {
 				q.add(td);
 			}
-			//			q.add(t);
 		}
-		//System.out.println(q);
 
 		return res;
 	}

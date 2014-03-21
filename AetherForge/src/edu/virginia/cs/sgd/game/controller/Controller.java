@@ -26,8 +26,6 @@ public class Controller {
 	public void startTurn(MapOperator map) {
 		Player active = players.peek();
 		active.processTurn(map);
-
-//		System.out.println(active.getName());
 	}
 
 	public void endTurn() {

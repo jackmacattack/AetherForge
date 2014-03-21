@@ -153,8 +153,6 @@ public abstract class Map {
 		Entity e = world.getEntity(id);
 
 		MapPosition m = e.getComponent(MapPosition.class);
-		//m.setX(p.getX());
-		//m.setY(p.getY());
 		
 		ArrayList<Point> path = createPathAStar(new Point(m.getX(), m.getY()), p);
 		if (path == null) {
@@ -174,7 +172,6 @@ public abstract class Map {
 			}
 		}
 
-		//e.changedInWorld();
 	}
 
 	public void addEntity(Point p, String name, String player, boolean ranged) {
@@ -207,9 +204,7 @@ public abstract class Map {
 		
 		int maxWidth = getMapWidth();
 		int maxHeight = getMapHeight();
-		
-//		System.out.println("(" + s.getX() + ", " + s.getY() + ") -> (" + g.getX() + ", " + g.getY() + ")");
-		
+				
 		ArrayList<PathfindingPoint> open = new ArrayList<PathfindingPoint>();
 		ArrayList<PathfindingPoint> closed = new ArrayList<PathfindingPoint>();
 		

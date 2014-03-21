@@ -14,13 +14,13 @@ import edu.virginia.cs.sgd.util.Point;
 public class EntityFactory {
 
 
-	public static Entity createCharacter(World world, Point p, String name, String player) {
+	public static Entity createCharacter(World world, Point p, String name, String player, boolean ranged) {
 		
 		Entity e = world.createEntity();
 		e.addComponent(new MapPosition(p));
 		e.addComponent(new Stats());
 		e.addComponent(new HP());
-		e.addComponent(new Weapon());
+		e.addComponent(new Weapon(ranged));
 		e.addComponent(new TextureName(name));
 		e.addToWorld();
 

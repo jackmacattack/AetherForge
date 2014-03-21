@@ -45,9 +45,10 @@ public abstract class Map {
 		world.setSystem(renderer);
 		world.setManager(new PlayerManager());
 
-		addEntity(new Point(1, 3), "berserker", "Human");
-		addEntity(new Point(1, 5), "cleric", "Enemy");
-		addEntity(new Point(3, 4), "archer", "Enemy");
+		addEntity(new Point(1, 3), "berserker", "Human", false);
+		addEntity(new Point(5, 7), "sorc", "Human", true);
+		addEntity(new Point(1, 5), "swordsman", "Enemy", false);
+		addEntity(new Point(3, 4), "archer", "Enemy", true);
 
 		blockLayer = this.map.getLayers().get("block");
 	}
@@ -176,9 +177,9 @@ public abstract class Map {
 		//e.changedInWorld();
 	}
 
-	public void addEntity(Point p, String name, String player) {
+	public void addEntity(Point p, String name, String player, boolean ranged) {
 		if(pointFree(p, true)) {
-			EntityFactory.createCharacter(world, p, name, player);
+			EntityFactory.createCharacter(world, p, name, player, ranged);
 		}
 	}
 
@@ -207,7 +208,7 @@ public abstract class Map {
 		int maxWidth = getMapWidth();
 		int maxHeight = getMapHeight();
 		
-		System.out.println("(" + s.getX() + ", " + s.getY() + ") -> (" + g.getX() + ", " + g.getY() + ")");
+//		System.out.println("(" + s.getX() + ", " + s.getY() + ") -> (" + g.getX() + ", " + g.getY() + ")");
 		
 		ArrayList<PathfindingPoint> open = new ArrayList<PathfindingPoint>();
 		ArrayList<PathfindingPoint> closed = new ArrayList<PathfindingPoint>();

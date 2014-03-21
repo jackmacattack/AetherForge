@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import com.artemis.Component;
+
 import edu.virginia.cs.sgd.game.model.Map;
 import edu.virginia.cs.sgd.game.model.MapState;
 import edu.virginia.cs.sgd.game.model.Selection;
@@ -32,7 +34,7 @@ public class MapOperator {
 		this.map = map;
 
 		activeUnits = getUnits(player);
-		System.out.println(player + ": " + activeUnits);
+//		System.out.println(player + ": " + activeUnits);
 		
 		selectedId = -1;
 		selTiles = null;
@@ -221,6 +223,10 @@ public class MapOperator {
 
 	public boolean checkTurn() {
 		return activeUnits.size() > 0;
+	}
+
+	public <T extends Component> T getComponent(int e, Class<T> t) {
+		return map.getComponent(e, t);
 	}
 
 }

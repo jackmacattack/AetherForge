@@ -10,8 +10,8 @@ public class InputPlayer extends Player implements UserInput {
 	private BlockingQueue<Point> q;
 	private boolean end;
 	
-	public InputPlayer(String name) {
-		super(name);
+	public InputPlayer(String name, String[] enemies) {
+		super(name, enemies);
 		
 		q = new LinkedBlockingQueue<Point>();
 	}
@@ -31,7 +31,6 @@ public class InputPlayer extends Player implements UserInput {
 			Point p = q.poll();
 			
 			if(p != null) {
-				System.out.println(p);
 				map.onTouch(p, name);
 			}
 			

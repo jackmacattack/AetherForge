@@ -2,11 +2,11 @@ package edu.virginia.cs.sgd.game;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
+import edu.virginia.cs.sgd.game.controller.AttackNearestPlayer;
 import edu.virginia.cs.sgd.game.controller.Controller;
 import edu.virginia.cs.sgd.game.controller.InputPlayer;
 import edu.virginia.cs.sgd.game.controller.MapOperator;
 import edu.virginia.cs.sgd.game.controller.Player;
-import edu.virginia.cs.sgd.game.controller.RandomWalkPlayer;
 import edu.virginia.cs.sgd.game.model.KillAllMap;
 import edu.virginia.cs.sgd.game.model.Map;
 import edu.virginia.cs.sgd.game.view.RenderSystem;
@@ -20,11 +20,13 @@ public class Level {
 	private Controller c;
 	
 	public Level(TiledMap tileMap, RenderSystem renderer) {
-		
+
 		String[] arr = {"Human", "Enemy"};
+		String[] h = {"Human"};
+		String[] e = {"Enemy"};
 		map = new KillAllMap(tileMap, renderer, arr);
 		
-		Player[] arr2 = {new InputPlayer("Human"), new RandomWalkPlayer("Enemy")};
+		Player[] arr2 = {new InputPlayer("Human", e), new AttackNearestPlayer("Enemy", h)};
 		c = new Controller(arr2);
 
 	}

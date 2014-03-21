@@ -10,6 +10,7 @@ import edu.virginia.cs.sgd.game.model.components.Expires;
 import edu.virginia.cs.sgd.game.model.components.HP;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.model.components.Stats;
+import edu.virginia.cs.sgd.game.model.components.TextureName;
 import edu.virginia.cs.sgd.game.model.components.Weapon;
 
 public class Battle {
@@ -19,7 +20,11 @@ public class Battle {
 	@Mapper static ComponentMapper<MapPosition> positionMapper;
 	@Mapper static ComponentMapper<HP> hpMapper;
 	
-	public static boolean OneOnOneFight(Entity attacker, Entity defender) {	
+	public static boolean OneOnOneFight(Entity attacker, Entity defender) {
+
+		String aName = attacker.getComponent(TextureName.class).getName();
+		String dName = defender.getComponent(TextureName.class).getName();
+		
 		boolean attackLands = calculateFightDoesHit(attacker, defender);
 		if(attackLands) {
 			int damage = calculateFightDamage(attacker, defender);
@@ -30,10 +35,10 @@ public class Battle {
 				defender.addComponent(new Expires());
 			}
 			defenderHP.setHP(newHP);
-			System.out.println("Attack hit for " + damage + " damage. Target has " + newHP + " health.");
+			System.out.println("Attack of " + aName + " hit for " + damage + " damage. " + dName + " has " + newHP + " health.");
 		}
 		else {
-			System.out.println("Attack missed.");
+			System.out.println(aName + "'s attack missed.");
 		}
 		attacker.changedInWorld();
 		defender.changedInWorld();
@@ -54,7 +59,7 @@ public class Battle {
 		
 		int range = MapPosition.calculateDistance(attackerPosition, defenderPosition);
 		
-		int chance = attackerWeapon.getAccuracy() + 10 * range - defenderStats.getAgility();
+		int chance = attackerWeapon.getAccuracy() - defenderStats.getAgility();
 		System.out.println("Chance of attack landing: " + chance);
 		return (Math.random()*(100-0)) < chance;
 	}

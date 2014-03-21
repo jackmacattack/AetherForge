@@ -27,7 +27,7 @@ public class Controller {
 		Player active = players.peek();
 		active.processTurn(map);
 
-		System.out.println(active.getName());
+//		System.out.println(active.getName());
 	}
 
 	public void endTurn() {

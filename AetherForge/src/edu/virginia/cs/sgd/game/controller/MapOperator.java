@@ -186,7 +186,7 @@ public class MapOperator {
 					map.attack(selectedId, defId);
 				}
 			}
-			activeUnits.remove(new Integer(selectedId));
+			activeUnits.remove(Integer.valueOf(selectedId));
 			deselect();
 			event = 1;
 			break;
@@ -217,7 +217,7 @@ public class MapOperator {
 	}
 
 	public boolean checkTurn() {
-		return activeUnits.size() > 0;
+		return !activeUnits.isEmpty();
 	}
 
 	public <T extends Component> T getComponent(int e, Class<T> t) {

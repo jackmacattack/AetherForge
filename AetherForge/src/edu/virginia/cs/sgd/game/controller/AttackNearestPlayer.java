@@ -48,6 +48,8 @@ public class AttackNearestPlayer extends Player {
 
 				if(dist != maxRange) {
 					for(Point place : move) {
+						
+						// Calculate the distance in tiles, NOT as-the-crow-flies
 						int newDist = Math.abs(place.getX() - target.getX()) + Math.abs(place.getY() - target.getY());
 
 						if(Math.abs(newDist - maxRange) < Math.abs(dist - maxRange)) {

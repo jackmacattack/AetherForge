@@ -28,17 +28,25 @@ public abstract class Map {
 
 	protected World world;
 	protected TiledMap map;
+	protected int mapHeight;
+	protected int mapWidth;
 	protected MapLayer blockLayer = null;
 
 	public Map(TiledMap map, RenderSystem renderer) {
 
 		this.map = map;
-
+		
+		MapProperties prop = this.map.getProperties();
+		this.mapHeight = prop.get("height", Integer.class);
+		this.mapWidth = prop.get("width", Integer.class);
+			
 		world = new World();
 		//damageSystem = world.setSystem(new DamageSystem(), true);
 
 		PositionManager pos = new PositionManager();
-		pos.setWorld(getMapWidth(), getMapHeight());
+		
+		//pos.setWorld(getMapWidth(), getMapHeight());
+		pos.setWorld(mapWidth, mapHeight);
 		world.setManager(pos);
 
 		world.setSystem(new DeathSystem());
@@ -56,7 +64,6 @@ public abstract class Map {
 	public void initialize() {
 		world.initialize();
 		world.process();
-		System.out.println("The world is initialized");
 	}
 
 	public void update() {
@@ -71,15 +78,11 @@ public abstract class Map {
 	}
 
 	public int getMapWidth() {
-		MapProperties prop = map.getProperties();
-		int mapWidth = prop.get("width", Integer.class);
-		return mapWidth;
+		return this.mapWidth;
 	}
 
 	public int getMapHeight() {
-		MapProperties prop = map.getProperties();
-		int mapHeight = prop.get("height", Integer.class);
-		return mapHeight;
+		return this.mapHeight;
 	}
 
 	public List<Integer> getUnits(String player) {
@@ -131,8 +134,8 @@ public abstract class Map {
 				notBlocked = false;
 			}
 		}
-		boolean xBounds = p.getX() > -1 && p.getX() < getMapWidth();
-		boolean yBounds = p.getY() > -1 && p.getY() < getMapHeight();
+		boolean xBounds = p.getX() > -1 && p.getX() < this.mapWidth;
+		boolean yBounds = p.getY() > -1 && p.getY() < this.mapHeight;
 
 		boolean bounds = xBounds && yBounds;
 
@@ -202,8 +205,8 @@ public abstract class Map {
 	
 	public ArrayList<Point> createPathAStar(Point s, Point g) {
 		
-		int maxWidth = getMapWidth();
-		int maxHeight = getMapHeight();
+		//int maxWidth = getMapWidth();
+		//int maxHeight = getMapHeight();
 				
 		ArrayList<PathfindingPoint> open = new ArrayList<PathfindingPoint>();
 		ArrayList<PathfindingPoint> closed = new ArrayList<PathfindingPoint>();
@@ -212,7 +215,7 @@ public abstract class Map {
 		PathfindingPoint goal = new PathfindingPoint(g.getX(), g.getY());
 		
 		// Check if the goal is clear
-		if (pointFree(goal, true) == false)
+		if (!pointFree(goal, true))
 			return null;
 		
 		// Add the starting node to the list
@@ -222,13 +225,15 @@ public abstract class Map {
 		start.setFuture(pathHeuristic(start, goal));
 		
 		PathfindingPoint current = null;
-		while (open.size() > 0) {
+		PathfindingPoint neighbor = null;
+		while (!open.isEmpty()) {
 			
 			// Find the element with the lowest score
 			current = open.get(0);
 			for (PathfindingPoint x: open) {
-				if (x.getFuture() < current.getFuture())
+				if (x.getFuture() < current.getFuture()) {
 					current = x;
+				}
 			}
 				
 			if (current.equals(goal)) {
@@ -238,11 +243,11 @@ public abstract class Map {
 			open.remove(current);
 			closed.add(current);
 			if (current.getX() > 0) {
-				PathfindingPoint neighbor = new PathfindingPoint(current.getX() - 1, current.getY());
-				if (pointFree(neighbor, true) == true && closed.contains(neighbor) == false) {
+				neighbor = new PathfindingPoint(current.getX() - 1, current.getY());
+				if (pointFree(neighbor, true) && closed.contains(neighbor) == false) {
 					double tent = current.getPast() + 1;
 					
-					if (open.contains(neighbor) == false || tent < open.get(open.indexOf(neighbor)).getPast()) {
+					if (!open.contains(neighbor)|| tent < open.get(open.indexOf(neighbor)).getPast()) {
 						neighbor.setParent(current);
 						neighbor.setPast(tent);
 						neighbor.setFuture(tent + pathHeuristic(neighbor, goal));
@@ -251,12 +256,13 @@ public abstract class Map {
 					}
 				}
 			}
-			if (current.getX() < maxWidth) {
-				PathfindingPoint neighbor = new PathfindingPoint(current.getX() + 1, current.getY());
-				if (pointFree(neighbor, true) == true && closed.contains(neighbor) == false) {
+			//if (current.getX() < maxWidth) {
+			if (current.getX() < this.mapWidth) {
+				neighbor = new PathfindingPoint(current.getX() + 1, current.getY());
+				if (pointFree(neighbor, true) && closed.contains(neighbor) == false) {
 					double tent = current.getPast() + 1;
 					
-					if (open.contains(neighbor) == false || tent < open.get(open.indexOf(neighbor)).getPast()) {
+					if (!open.contains(neighbor) || tent < open.get(open.indexOf(neighbor)).getPast()) {
 						neighbor.setParent(current);
 						neighbor.setPast(tent);
 						neighbor.setFuture(tent + pathHeuristic(neighbor, goal));
@@ -266,11 +272,11 @@ public abstract class Map {
 				}
 			}
 			if (current.getY() > 0) {
-				PathfindingPoint neighbor = new PathfindingPoint(current.getX(), current.getY() - 1);
-				if (pointFree(neighbor, true) == true && closed.contains(neighbor) == false) {
+				neighbor = new PathfindingPoint(current.getX(), current.getY() - 1);
+				if (pointFree(neighbor, true) && closed.contains(neighbor) == false) {
 					double tent = current.getPast() + 1;
 					
-					if (open.contains(neighbor) == false || tent < open.get(open.indexOf(neighbor)).getPast()) {
+					if (!open.contains(neighbor) || tent < open.get(open.indexOf(neighbor)).getPast()) {
 						neighbor.setParent(current);
 						neighbor.setPast(tent);
 						neighbor.setFuture(tent + pathHeuristic(neighbor, goal));
@@ -279,12 +285,13 @@ public abstract class Map {
 					}
 				}
 			}
-			if (current.getY() < maxHeight) {
-				PathfindingPoint neighbor = new PathfindingPoint(current.getX(), current.getY() + 1);
-				if (pointFree(neighbor, true) == true && closed.contains(neighbor) == false) {
+			//if (current.getY() < maxHeight) {
+			if (current.getY() < this.mapHeight) {
+				neighbor = new PathfindingPoint(current.getX(), current.getY() + 1);
+				if (pointFree(neighbor, true) && closed.contains(neighbor) == false) {
 					double tent = current.getPast() + 1;
 					
-					if (open.contains(neighbor) == false || tent < open.get(open.indexOf(neighbor)).getPast()) {
+					if (!open.contains(neighbor) || tent < open.get(open.indexOf(neighbor)).getPast()) {
 						neighbor.setParent(current);
 						neighbor.setPast(tent);
 						neighbor.setFuture(tent + pathHeuristic(neighbor, goal));

@@ -34,6 +34,8 @@ public class Viewer {
 
 	private RenderSystem renderer;
 
+	private SpriteBatch uiBatch;
+	
 	public Viewer(int width, int height, RenderSystem renderer) {
 
 		this.width = width;
@@ -46,6 +48,7 @@ public class Viewer {
 
 		camera = new OrthographicCamera();
 
+		uiBatch = new SpriteBatch();
 	}
 
 	private void updateCamera() {
@@ -96,6 +99,18 @@ public class Viewer {
 				batch.end();
 			}
 		}
+
+		Pixmap p = new Pixmap(100, 50, Pixmap.Format.RGBA8888);
+		p.setColor(0, 0, 0, .5f);
+		p.fill();
+		p.setColor(0, 0, 0, 1);
+		p.drawRectangle(0, 0, width, height);
+
+		Texture tex = new Texture(p);
+		
+		uiBatch.begin();
+		uiBatch.draw(tex, 20, 20);
+		uiBatch.end();
 	}
 
 	public void resize(int width, int height) {

@@ -12,6 +12,8 @@ import com.artemis.World;
 import com.artemis.managers.PlayerManager;
 import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -53,10 +55,15 @@ public abstract class Map {
 		world.setSystem(renderer);
 		world.setManager(new PlayerManager());
 
-		addEntity(new Point(1, 3), "berserker", "Human", false);
-		addEntity(new Point(5, 7), "sorc", "Human", true);
-		addEntity(new Point(1, 5), "swordsman", "Enemy", false);
-		addEntity(new Point(3, 4), "archer", "Enemy", true);
+		MapObjects eList = map.getLayers().get("entities").getObjects();
+		
+		for(MapObject e : eList) {
+			String name = e.getName().toLowerCase();
+			String team = e.getProperties().get("Team", String.class);
+			Point loc = new Point(e.getProperties().get("x", int.class) / 32, e.getProperties().get("y", int.class) / 32);
+			
+			addEntity(loc, name, team);
+		}
 
 		blockLayer = this.map.getLayers().get("block");
 	}
@@ -177,9 +184,9 @@ public abstract class Map {
 
 	}
 
-	public void addEntity(Point p, String name, String player, boolean ranged) {
+	public void addEntity(Point p, String name, String player) {
 		if(pointFree(p, true)) {
-			EntityFactory.createCharacter(world, p, name, player, ranged);
+			EntityFactory.createCharacter(world, p, name, player);
 		}
 	}
 

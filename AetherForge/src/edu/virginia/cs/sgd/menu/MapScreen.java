@@ -35,7 +35,7 @@ public class MapScreen extends AbstractScreen {
 		
 		float scale = 1f;
 		RenderSystem renderer = new RenderSystem(map, scale);
-		this.viewer = new Viewer(mapWidth, mapHeight, renderer);
+		this.viewer = new Viewer(1280, 720, mapWidth, mapHeight, renderer);
 
 		level = new Level(map, renderer);
 		level.initialize();

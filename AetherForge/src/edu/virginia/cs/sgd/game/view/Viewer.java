@@ -2,8 +2,6 @@ package edu.virginia.cs.sgd.game.view;
 
 import java.util.ArrayList;
 
-import com.artemis.ComponentMapper;
-import com.artemis.annotations.Mapper;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -14,15 +12,14 @@ import com.badlogic.gdx.math.Vector3;
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.game.controller.MapOperator;
 import edu.virginia.cs.sgd.game.model.Selection;
-import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.util.Point;
 
 
 public class Viewer {
 
-	@Mapper
-	ComponentMapper<MapPosition> mapper;
-
+	private int screenWidth;
+	private int screenHeight;
+	
 	private float zoomMin;
 	private float zoomMax;
 	private float zoomDelta;
@@ -36,8 +33,10 @@ public class Viewer {
 
 	private SpriteBatch uiBatch;
 	
-	public Viewer(int width, int height, RenderSystem renderer) {
+	public Viewer(int screenWidth, int screenHeight, int width, int height, RenderSystem renderer) {
 
+		this.screenWidth = screenWidth;
+		this.screenHeight = screenHeight;
 		this.width = width;
 		this.height = height;
 		this.renderer = renderer;
@@ -100,16 +99,14 @@ public class Viewer {
 			}
 		}
 
-		Pixmap p = new Pixmap(100, 50, Pixmap.Format.RGBA8888);
+		Pixmap p = new Pixmap(50, 50, Pixmap.Format.RGBA8888);
 		p.setColor(0, 0, 0, .5f);
 		p.fill();
-		p.setColor(0, 0, 0, 1);
-		p.drawRectangle(0, 0, width, height);
 
 		Texture tex = new Texture(p);
 		
 		uiBatch.begin();
-		uiBatch.draw(tex, 20, 20);
+		uiBatch.draw(tex, 20, screenHeight - 70);
 		uiBatch.end();
 	}
 

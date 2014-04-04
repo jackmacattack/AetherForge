@@ -17,9 +17,36 @@
    eJy9lk1OxDAMhXPJHoFLlF9RGPFXCWjXHISuQGIB6QYGsQA2cBIcqZaePHbjFGkWnzpqGz/72WmmCiFURJyuEry/Q1wDZ8Ad0U7ETEwZO11H8f4Izzy6oxJ/IFaKVpyexbCZ6yqU1av5JGsclffizJqcblr3QDyCV1otWg6a50xON617Jl6Uejj+YPRY+o3PPLqyd5afg6Kh+dI6dT2xSvDqeuaKfx8Sew6OM+w62Af92pHrEp81aninhjXaPooLfE6cExcQYzB0ZX1S3/vd4HU3xC3Es+ptFK9Kvs9en63+Wiyd50bRTZyG7c3zicgBc7LmuuR7lfNZ/k5rcA4xjudcmJsPq7/aHJbOFerhnmxAd24foWbJuWDVGp26Wo9KvxtWfzn2UdjePB+IPOR5/N/96/HPQuYyp/tBPAFR4Zt4n/DWW3IeYXzkF3LoRJ79pJHu8z7unLoc8w3y/SRejfotb3gft4W6P1DjGvKQ/3s6I58Orr3TZxm/Erp8T/rJay6JK3GvZJ6xx+uwOS/op6yd++rpr5yhL0OLa5Ye94Z26v99BktHkp79AWqq1D4=
   </data>
  </layer>
- <layer name="block" width="30" height="30">
+ <layer name="block" width="30" height="30" visible="0">
   <data encoding="base64" compression="zlib">
    eJxjYBgFo2AU0Bu8wIGHKxgo/5JiLzXdNBTspSYYTc/Uj8ORYi8xbhop9g4UGGnhTCt7TbDYQQ97sdlBb3vxuYUa9powoIYvsvn0thcXoFU406vsAQDzonXt
   </data>
  </layer>
+ <layer name="capture" width="30" height="30" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJztzzENAAAIA0FE4V8bExYow13S+dMqAL7qUHOX6l62U3+3DQBJA0u+AnE=
+  </data>
+ </layer>
+ <objectgroup name="entities" width="30" height="30">
+  <object name="Berserker" x="32" y="832" width="32" height="32">
+   <properties>
+    <property name="Team" value="Human"/>
+   </properties>
+  </object>
+  <object name="Archer" type="Human" x="64" y="768" width="32" height="32">
+   <properties>
+    <property name="Team" value="Human"/>
+   </properties>
+  </object>
+  <object name="Sorc" x="288" y="672" width="32" height="32">
+   <properties>
+    <property name="Team" value="Enemy"/>
+   </properties>
+  </object>
+  <object name="Swordsman" x="160" y="640" width="32" height="32">
+   <properties>
+    <property name="Team" value="Enemy"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

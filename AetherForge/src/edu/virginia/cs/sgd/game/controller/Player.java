@@ -4,10 +4,12 @@ public abstract class Player {
 	
 	private Thread t;
 	protected String name;
+	protected String[] enemies;
 	
-	public Player(String name) {
+	public Player(String name, String[] enemies) {
 		super();
 		this.name = name;
+		this.enemies = enemies;
 	}
 
 	public String getName() {

@@ -10,14 +10,14 @@ public class Stats extends HP {
 
 	public Stats()
 	{
-		health = MathUtils.random(10,20);
-		mana = MathUtils.random(10,20);
-		meleeAtk = MathUtils.random(10,20);
-		rangeAtk = MathUtils.random(10,20);
-		defense = MathUtils.random(10,20);
-		resistance = MathUtils.random(10,20);
-		accuracy = MathUtils.random(10,20);
-		agility = MathUtils.random(10,20);
+		health = 30;
+		mana = 0;
+		meleeAtk = 10;
+		rangeAtk = 10;
+		defense = 10;
+		resistance = 10;
+		accuracy = 10;
+		agility = 10;
 		movement = 5;
 		skills = null;
 		

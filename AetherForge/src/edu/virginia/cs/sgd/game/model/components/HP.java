@@ -15,8 +15,8 @@ private int hp, max_hp;
 
 public HP()
 {
-	setHP(MathUtils.random(40,60));
-	setMax_HP(getHP());
+	this.hp = MathUtils.random(40,60);
+	this.max_hp = this.hp;
 }
 
 public boolean isOutOfHealth()

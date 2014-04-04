@@ -1,69 +1,56 @@
 package edu.virginia.cs.sgd.game.controller;
 
-import java.util.ArrayList;
-
-import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
-
 import edu.virginia.cs.sgd.game.model.components.Expires;
 import edu.virginia.cs.sgd.game.model.components.HP;
-import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.model.components.Stats;
+import edu.virginia.cs.sgd.game.model.components.TextureName;
 import edu.virginia.cs.sgd.game.model.components.Weapon;
 
 public class Battle {
-
-	@Mapper static ComponentMapper<Stats> statsMapper;
-	@Mapper static ComponentMapper<Weapon> weaponMapper;
-	@Mapper static ComponentMapper<MapPosition> positionMapper;
-	@Mapper static ComponentMapper<HP> hpMapper;
 	
-	public static boolean OneOnOneFight(Entity attacker, Entity defender) {	
+	public static boolean OneOnOneFight(Entity attacker, Entity defender) {
+
+		String aName = attacker.getComponent(TextureName.class).getName();
+		String dName = defender.getComponent(TextureName.class).getName();
+		
 		boolean attackLands = calculateFightDoesHit(attacker, defender);
 		if(attackLands) {
 			int damage = calculateFightDamage(attacker, defender);
-			HP defenderHP = defender.getComponent(HP.class);//hpMapper.get(defender);
+			HP defenderHP = defender.getComponent(HP.class);
 			int newHP = defenderHP.getHP() - damage;
 			if(newHP <= 0) {
 				newHP = 0;
 				defender.addComponent(new Expires());
 			}
 			defenderHP.setHP(newHP);
-			System.out.println("Attack hit for " + damage + " damage. Target has " + newHP + " health.");
+			System.out.println("Attack of " + aName + " hit for " + damage + " damage. " + dName + " has " + newHP + " health.");
 		}
 		else {
-			System.out.println("Attack missed.");
+			System.out.println(aName + "'s attack missed.");
 		}
 		attacker.changedInWorld();
 		defender.changedInWorld();
 		return attackLands;
 	}
 	
-	public static void AreaOfEffectFight(Entity attacker, ArrayList<Entity> defenders) {
-		
-	}
-	
 	private static boolean calculateFightDoesHit(Entity attacker, Entity defender) {
-//		Stats attackerStats = attacker.getComponent(Stats.class);//statsMapper.get(attacker);
-		Weapon attackerWeapon = attacker.getComponent(Weapon.class);//weaponMapper.get(attacker);
-		MapPosition attackerPosition = attacker.getComponent(MapPosition.class);//positionMapper.get(attacker);		
+
+		Weapon attackerWeapon = attacker.getComponent(Weapon.class);
+		Stats defenderStats = defender.getComponent(Stats.class);	
 		
-		Stats defenderStats = defender.getComponent(Stats.class);//statsMapper.get(defender);	
-		MapPosition defenderPosition = defender.getComponent(MapPosition.class);//positionMapper.get(defender);
+		int chance = attackerWeapon.getAccuracy() - defenderStats.getAgility();
 		
-		int range = MapPosition.calculateDistance(attackerPosition, defenderPosition);
-		
-		int chance = attackerWeapon.getAccuracy() + 10 * range - defenderStats.getAgility();
 		System.out.println("Chance of attack landing: " + chance);
+		
 		return (Math.random()*(100-0)) < chance;
 	}
 	
 	private static int calculateFightDamage(Entity attacker, Entity defender) {
-		Stats attackerStats = attacker.getComponent(Stats.class);//statsMapper.get(attacker);
-		Weapon attackerWeapon = attacker.getComponent(Weapon.class);//weaponMapper.get(attacker);
+		Stats attackerStats = attacker.getComponent(Stats.class);
+		Weapon attackerWeapon = attacker.getComponent(Weapon.class);
 		
-		Stats defenderStats = defender.getComponent(Stats.class);//statsMapper.get(defender);	
+		Stats defenderStats = defender.getComponent(Stats.class);	
 
 		int strength = attackerWeapon.isRanged() ? attackerStats.getMeleeAtk() : attackerStats.getMeleeAtk();
 		

@@ -20,10 +20,6 @@ public class Entry extends Game implements ApplicationListener {
 	private Input input;
 	private AbstractScreen screen;
 	
-	public Entry() {
-		
-	}
-	
 	@Override
 	public void create() {
 		input = new Input();
@@ -33,11 +29,6 @@ public class Entry extends Game implements ApplicationListener {
 		loadAssets();
 		createScreen(SplashScreen.class);
 //		createScreen(MapScreen.class);
-	}
-
-	@Override
-	public void dispose() {
-		super.dispose();
 	}
 
 	@Override

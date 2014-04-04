@@ -22,7 +22,6 @@ public class Input {
 	}
 	
 	public void keyDown(int keyCode){
-//		System.out.println("A key was pressed, its keycode was "+keyCode);
 		
 		if(listener != null) {
 			listener.keyDown(keyCode);
@@ -30,16 +29,13 @@ public class Input {
 	}
 	
 	public void keyUp(int keyCode){
-//		System.out.println("A key was released, its keycode was "+keyCode);
-
+		
 		if(listener != null) {
 			listener.keyUp(keyCode);
 		}
 	}
 	
 	public void touchDown(int screenX, int screenY, int pointer, int button){
-//		System.out.println("The mouse was pressed at x-coord: "+screenX);
-//		System.out.println("The mouse was pressed at y-coord: "+screenY);
 
 		if(listener != null) {
 			listener.touchDown(screenX, screenY, pointer, button);
@@ -47,8 +43,6 @@ public class Input {
 	}
 	
 	public void touchUp(int screenX, int screenY, int pointer, int button){
-//		System.out.println("The mouse was realeased at x-coord: "+screenX);
-//		System.out.println("The mouse was realeased at y-coord: "+screenY);
 
 		if(listener != null) {
 			listener.touchUp(screenX, screenY, pointer, button, dragging);
@@ -58,7 +52,6 @@ public class Input {
 	}
 	
 	public void mouseMoved(int screenX, int screenY) {
-//		System.out.println("The mouse was moved: "+screenX+", "+screenY);
 
 		int deltaX = screenX - prevX;
 		int deltaY = screenY - prevY;
@@ -72,7 +65,6 @@ public class Input {
 	}
 	
 	public void scrolled(int amount) {
-//		System.out.println("Mouse wheel scroll amount: "+amount);
 
 		if(listener != null) {
 			listener.scrolled(amount);
@@ -80,7 +72,6 @@ public class Input {
 	}
 
 	public void touchDragged(int screenX, int screenY, int pointer) {
-//		System.out.println("The mouse was dragged: "+screenX+", "+screenY);
 
 		int deltaX = screenX - prevX;
 		int deltaY = screenY - prevY;

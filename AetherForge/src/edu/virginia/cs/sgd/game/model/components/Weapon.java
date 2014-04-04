@@ -3,7 +3,6 @@ package edu.virginia.cs.sgd.game.model.components;
 import java.util.ArrayList;
 
 import com.artemis.Component;
-import com.badlogic.gdx.math.MathUtils;
 
 public class Weapon extends Component{
 	private enum Property {
@@ -12,14 +11,14 @@ public class Weapon extends Component{
 	private int power, minRange, maxRange, accuracy, ammo, maxAmmo, critical;
 	private ArrayList<Property> properties;
 	
-	public Weapon(){
-		power = MathUtils.random(10,20);
-		minRange = MathUtils.random(1,3);
-		maxRange = MathUtils.random(minRange,6);
-		accuracy = MathUtils.random(50,90);
-		ammo = MathUtils.random(3,10);
+	public Weapon(boolean ranged){
+		power = ranged ? 12 : 15;
+		minRange = ranged ? 2 : 1;
+		maxRange = ranged ? 2 : 1;
+		accuracy = ranged ? 85 : 95;
+		ammo = 6;
 		maxAmmo = 20;
-		critical = MathUtils.random(3,10);
+		critical = 5;
 		properties = new ArrayList<Property>();
 	}
 	

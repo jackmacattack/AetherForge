@@ -20,7 +20,9 @@ public class EntityFactory {
 		e.addComponent(new MapPosition(p));
 		e.addComponent(new Stats());
 		e.addComponent(new HP());
-		e.addComponent(new Weapon());
+		
+		boolean ranged = name.equals("sorc") || name.equals("archer");
+		e.addComponent(new Weapon(ranged));
 		e.addComponent(new TextureName(name));
 		e.addToWorld();
 

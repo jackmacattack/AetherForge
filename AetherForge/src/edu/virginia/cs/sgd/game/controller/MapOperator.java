@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import com.artemis.Component;
+
 import edu.virginia.cs.sgd.game.model.Map;
 import edu.virginia.cs.sgd.game.model.MapState;
 import edu.virginia.cs.sgd.game.model.Selection;
@@ -32,7 +34,6 @@ public class MapOperator {
 		this.map = map;
 
 		activeUnits = getUnits(player);
-		System.out.println(player + ": " + activeUnits);
 		
 		selectedId = -1;
 		selTiles = null;
@@ -62,7 +63,6 @@ public class MapOperator {
 		Triple start = new Triple(0, s.getX(), s.getY());
 		Queue<Triple> q = new LinkedList<Triple>();
 		q.add(start);
-		//		mem.add(start);
 
 		while (!q.isEmpty()) {
 			Triple t = q.poll();
@@ -81,7 +81,6 @@ public class MapOperator {
 					collide = true;
 			}
 			
-			//boolean collide = collision ? !map.pointFree(p) && t != start : false;
 			if(collide || t.getMvn() > max) {
 				continue;
 			}
@@ -109,9 +108,7 @@ public class MapOperator {
 			if (!q.contains(td)) {
 				q.add(td);
 			}
-			//			q.add(t);
 		}
-		//System.out.println(q);
 
 		return res;
 	}
@@ -189,7 +186,7 @@ public class MapOperator {
 					map.attack(selectedId, defId);
 				}
 			}
-			activeUnits.remove(new Integer(selectedId));
+			activeUnits.remove(Integer.valueOf(selectedId));
 			deselect();
 			event = 1;
 			break;
@@ -220,7 +217,11 @@ public class MapOperator {
 	}
 
 	public boolean checkTurn() {
-		return activeUnits.size() > 0;
+		return !activeUnits.isEmpty();
+	}
+
+	public <T extends Component> T getComponent(int e, Class<T> t) {
+		return map.getComponent(e, t);
 	}
 
 }

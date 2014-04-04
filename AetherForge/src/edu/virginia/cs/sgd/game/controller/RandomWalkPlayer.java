@@ -10,8 +10,8 @@ import edu.virginia.cs.sgd.util.Point;
 
 public class RandomWalkPlayer extends Player {
 
-	public RandomWalkPlayer(String name) {
-		super(name);
+	public RandomWalkPlayer(String name, String[] enemies) {
+		super(name, enemies);
 	}
 
 	@Override

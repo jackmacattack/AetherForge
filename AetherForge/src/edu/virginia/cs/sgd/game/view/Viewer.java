@@ -66,6 +66,36 @@ public class Viewer {
 		}
 	}
 
+	public void drawProfile(float health) {
+
+		int barWidth = 100;
+		int barHeight = 20;
+		
+		Pixmap p = new Pixmap(150, 100, Pixmap.Format.RGBA8888);
+		p.setColor(0, 0, 0, .5f);
+		p.fill();
+
+		Texture tex = new Texture(p);
+		
+		Pixmap hBase = new Pixmap(barWidth, barHeight, Pixmap.Format.RGBA8888);
+		hBase.setColor(1, 1, 1, .5f);
+		hBase.fill();
+
+		Texture hBaseTex = new Texture(hBase);
+
+		Pixmap h = new Pixmap((int) (barWidth * health), barHeight, Pixmap.Format.RGBA8888);
+		h.setColor(1, 0, 0, 1f);
+		h.fill();
+
+		Texture tex2 = new Texture(h);
+		
+		uiBatch.begin();
+		uiBatch.draw(tex, 20, screenHeight - 120);
+		uiBatch.draw(hBaseTex, 30, screenHeight - 50);
+		uiBatch.draw(tex2, 30, screenHeight - 50);
+		uiBatch.end();	
+	}
+	
 	public void renderUI(Level level) {
 		MapOperator o = level.getCurrentOperator();
 
@@ -96,18 +126,12 @@ public class Viewer {
 				}
 
 				batch.end();
+				
+				drawProfile(sel.getHealth());
 			}
 		}
 
-		Pixmap p = new Pixmap(50, 50, Pixmap.Format.RGBA8888);
-		p.setColor(0, 0, 0, .5f);
-		p.fill();
-
-		Texture tex = new Texture(p);
 		
-		uiBatch.begin();
-		uiBatch.draw(tex, 20, screenHeight - 70);
-		uiBatch.end();
 	}
 
 	public void resize(int width, int height) {

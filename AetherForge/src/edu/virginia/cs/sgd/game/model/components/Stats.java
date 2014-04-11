@@ -1,16 +1,17 @@
 package edu.virginia.cs.sgd.game.model.components;
 import java.util.ArrayList;
 
+import com.artemis.Component;
 import com.badlogic.gdx.math.MathUtils;
-public class Stats extends HP {
+public class Stats extends Component {
 
-	private int health, mana, meleeAtk, rangeAtk, defense, resistance, accuracy, agility, movement;
+	private int maxHealth, health, mana, meleeAtk, rangeAtk, defense, resistance, accuracy, agility, movement;
 	private ArrayList<String> skills;
 	public int experience, next, level, carrying_capacity;
 
 	public Stats()
 	{
-		health = 30;
+		maxHealth = health = 30;
 		mana = 0;
 		meleeAtk = 10;
 		rangeAtk = 10;
@@ -137,5 +138,11 @@ public class Stats extends HP {
 
 	public void setCarrying_capacity(int carrying_capacity) {
 		this.carrying_capacity = carrying_capacity;
+	}
+	
+	public float getPercentHealth() {
+		System.out.println(health);
+		System.out.println(maxHealth);
+		return ((float)health)/maxHealth;
 	}
 }

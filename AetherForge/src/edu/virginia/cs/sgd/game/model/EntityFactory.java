@@ -4,7 +4,6 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.PlayerManager;
 
-import edu.virginia.cs.sgd.game.model.components.HP;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.model.components.Stats;
 import edu.virginia.cs.sgd.game.model.components.TextureName;
@@ -19,7 +18,6 @@ public class EntityFactory {
 		Entity e = world.createEntity();
 		e.addComponent(new MapPosition(p));
 		e.addComponent(new Stats());
-		e.addComponent(new HP());
 		
 		boolean ranged = name.equals("sorc") || name.equals("archer");
 		e.addComponent(new Weapon(ranged));

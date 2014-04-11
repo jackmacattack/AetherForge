@@ -1,8 +1,8 @@
 package edu.virginia.cs.sgd.game.controller;
 
 import com.artemis.Entity;
+
 import edu.virginia.cs.sgd.game.model.components.Expires;
-import edu.virginia.cs.sgd.game.model.components.HP;
 import edu.virginia.cs.sgd.game.model.components.Stats;
 import edu.virginia.cs.sgd.game.model.components.TextureName;
 import edu.virginia.cs.sgd.game.model.components.Weapon;
@@ -17,13 +17,13 @@ public class Battle {
 		boolean attackLands = calculateFightDoesHit(attacker, defender);
 		if(attackLands) {
 			int damage = calculateFightDamage(attacker, defender);
-			HP defenderHP = defender.getComponent(HP.class);
-			int newHP = defenderHP.getHP() - damage;
+			Stats defenderHP = defender.getComponent(Stats.class);
+			int newHP = defenderHP.getHealth() - damage;
 			if(newHP <= 0) {
 				newHP = 0;
 				defender.addComponent(new Expires());
 			}
-			defenderHP.setHP(newHP);
+			defenderHP.setHealth(newHP);
 			System.out.println("Attack of " + aName + " hit for " + damage + " damage. " + dName + " has " + newHP + " health.");
 		}
 		else {

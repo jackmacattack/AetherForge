@@ -117,10 +117,12 @@ public class MapOperator {
 
 		MapPosition m = map.getComponent(id, MapPosition.class);
 		Weapon w = map.getComponent(id, Weapon.class);
+		Stats s = map.getComponent(id, Stats.class);
 		List<Point> tiles = selectTiles(w.getMinRange(), w.getMaxRange(), m.getPoint(), false);
 
 		Selection sel = new Selection();
-
+		sel.setHealth(s.getPercentHealth());
+		
 		for(Point tile : tiles) {
 			sel.addTile(tile, SelectionType.ATTACK);
 		}
@@ -135,6 +137,7 @@ public class MapOperator {
 		List<Point> tiles = selectTiles(0, s.getMovement(), m.getPoint(), true);
 
 		Selection sel = new Selection();
+		sel.setHealth(s.getPercentHealth());
 
 		for(Point pos : tiles) {
 			sel.addTile(pos, SelectionType.MOVE);

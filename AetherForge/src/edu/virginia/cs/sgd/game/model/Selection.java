@@ -10,6 +10,8 @@ public class Selection {
 	private ArrayList<Point> selPos;
 	private ArrayList<SelectionType> selType;
 	
+	private float health = 0;
+	
 	public Selection() {
 		
 		selPos = new ArrayList<Point>();
@@ -42,6 +44,14 @@ public class Selection {
 		}
 		
 		return SelectionType.NONE;
+	}
+
+	public float getHealth() {
+		return health;
+	}
+
+	public void setHealth(float health_) {
+		health = health_;
 	}
 	
 }

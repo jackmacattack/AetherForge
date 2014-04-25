@@ -13,6 +13,7 @@ import edu.virginia.cs.sgd.game.model.MapState;
 import edu.virginia.cs.sgd.game.model.Selection;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
 import edu.virginia.cs.sgd.game.model.components.Stats;
+import edu.virginia.cs.sgd.game.model.components.TextureName;
 import edu.virginia.cs.sgd.game.model.components.Weapon;
 import edu.virginia.cs.sgd.game.view.SelectionType;
 import edu.virginia.cs.sgd.util.Point;
@@ -118,10 +119,13 @@ public class MapOperator {
 		MapPosition m = map.getComponent(id, MapPosition.class);
 		Weapon w = map.getComponent(id, Weapon.class);
 		Stats s = map.getComponent(id, Stats.class);
+		TextureName t = map.getComponent(id, TextureName.class);
 		List<Point> tiles = selectTiles(w.getMinRange(), w.getMaxRange(), m.getPoint(), false);
 
 		Selection sel = new Selection();
 		sel.setHealth(s.getPercentHealth());
+		sel.setMana(s.getPercentMana());
+		sel.setTex(t.getName());
 		
 		for(Point tile : tiles) {
 			sel.addTile(tile, SelectionType.ATTACK);
@@ -129,15 +133,10 @@ public class MapOperator {
 		selTiles = sel;
 	}
 
-	private void setMoveTiles(int id) {
-
-		MapPosition m = map.getComponent(id, MapPosition.class);
-		Stats s = map.getComponent(id, Stats.class);
+	private void setMoveTiles(Selection sel, Stats s, MapPosition m) {
 
 		List<Point> tiles = selectTiles(0, s.getMovement(), m.getPoint(), true);
 
-		Selection sel = new Selection();
-		sel.setHealth(s.getPercentHealth());
 
 		for(Point pos : tiles) {
 			sel.addTile(pos, SelectionType.MOVE);
@@ -150,13 +149,21 @@ public class MapOperator {
 
 		String owner = map.getPlayer(id);
 
+		MapPosition m = map.getComponent(id, MapPosition.class);
+		Stats s = map.getComponent(id, Stats.class);
+		TextureName t = map.getComponent(id, TextureName.class);
+		Selection sel = new Selection();
+		sel.setHealth(s.getPercentHealth());
+		sel.setMana(s.getPercentMana());
+		sel.setTex(t.getName());
+		
 		if(owner.equals(player)) {
 
 			if(activeUnits.contains(id)) {
 
 				selectedId = id;
 
-				setMoveTiles(id);
+				setMoveTiles(sel, s, m);
 				
 				return true;
 			}
@@ -168,6 +175,7 @@ public class MapOperator {
 			System.out.println("That is not your unit!");
 		}
 		
+		selTiles = sel;
 		return false;
 
 	}

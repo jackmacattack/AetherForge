@@ -66,33 +66,94 @@ public class Viewer {
 		}
 	}
 
-	public void drawProfile(float health) {
+	public void drawTiles(Selection sel) {
 
-		int barWidth = 100;
-		int barHeight = 20;
+		ArrayList<Point> highlightPos = sel.getSelPos();
+		ArrayList<SelectionType> highlightType = sel.getSelType();
+
+		SpriteBatch batch = renderer.getSpriteBatch();
+		batch.begin();
+
+		for(int i = 0; i < highlightPos.size(); i++) {
+
+			Point pos = highlightPos.get(i);
+			SelectionType type = highlightType.get(i);
+
+			Pixmap p = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+			p.setColor(getColor(type));
+			p.fill();
+			p.setColor(0, 0, 0, .5f);
+			p.drawRectangle(0, 0, width, height);
+
+			Texture tex = new Texture(p);
+
+			batch.draw(tex, (float) pos.getX() * width, (float) pos.getY() * height);
+		}
+
+		batch.end();
+	}
+	
+	public void drawProfile(String profile, float health, float mana) {
+
+		int canvasWidth = 150;
+		int canvasHeight = 74;
+		int canvasSpacing = 20;
+		int spacing = 5;
 		
-		Pixmap p = new Pixmap(150, 100, Pixmap.Format.RGBA8888);
+		int headWidth = 64;
+		int headHeight = 64;
+		int headX = canvasSpacing + spacing;
+		int headY = screenHeight - headHeight - canvasSpacing - spacing;
+		
+		int barWidth = 70;
+		int barHeight = 15;
+		int barX = canvasWidth + canvasSpacing - barWidth - spacing;
+		int barY = screenHeight - canvasSpacing - barHeight - spacing;
+		int mBarY = barY - barHeight - spacing;
+		
+		Pixmap p = new Pixmap(canvasWidth, canvasHeight, Pixmap.Format.RGBA8888);
 		p.setColor(0, 0, 0, .5f);
 		p.fill();
 
-		Texture tex = new Texture(p);
+		Texture bg = new Texture(p);
 		
-		Pixmap hBase = new Pixmap(barWidth, barHeight, Pixmap.Format.RGBA8888);
-		hBase.setColor(1, 1, 1, .5f);
-		hBase.fill();
+		p = new Pixmap(headWidth, headHeight, Pixmap.Format.RGBA8888);
+		p.setColor(0, 0, 0, 1);
+		p.fill();
 
-		Texture hBaseTex = new Texture(hBase);
+		Texture headShot = new Texture(p);
+		
+		p = new Pixmap(barWidth, barHeight, Pixmap.Format.RGBA8888);
+		p.setColor(1, 1, 1, .5f);
+		p.fill();
 
-		Pixmap h = new Pixmap((int) (barWidth * health), barHeight, Pixmap.Format.RGBA8888);
-		h.setColor(1, 0, 0, 1f);
-		h.fill();
+		Texture healthBase = new Texture(p);
 
-		Texture tex2 = new Texture(h);
+		p = new Pixmap((int) (barWidth * health), barHeight, Pixmap.Format.RGBA8888);
+		p.setColor(1, 0, 0, 1f);
+		p.fill();
+
+		Texture healthLeft = new Texture(p);
+		
+		p = new Pixmap(barWidth, barHeight, Pixmap.Format.RGBA8888);
+		p.setColor(1, 1, 1, .5f);
+		p.fill();
+
+		Texture manaBase = new Texture(p);
+
+		p = new Pixmap((int) (barWidth * mana), barHeight, Pixmap.Format.RGBA8888);
+		p.setColor(0, 0, 1, 1f);
+		p.fill();
+
+		Texture manaLeft = new Texture(p);
 		
 		uiBatch.begin();
-		uiBatch.draw(tex, 20, screenHeight - 120);
-		uiBatch.draw(hBaseTex, 30, screenHeight - 50);
-		uiBatch.draw(tex2, 30, screenHeight - 50);
+		uiBatch.draw(bg, canvasSpacing, screenHeight - canvasHeight - canvasSpacing);
+		uiBatch.draw(headShot, headX, headY);
+		uiBatch.draw(healthBase, barX, barY);
+		uiBatch.draw(healthLeft, barX, barY);
+		uiBatch.draw(manaBase, barX, mBarY);
+		uiBatch.draw(manaLeft, barX, mBarY);
 		uiBatch.end();	
 	}
 	
@@ -103,31 +164,9 @@ public class Viewer {
 			Selection sel = o.getSelection();
 
 			if(sel != null) {
-				ArrayList<Point> highlightPos = sel.getSelPos();
-				ArrayList<SelectionType> highlightType = sel.getSelType();
-
-				SpriteBatch batch = renderer.getSpriteBatch();
-				batch.begin();
-
-				for(int i = 0; i < highlightPos.size(); i++) {
-
-					Point pos = highlightPos.get(i);
-					SelectionType type = highlightType.get(i);
-
-					Pixmap p = new Pixmap(width, height, Pixmap.Format.RGBA8888);
-					p.setColor(getColor(type));
-					p.fill();
-					p.setColor(0, 0, 0, .5f);
-					p.drawRectangle(0, 0, width, height);
-
-					Texture tex = new Texture(p);
-
-					batch.draw(tex, (float) pos.getX() * width, (float) pos.getY() * height);
-				}
-
-				batch.end();
+				drawTiles(sel);
 				
-				drawProfile(sel.getHealth());
+				drawProfile(sel.getTex(), sel.getHealth(), sel.getMana());
 			}
 		}
 

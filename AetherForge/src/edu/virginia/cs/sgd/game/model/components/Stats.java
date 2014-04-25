@@ -5,14 +5,14 @@ import com.artemis.Component;
 import com.badlogic.gdx.math.MathUtils;
 public class Stats extends Component {
 
-	private int maxHealth, health, mana, meleeAtk, rangeAtk, defense, resistance, accuracy, agility, movement;
+	private int maxHealth, health, maxMana, mana, meleeAtk, rangeAtk, defense, resistance, accuracy, agility, movement;
 	private ArrayList<String> skills;
 	public int experience, next, level, carrying_capacity;
 
 	public Stats()
 	{
 		maxHealth = health = 30;
-		mana = 0;
+		maxMana = mana = 30;
 		meleeAtk = 10;
 		rangeAtk = 10;
 		defense = 10;
@@ -141,8 +141,10 @@ public class Stats extends Component {
 	}
 	
 	public float getPercentHealth() {
-		System.out.println(health);
-		System.out.println(maxHealth);
 		return ((float)health)/maxHealth;
+	}
+	
+	public float getPercentMana() {
+		return ((float)mana)/maxMana;
 	}
 }

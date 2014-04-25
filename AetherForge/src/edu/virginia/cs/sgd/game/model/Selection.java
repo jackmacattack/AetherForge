@@ -9,8 +9,10 @@ public class Selection {
 
 	private ArrayList<Point> selPos;
 	private ArrayList<SelectionType> selType;
-	
+
 	private float health = 0;
+	private float mana = 0;
+	private String tex = "";
 	
 	public Selection() {
 		
@@ -52,6 +54,22 @@ public class Selection {
 
 	public void setHealth(float health_) {
 		health = health_;
+	}
+
+	public float getMana() {
+		return mana;
+	}
+
+	public void setMana(float mana) {
+		this.mana = mana;
+	}
+
+	public String getTex() {
+		return tex;
+	}
+
+	public void setTex(String tex) {
+		this.tex = tex;
 	}
 	
 }

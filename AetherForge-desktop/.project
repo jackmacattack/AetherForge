@@ -23,7 +23,7 @@
 		<link>
 			<name>assets/assets</name>
 			<type>2</type>
-			<location>J:/Software_Dev/Workspace/AetherForgeRepo/AetherForge-android/assets</location>
+			<location>../AetherForge-android/assets</location>
 		</link>
 	</linkedResources>
 	<variableList>

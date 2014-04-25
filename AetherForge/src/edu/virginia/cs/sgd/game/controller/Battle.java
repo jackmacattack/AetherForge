@@ -8,13 +8,15 @@ import edu.virginia.cs.sgd.game.model.components.TextureName;
 import edu.virginia.cs.sgd.game.model.components.Weapon;
 
 public class Battle {
-	
 	public static boolean OneOnOneFight(Entity attacker, Entity defender) {
 
 		String aName = attacker.getComponent(TextureName.class).getName();
 		String dName = defender.getComponent(TextureName.class).getName();
 		
 		boolean attackLands = calculateFightDoesHit(attacker, defender);
+//		SpriteAnimation att = sam.get(attacker);
+//		//start attack animation
+//		att.animation.setAnimated(true);
 		if(attackLands) {
 			int damage = calculateFightDamage(attacker, defender);
 			Stats defenderHP = defender.getComponent(Stats.class);
@@ -29,6 +31,8 @@ public class Battle {
 		else {
 			System.out.println(aName + "'s attack missed.");
 		}
+		//end attack animation
+		//att.animation.setAnimated(false);
 		attacker.changedInWorld();
 		defender.changedInWorld();
 		return attackLands;

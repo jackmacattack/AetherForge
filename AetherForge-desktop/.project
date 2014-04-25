@@ -18,7 +18,7 @@
 		<link>
 			<name>assets</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/Aetherforge/Aetherforge-android/assets</locationURI>
+			<location>C:/Users/User/Documents/GitHub/AetherForge/AetherForge-android/assets</location>
 		</link>
 	</linkedResources>
 	<variableList>

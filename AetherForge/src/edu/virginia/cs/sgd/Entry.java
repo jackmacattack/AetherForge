@@ -96,6 +96,7 @@ public class Entry extends Game implements ApplicationListener {
 		m.load("Credits", "screens/Credits.png", Texture.class);
 		m.load("Map 1", "maps/map1.tmx", TiledMap.class);
 		m.load("Battle Theme", "music/Battle Theme.mp3", Music.class);
-		
+		m.load("HumanSprites", "sprites/8x8sprites.gif", Texture.class);
+		//m.load("EnemySprites", "sprites/enemysheet.gif", Texture.class);
 	}
 }

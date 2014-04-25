@@ -9,6 +9,7 @@ import com.artemis.annotations.Mapper;
 import edu.virginia.cs.sgd.game.model.components.Expires;
 import edu.virginia.cs.sgd.game.model.components.HP;
 import edu.virginia.cs.sgd.game.model.components.MapPosition;
+import edu.virginia.cs.sgd.game.model.components.SpriteAnimation;
 import edu.virginia.cs.sgd.game.model.components.Stats;
 import edu.virginia.cs.sgd.game.model.components.Weapon;
 
@@ -18,9 +19,12 @@ public class Battle {
 	@Mapper static ComponentMapper<Weapon> weaponMapper;
 	@Mapper static ComponentMapper<MapPosition> positionMapper;
 	@Mapper static ComponentMapper<HP> hpMapper;
-	
+	@Mapper static ComponentMapper<SpriteAnimation> sam;
 	public static boolean OneOnOneFight(Entity attacker, Entity defender) {	
 		boolean attackLands = calculateFightDoesHit(attacker, defender);
+//		SpriteAnimation att = sam.get(attacker);
+//		//start attack animation
+//		att.animation.setAnimated(true);
 		if(attackLands) {
 			int damage = calculateFightDamage(attacker, defender);
 			HP defenderHP = defender.getComponent(HP.class);//hpMapper.get(defender);
@@ -35,6 +39,8 @@ public class Battle {
 		else {
 			System.out.println("Attack missed.");
 		}
+		//end attack animation
+		//att.animation.setAnimated(false);
 		attacker.changedInWorld();
 		defender.changedInWorld();
 		return attackLands;

@@ -23,7 +23,7 @@
 		<link>
 			<name>assets/assets</name>
 			<type>2</type>
-			<location>../AetherForge-android/assets</location>
+			<locationURI>AetherForge-android/assets</locationURI>
 		</link>
 	</linkedResources>
 	<variableList>

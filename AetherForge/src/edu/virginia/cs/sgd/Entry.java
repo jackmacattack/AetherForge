@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import edu.virginia.cs.sgd.input.Input;
 import edu.virginia.cs.sgd.menu.AbstractScreen;
-import edu.virginia.cs.sgd.menu.MapScreen;
+import edu.virginia.cs.sgd.menu.SplashScreen;
 import edu.virginia.cs.sgd.util.SingletonAssetManager;
 
 
@@ -27,8 +27,8 @@ public class Entry extends Game implements ApplicationListener {
 		
 		loadImmediateAssets();
 		loadAssets();
-//		createScreen(SplashScreen.class);
-		createScreen(MapScreen.class);
+		createScreen(SplashScreen.class);
+//		createScreen(MapScreen.class);
 	}
 
 	@Override

@@ -19,10 +19,10 @@ public class Viewer {
 
 	private int screenWidth;
 	private int screenHeight;
-	
+
+	private float startZoom;
 	private float zoomMin;
 	private float zoomMax;
-	private float zoomDelta;
 
 	private int width;
 	private int height;
@@ -41,12 +41,12 @@ public class Viewer {
 		this.height = height;
 		this.renderer = renderer;
 
+		startZoom = .5f;
 		zoomMin = .2f;
-		zoomMax = 2f;
-		zoomDelta = .2f;
+		zoomMax = 1f;
 
 		camera = new OrthographicCamera();
-
+		camera.zoom = startZoom;
 		uiBatch = new SpriteBatch();
 	}
 
@@ -194,15 +194,8 @@ public class Viewer {
 		return new Point(x, y);
 	}
 
-	public void zoomMap(boolean in) {
-		float zoom = 0;
-
-		if(in) {
-			zoom = camera.zoom * (1 + zoomDelta);
-		}
-		else {
-			zoom = camera.zoom * (1 - zoomDelta);
-		}
+	public void zoomMap(float percent) {
+		float zoom = camera.zoom * percent;
 
 		if(zoom > zoomMin && zoom < zoomMax) {
 			camera.zoom = zoom;

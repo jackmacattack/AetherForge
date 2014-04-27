@@ -24,6 +24,7 @@ public class Input {
 			p = new MyInputProcessor(this);
 			break;
 		case WebGL:
+			p = new MyInputProcessor(this);
 			break;
 		case Applet:
 			break;

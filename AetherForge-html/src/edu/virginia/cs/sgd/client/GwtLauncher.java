@@ -1,9 +1,11 @@
 package edu.virginia.cs.sgd.client;
 
-import edu.virginia.cs.sgd.Entry;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
+
+import edu.virginia.cs.sgd.Entry;
+import edu.virginia.cs.sgd.util.Threader;
 
 public class GwtLauncher extends GwtApplication {
 	@Override
@@ -14,6 +16,7 @@ public class GwtLauncher extends GwtApplication {
 
 	@Override
 	public ApplicationListener getApplicationListener () {
+        Threader.getInstance().setExecutor(new GwtExecutor());
 		return new Entry();
 	}
 }

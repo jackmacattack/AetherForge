@@ -1,8 +1,9 @@
 package edu.virginia.cs.sgd.game.controller;
 
+import edu.virginia.cs.sgd.util.Threader;
+
 public abstract class Player {
 	
-	private Thread t;
 	protected String name;
 	protected String[] enemies;
 	
@@ -23,20 +24,17 @@ public abstract class Player {
 	protected abstract void takeTurn(MapOperator map);
 	
 	public void processTurn(final MapOperator map) {
-		t = new Thread() {
+		
+		Threader.getInstance().execute(new Runnable() {
 			public void run() {
 				takeTurn(map);
 			}
-		};
+		});
 		
-		t.start();
 	}
 
 	public boolean takingTurn() {
-		if(t != null) {
-			return t.isAlive();
-		}
-		return false;
+		return Threader.getInstance().isExecuting();
 	}
 
 	public abstract void endTurn();

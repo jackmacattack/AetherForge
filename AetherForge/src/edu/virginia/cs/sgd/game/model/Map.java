@@ -163,11 +163,11 @@ public abstract class Map {
 		// start attack animation
 
 		System.out.println("Waiting on Attack Animation...");
-//		try {
-//			Thread.sleep((long) animator.animationDuration*7);
-//		} catch (InterruptedException ex) {
-//			Thread.currentThread().interrupt();
-//		}
+		try {
+			Thread.sleep((long) animator.animationDuration*7);
+		} catch (InterruptedException ex) {
+			Thread.currentThread().interrupt();
+		}
 		Battle.OneOnOneFight(e, def);
 		sprite.name = "idleman";
 		e.changedInWorld();
@@ -219,11 +219,11 @@ public abstract class Map {
 			m.setX(tp.getX());
 			m.setY(tp.getY());
 			e.changedInWorld();
-//			try {
-//				Thread.sleep(200);
-//			} catch (InterruptedException ex) {
-//				Thread.currentThread().interrupt();
-//			}
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException ex) {
+				Thread.currentThread().interrupt();
+			}
 			prevX = tp.getX();
 			prevY = tp.getY();
 			prevName = s.name;
@@ -248,7 +248,7 @@ public abstract class Map {
 	public <T extends Component> T getComponent(int id, Class<T> type) {
 		Entity e = world.getEntity(id);
 
-		return e.getComponent(type);
+		return type.cast(e.getComponent(ComponentType.getTypeFor(type)));
 
 	}
 

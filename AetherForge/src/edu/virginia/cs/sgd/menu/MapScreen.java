@@ -5,8 +5,10 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.game.view.RenderSystem;
@@ -39,6 +41,7 @@ public class MapScreen extends AbstractScreen {
 
 		level = new Level(map, renderer);
 		level.initialize();
+
 	}
 	
 	public void gameOver(){
@@ -69,7 +72,27 @@ public class MapScreen extends AbstractScreen {
 
 	@Override
 	public void show() {
-		Texture.setEnforcePotImages(false);
+		Texture.setEnforcePotImages(true);
+		super.skin = SingletonAssetManager.getInstance().get("UISkin");
+		new Dialog("Dialog", super.skin) {
+
+			{
+				text("The output ");
+			}
+
+			@Override
+			protected void result(final Object object) {
+				new Dialog("", skin) {
+
+					{
+						text(object.toString());
+						button("OK");
+					}
+
+				}.show(stage);
+			}
+
+		}.show(stage);
 	}
 
 	public void dispose() {

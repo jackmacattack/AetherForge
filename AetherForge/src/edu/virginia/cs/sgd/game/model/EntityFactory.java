@@ -26,7 +26,10 @@ public class EntityFactory {
 		e.addComponent(new MapPosition(p));
 		e.addComponent(new Stats());
 		e.addComponent(new HP());
-		e.addComponent(new Weapon());
+		if(name.substring(name.length()-1).equals("3"))
+		e.addComponent(new Weapon(1, 4));
+		else
+			e.addComponent(new Weapon(1, 1));
 		e.addComponent(new TextureName(name));
 		e.addToWorld();
 

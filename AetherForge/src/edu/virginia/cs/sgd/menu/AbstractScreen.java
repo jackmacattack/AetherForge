@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
@@ -15,15 +16,13 @@ import edu.virginia.cs.sgd.util.SingletonAssetManager;
  * The base class for all game screens.
  */
 public abstract class AbstractScreen implements Screen, InputListener {
-	public static final int VIEWPORT_WIDTH = 800,
-			VIEWPORT_HEIGHT = 480;
-
+	public static final int VIEWPORT_WIDTH = 800, VIEWPORT_HEIGHT = 480;
 
 	protected final Stage stage;
 	protected Skin skin;
 
 	private Class<? extends AbstractScreen> newScreen;
-	
+
 	public AbstractScreen() {
 		int width = VIEWPORT_WIDTH;
 		int height = VIEWPORT_HEIGHT;
@@ -39,14 +38,35 @@ public abstract class AbstractScreen implements Screen, InputListener {
 	public void show() {
 		Gdx.app.log(Entry.LOG, "Showing screen: " + getName());
 
-        skin = SingletonAssetManager.getInstance().get("UISkin");
+		skin = SingletonAssetManager.getInstance().get("UISkin");
+//			new Dialog("Dialog", skin) {
+//
+//			{
+//				text("The output ");
+//			}
+//
+//			@Override
+//			protected void result(final Object object) {
+//				new Dialog("", skin) {
+//
+//					{
+//						text(object.toString());
+//						button("OK");
+//					}
+//
+//				}.show(stage);
+//			}
+//
+//		}.show(stage);
 	}
+
+	
 
 	@Override
 	public void resize(int width, int height) {
 		Gdx.app.log(Entry.LOG, "Resizing screen: " + getName() + " to: "
 				+ width + " x " + height);
-		
+
 		stage.setViewport(width, height, false);
 	}
 
@@ -98,11 +118,11 @@ public abstract class AbstractScreen implements Screen, InputListener {
 	public void changeScreen(Class<? extends AbstractScreen> newScreen) {
 		this.newScreen = newScreen;
 	}
-	
+
 	public Class<? extends AbstractScreen> checkScreenChange() {
 		return newScreen;
 	}
-	
+
 	@Override
 	public void keyDown(int keyCode) {
 
@@ -110,31 +130,33 @@ public abstract class AbstractScreen implements Screen, InputListener {
 
 	@Override
 	public void keyUp(int keyCode) {
-		
+
 	}
 
 	@Override
 	public void touchDown(int screenX, int screenY, int pointer, int button) {
-		
+
 	}
 
 	@Override
-	public void touchUp(int screenX, int screenY, int pointer, int button, boolean dragging) {
-		
+	public void touchUp(int screenX, int screenY, int pointer, int button,
+			boolean dragging) {
+
 	}
 
 	@Override
 	public void mouseMoved(int screenX, int screenY, int deltaX, int deltaY) {
-		
+
 	}
 
 	@Override
 	public void scrolled(int amount) {
-		
+
 	}
-	
+
 	@Override
-	public void touchDragged(int screenX, int screenY, int pointer, int deltaX, int deltaY) {
-		
+	public void touchDragged(int screenX, int screenY, int pointer, int deltaX,
+			int deltaY) {
+
 	}
 }

@@ -15,14 +15,14 @@ public class BattleSystemTests {
 		Entity attacker = theWorld.createEntity();
 		attacker.addComponent(new Stats());
 		attacker.addComponent(new HP());
-		attacker.addComponent(new Weapon());
+		attacker.addComponent(new Weapon(1,1));
 		attacker.addComponent(new MapPosition(0,0));
 		attacker.addToWorld();
 		
 		Entity defender = theWorld.createEntity();
 		defender.addComponent(new Stats());
 		defender.addComponent(new HP());
-		defender.addComponent(new Weapon());
+		defender.addComponent(new Weapon(1,1));
 		defender.addComponent(new MapPosition(1,0));
 		defender.addToWorld();
 		

@@ -4,12 +4,17 @@ import java.util.ArrayList;
 
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Mapper;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.game.controller.MapOperator;
@@ -66,7 +71,17 @@ public class Viewer {
 
 	public void renderUI(Level level) {
 		MapOperator o = level.getCurrentOperator();
-
+		SpriteBatch batch = renderer.getSpriteBatch();
+		Skin paneSkin = new Skin(Gdx.files.internal("skins/uiskin.json"));
+		ScrollPane pane = new ScrollPane(new Actor(), paneSkin);
+		//OutputNinePatch nine = OutputNinePatch.getInstance();
+		// Create a new TextButtonStyle
+	//	TextButtonStyle style = new TextButton.TextButtonStyle();
+		// Instantiate the Button itself.
+		//TextButton button = new TextButton("hello world", null);
+		batch.begin();
+		//nine.draw(batch, 250, 0, 500, 100);
+		//pane.draw(batch, 1);
 		if(o != null) {
 			Selection sel = o.getSelection();
 
@@ -74,9 +89,14 @@ public class Viewer {
 				ArrayList<Point> highlightPos = sel.getSelPos();
 				ArrayList<SelectionType> highlightType = sel.getSelType();
 
-				SpriteBatch batch = renderer.getSpriteBatch();
-				batch.begin();
-
+				//batch.begin();
+				//BitmapFont font = new BitmapFont(Gdx.files.internal("skins/default.fnt"), Gdx.files.internal("skin/default.png"),false);
+//				BitmapFont font = new BitmapFont();
+//				CharSequence output = "Selected Warrior";
+//				//batch.begin();
+//				font.setColor(0, 0, 0, 1);
+//				font.draw(batch, output, 400, 100);
+//				nine.draw(batch, 0, 0, Gdx.graphics.getWidth(), 100);
 				for(int i = 0; i < highlightPos.size(); i++) {
 
 					Point pos = highlightPos.get(i);
@@ -93,9 +113,10 @@ public class Viewer {
 					batch.draw(tex, (float) pos.getX() * width, (float) pos.getY() * height);
 				}
 
-				batch.end();
+				//batch.end();
 			}
 		}
+		batch.end();
 	}
 
 	public void resize(int width, int height) {

@@ -64,8 +64,8 @@ public abstract class Map {
 		// addEntity(new Point(1, 5), "cleric", "Enemy");
 		// addEntity(new Point(3, 4), "archer", "Enemy");
 		// test animation
-		addEntity(new Point(5, 5), "idleman", "Human");
-		addEntity(new Point(1, 3), "idleman", "Enemy");
+		addEntity(new Point(5, 4), "idleman", "Human");
+		addEntity(new Point(1, 2), "idleman", "Enemy");
 
 		blockLayer = this.map.getLayers().get("block");
 	}

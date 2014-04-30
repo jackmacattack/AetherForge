@@ -129,7 +129,7 @@ public abstract class AbstractScreen implements Screen, InputListener {
 	}
 
 	@Override
-	public void scrolled(int amount) {
+	public void zoom(float percent) {
 		
 	}
 	

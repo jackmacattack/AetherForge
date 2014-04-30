@@ -12,7 +12,7 @@ public interface InputListener {
 	
 	void mouseMoved(int screenX, int screenY, int deltaX, int deltaY);
 	
-	void scrolled(int amount);
+	void zoom(float percent);
 	
 	void touchDragged(int screenX, int screenY, int pointer, int deltaX, int deltaY);
 }

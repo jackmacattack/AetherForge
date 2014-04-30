@@ -9,6 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import edu.virginia.cs.sgd.input.Input;
 import edu.virginia.cs.sgd.menu.AbstractScreen;
+import edu.virginia.cs.sgd.menu.CreditsScreen;
+import edu.virginia.cs.sgd.menu.MapScreen;
+import edu.virginia.cs.sgd.menu.MenuScreen;
 import edu.virginia.cs.sgd.menu.SplashScreen;
 import edu.virginia.cs.sgd.util.SingletonAssetManager;
 
@@ -57,15 +60,28 @@ public class Entry extends Game implements ApplicationListener {
 	}
 	
 	private void createScreen(Class<? extends AbstractScreen> type) {
-		screen = null;
-		try {
-			screen = type.newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-			return;
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-			return;
+//		screen = null;
+//		try {
+//			screen = type.newInstance();
+//		} catch (InstantiationException e) {
+//			e.printStackTrace();
+//			return;
+//		} catch (IllegalAccessException e) {
+//			e.printStackTrace();
+//			return;
+//		}
+		
+		if(type.equals(SplashScreen.class)) {
+			screen = new SplashScreen();
+		}
+		else if(type.equals(MenuScreen.class)) {
+			screen = new MenuScreen();
+		}
+		else if(type.equals(MapScreen.class)) {
+			screen = new MapScreen();
+		}
+		else if(type.equals(CreditsScreen.class)) {
+			screen = new CreditsScreen();
 		}
 		
 		input.setListener(screen);
@@ -89,6 +105,6 @@ public class Entry extends Game implements ApplicationListener {
 		m.load("Forest", "maps/ForestMap.tmx", TiledMap.class);
 		m.load("Battle Theme", "music/Battle Theme.mp3", Music.class);
 		m.load("HumanSprites", "sprites/8x8sprites.gif", Texture.class);
-		//m.load("EnemySprites", "sprites/enemysheet.gif", Texture.class);
+//		m.load("EnemySprites", "sprites/enemysheet.gif", Texture.class);
 	}
 }

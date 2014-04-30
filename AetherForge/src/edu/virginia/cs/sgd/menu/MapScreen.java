@@ -110,8 +110,8 @@ public class MapScreen extends AbstractScreen {
 	}
 
 	@Override
-	public void scrolled(int amount) {
-		viewer.zoomMap(amount == 1);
+	public void zoom(float percent) {
+		viewer.zoomMap(percent);
 	}
 	
 	@Override

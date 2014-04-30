@@ -26,7 +26,11 @@ public class MapScreen extends AbstractScreen {
 		
 		SingletonAssetManager.getInstance().finishLoading();
 
-		TiledMap map = SingletonAssetManager.getInstance().get("Map 1");
+		TiledMap map = SingletonAssetManager.getInstance().get("Intro");
+		TiledMap map2 = SingletonAssetManager.getInstance().get("Forest");
+		
+		TiledMap[] maps = {map, map2};
+		
 		Audio.getInstance().play("Battle Theme");
 
 		MapProperties prop = map.getProperties();
@@ -37,7 +41,7 @@ public class MapScreen extends AbstractScreen {
 		RenderSystem renderer = new RenderSystem(map, scale);
 		this.viewer = new Viewer(1280, 720, mapWidth, mapHeight, renderer);
 
-		level = new Level(map, renderer);
+		level = new Level(maps, renderer);
 		level.initialize();
 	}
 	

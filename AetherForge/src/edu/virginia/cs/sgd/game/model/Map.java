@@ -70,6 +70,10 @@ public abstract class Map {
 		blockLayer = this.map.getLayers().get("block");
 	}
 
+	public TiledMap getMap() {
+		return map;
+	}
+	
 	public void initialize() {
 		world.initialize();
 		world.process();

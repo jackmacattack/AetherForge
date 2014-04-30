@@ -22,6 +22,8 @@ import edu.virginia.cs.sgd.util.TextureRegionManager;
 
 public class RenderSystem extends EntityProcessingSystem {
 
+	private boolean isNew;
+	
 	@Mapper
 	ComponentMapper<MapPosition> mapper;
 
@@ -50,25 +52,18 @@ public class RenderSystem extends EntityProcessingSystem {
 
 		super(Aspect.getAspectForAll(MapPosition.class, TextureName.class));
 
+		setMap(map, scale);
+	}
+	
+	public void setMap(TiledMap map, float scale) {
 		this.renderer = new OrthogonalTiledMapRenderer(map, scale);
 
-		// String[] names = {"swordsman", "spearman", "gunner", "cleric",
-		// "archer", "berserker", "sorc", "blank"};
-		// String[] anim = {"walkmanS", "walkmanW", "walkmanE"};
-		// //texManager = new TextureRegionManager("Characters", width, height,
-		// names);
 		width = map.getProperties().get("tilewidth", Integer.class);
 		height = (map.getProperties().get("tileheight", Integer.class));
 		texAnimationManager = new TextureRegionManager("HumanSprites", width,
 				height, animationNames);
-		// texManager.addRegion("swordsman", texManager.getTr()[0][0]);
-		// texManager.addRegion("spearman", texManager.getTr()[0][1]);
-		// texManager.addRegion("gunner", texManager.getTr()[0][2]);
-		// texManager.addRegion("cleric", texManager.getTr()[0][3]);
-		// texManager.addRegion("archer", texManager.getTr()[0][4]);
-		// texManager.addRegion("berserker", texManager.getTr()[0][5]);
-		// texManager.addRegion("sorc", texManager.getTr()[0][6]);
-		// texManager.addRegion("sample", texManager.getTr()[0][7]);
+		
+		isNew = true;
 	}
 
 	public float getScale() {
@@ -138,6 +133,16 @@ public class RenderSystem extends EntityProcessingSystem {
 
 	public SpriteBatch getSpriteBatch() {
 		return renderer.getSpriteBatch();
+	}
+
+	public boolean isNew() {
+		if(isNew) {
+			isNew = false;
+			
+			return true;
+		}
+		
+		return false;
 	}
 
 }

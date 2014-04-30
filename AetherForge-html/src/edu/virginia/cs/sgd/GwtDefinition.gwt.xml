@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <module>
     <entry-point class="edu.virginia.cs.sgd.client.GwtLauncher"/>
-    <set-configuration-property name="gdx.assetpath" value="../AetherForge-android/assets"/>
     <inherits name="AetherForge"/>
     <inherits name="com.badlogic.gdx.backends.gdx_backends_gwt"/>
     <inherits name="com.artemis.Artemis"/>
+    <set-configuration-property name="gdx.assetpath" value="../AetherForge-android/assets"/>
 </module>

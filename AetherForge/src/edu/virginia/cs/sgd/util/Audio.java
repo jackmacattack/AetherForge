@@ -20,13 +20,16 @@ public class Audio {
 	private Music currentSong;
 	
 	public void play(String name) {
+		stop();
 		currentSong = SingletonAssetManager.getInstance().get(name);
 		currentSong.play();
 		currentSong.setLooping(true);
 	}
 	
 	public void stop() {
-		currentSong.stop();
+		if(currentSong != null) {
+			currentSong.stop();
+		}
 	}
 	
 }

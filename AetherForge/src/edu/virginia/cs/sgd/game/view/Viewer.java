@@ -158,6 +158,11 @@ public class Viewer {
 	}
 	
 	public void renderUI(Level level) {
+		
+		if(renderer.isNew()) {
+			updateCamera();
+		}
+		
 		MapOperator o = level.getCurrentOperator();
 
 		if(o != null) {

@@ -34,7 +34,7 @@ public class EntityFactory {
 
 		PlayerManager teams = world.getManager(PlayerManager.class);
 		teams.setPlayer(e, player);
-
+		
 		return e;
 	}
 

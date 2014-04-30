@@ -58,7 +58,6 @@ public class TextureRegionManager {
 			map.put(name, row);
 		}
 	}
-
 	public TextureRegion[][] getTexArr() {
 		return texArr;
 	}

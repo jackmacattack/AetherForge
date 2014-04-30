@@ -24,11 +24,13 @@ public class EntityFactory {
 		e.addComponent(new Sprite(name));
 		e.addComponent(new SpriteAnimation(0, defaultDuration, Animation.LOOP));
 		e.addComponent(new MapPosition(p));
+
 		e.addComponent(new Stats());
-		
-		boolean ranged = name.equals("sorc") || name.equals("archer");
-		e.addComponent(new Weapon(ranged));
-		
+		if(name.substring(name.length()-1).equals("3"))
+		e.addComponent(new Weapon(1, 4));
+		else
+			e.addComponent(new Weapon(1, 1));
+
 		e.addComponent(new TextureName(name));
 		e.addToWorld();
 

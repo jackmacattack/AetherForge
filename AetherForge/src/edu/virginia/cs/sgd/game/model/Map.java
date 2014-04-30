@@ -64,8 +64,11 @@ public abstract class Map {
 		// addEntity(new Point(1, 5), "cleric", "Enemy");
 		// addEntity(new Point(3, 4), "archer", "Enemy");
 		// test animation
-		addEntity(new Point(5, 4), "idleman", "Human");
-		addEntity(new Point(1, 2), "idleman", "Enemy");
+
+		addEntity(new Point(5, 5), "idleman1", "Human");
+		addEntity(new Point(7, 12), "idleman3", "Human");
+		addEntity(new Point(1, 3), "idleman2", "Enemy");
+		addEntity(new Point(21, 4), "idleman4", "Enemy");
 
 		blockLayer = this.map.getLayers().get("block");
 	}
@@ -163,7 +166,8 @@ public abstract class Map {
 		Entity def = world.getEntity(defId);
 		SpriteAnimation sam = e.getComponent(SpriteAnimation.class);
 		Animation animator = sam.animation;
-		sprite.name = "attackman";
+		String num = sprite.name.substring(sprite.name.length()-1);
+		sprite.name = "attackman" + num;
 		// start attack animation
 
 		System.out.println("Waiting on Attack Animation...");
@@ -173,7 +177,7 @@ public abstract class Map {
 			Thread.currentThread().interrupt();
 		}
 		Battle.OneOnOneFight(e, def);
-		sprite.name = "idleman";
+		sprite.name = "idleman" + num;
 		e.changedInWorld();
 		def.changedInWorld();
 
@@ -201,23 +205,28 @@ public abstract class Map {
 		int prevY = 0;
 		String prevName = "";
 		int changedCount = 0;
+		String num = s.name.substring(s.name.length()-1);
 		for (Point tp : path) {
 				if (prevX < tp.getX()) {
 					s.changed = true;
-					s.name = "walkmanE";
-					System.out.println("changed to E");
+					s.name = "walkmanE" + num;
+//					s.name = "E";
+					//System.out.println("changed to E");
 				} else if (prevX > tp.getX()) {
 					s.changed = true;
-					s.name = "walkmanW";
-					System.out.println("changed to W");
+					s.name = "walkmanW" + num;
+					
+					//System.out.println("changed to W");
 				} else if (prevY > tp.getY()) {
 					s.changed = true;
-					s.name = "walkmanS";
-					System.out.println("changed to S");
+					s.name = "walkmanS" + num;
+					
+					//System.out.println("changed to S");
 				} else if (prevY < tp.getY()) {
 					s.changed = true;
-					s.name = "walkmanS";
-					System.out.println("changed to N");
+				
+					s.name = "walkmanN" + num;
+					//System.out.println("changed to N");
 				}
 			
 			m.setX(tp.getX());
@@ -233,7 +242,7 @@ public abstract class Map {
 			prevName = s.name;
 		}
 
-		s.name = "idleman";
+		s.name = "idleman" + num;
 
 	}
 

@@ -2,12 +2,16 @@ package edu.virginia.cs.sgd.game.view;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import edu.virginia.cs.sgd.game.Level;
 import edu.virginia.cs.sgd.game.controller.MapOperator;
@@ -115,6 +119,7 @@ public class Viewer {
 		p.setColor(0, 0, 0, .5f);
 		p.fill();
 
+		Texture.setEnforcePotImages(false);
 		Texture bg = new Texture(p);
 		
 		p = new Pixmap(headWidth, headHeight, Pixmap.Format.RGBA8888);
@@ -164,7 +169,17 @@ public class Viewer {
 		}
 		
 		MapOperator o = level.getCurrentOperator();
-
+		SpriteBatch batch = renderer.getSpriteBatch();
+		Skin paneSkin = new Skin(Gdx.files.internal("skins/uiskin.json"));
+		ScrollPane pane = new ScrollPane(new Actor(), paneSkin);
+		//OutputNinePatch nine = OutputNinePatch.getInstance();
+		// Create a new TextButtonStyle
+	//	TextButtonStyle style = new TextButton.TextButtonStyle();
+		// Instantiate the Button itself.
+		//TextButton button = new TextButton("hello world", null);
+		//batch.begin();
+		//nine.draw(batch, 250, 0, 500, 100);
+		//pane.draw(batch, 1);
 		if(o != null) {
 			Selection sel = o.getSelection();
 
@@ -172,10 +187,11 @@ public class Viewer {
 				drawTiles(sel);
 				
 				drawProfile(sel.getTex(), sel.getHealth(), sel.getMana());
+
 			}
 		}
 
-		
+		//batch.end();
 	}
 
 	public void resize(int width, int height) {

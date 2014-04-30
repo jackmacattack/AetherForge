@@ -120,7 +120,6 @@ public class Animation {
 	public TextureRegion getKeyFrame(float stateTime, boolean animated) {
 		if(animated){
 		int frameNumber = getKeyFrameIndex(stateTime);
-//		System.out.println("frame Number" + frameNumber);
 		return keyFrames[frameNumber];
 		}
 		return keyFrames[0];

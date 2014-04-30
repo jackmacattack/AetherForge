@@ -45,7 +45,11 @@ public class RenderSystem extends EntityProcessingSystem {
 	// A test for animation
 	private TextureRegionManager texAnimationManager;
 	private TextureAtlas atlas;
-	private String[] animationNames = { "idleman", "attackman", "walkmanS", "walkmanW", "walkmanE" };
+	private String[] animationNames = {"idleman1", 
+			"attackman1", "walkmanS1", "walkmanW1", "walkmanE1", "walkmanN1", "idleman2", 
+			"attackman2", "walkmanS2", "walkmanW2", "walkmanE2", "walkmanN2", "idleman3", 
+			"attackman3", "walkmanS3", "walkmanW3", "walkmanE3", "walkmanN3", "idleman4", 
+			"attackman4", "walkmanS4", "walkmanW4", "walkmanE4", "walkmanN4"};
 
 	@SuppressWarnings("unchecked")
 	public RenderSystem(TiledMap map, float scale) {
@@ -60,10 +64,11 @@ public class RenderSystem extends EntityProcessingSystem {
 
 		width = map.getProperties().get("tilewidth", Integer.class);
 		height = (map.getProperties().get("tileheight", Integer.class));
-		texAnimationManager = new TextureRegionManager("HumanSprites", width,
-				height, animationNames);
 		
 		isNew = true;
+
+		texAnimationManager = new TextureRegionManager("FullSpriteSheet", width,height, animationNames);
+
 	}
 
 	public float getScale() {
@@ -93,8 +98,8 @@ public class RenderSystem extends EntityProcessingSystem {
 		Sprite sprite = sm.get(e);
 		SpriteAnimation anim = sam.get(e);
 		anim.stateTime += 1;
-			anim.animation.keyFrames = texAnimationManager.getRegion(sprite.name);
-			prevName = sprite.name;
+		anim.animation.keyFrames = texAnimationManager.getRegion(sprite.name);
+		//anim.animation.keyFrames = texManager.getRegion(sprite.name);
 		SpriteBatch batch = getSpriteBatch();
 		float scale = renderer.getUnitScale();
 		// batch.draw(tex, (float) pos.getX() * width, (float) pos.getY() *
@@ -110,8 +115,7 @@ public class RenderSystem extends EntityProcessingSystem {
 	protected void inserted(Entity e) {
 		Sprite sprite = sm.get(e);
 		SpriteAnimation anim = sam.get(e);
-		Array<? extends TextureRegion> listAnimTex = new Array(
-				texAnimationManager.getRegion(sprite.name));
+		Array<? extends TextureRegion> listAnimTex = new Array(texAnimationManager.getRegion(sprite.name));
 		anim.animation = new Animation(anim.frameDuration, listAnimTex,
 				anim.playType);
 		TextureRegion reg = anim.getFrame();

@@ -3,6 +3,7 @@ package edu.virginia.cs.sgd.game;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import edu.virginia.cs.sgd.game.controller.AttackNearestPlayer;
@@ -58,10 +59,11 @@ public class Level {
 	}
 
 	private void startTurn() {
-
+		
 		o = new MapOperator(map, c.getActivePlayer());
 		c.startTurn(o);
 
+		Gdx.app.log("Love", "message");
 	}
 
 	public void initialize() {

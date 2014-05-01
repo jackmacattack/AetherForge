@@ -1,19 +1,19 @@
 package edu.virginia.cs.sgd.game.controller;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import edu.virginia.cs.sgd.util.Point;
 
 public class InputPlayer extends Player implements UserInput {
 
-	private Queue<Point> q;
+	private BlockingQueue<Point> q;
 	private boolean end;
 	
 	public InputPlayer(String name, String[] enemies) {
 		super(name, enemies);
 		
-		q = new LinkedList<Point>();
+		q = new LinkedBlockingQueue<Point>();
 	}
 	
 	public void onTouch(Point p) {

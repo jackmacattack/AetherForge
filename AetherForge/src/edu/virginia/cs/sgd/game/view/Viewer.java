@@ -160,6 +160,7 @@ public class Viewer {
 		uiBatch.draw(manaBase, barX, mBarY);
 		uiBatch.draw(manaLeft, barX, mBarY);
 		uiBatch.end();	
+		
 	}
 	
 	public void renderUI(Level level) {
@@ -182,8 +183,10 @@ public class Viewer {
 		//pane.draw(batch, 1);
 		if(o != null) {
 			Selection sel = o.getSelection();
-
+			
 			if(sel != null) {
+//				System.out.println("Lara iz good"); 
+				
 				drawTiles(sel);
 				
 				drawProfile(sel.getTex(), sel.getHealth(), sel.getMana());

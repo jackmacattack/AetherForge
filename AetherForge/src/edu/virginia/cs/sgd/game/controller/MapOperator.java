@@ -147,6 +147,8 @@ public class MapOperator {
 
 	private boolean select(int id, String player) {
 
+		System.out.println("Love");
+		
 		String owner = map.getPlayer(id);
 
 		MapPosition m = map.getComponent(id, MapPosition.class);
@@ -218,7 +220,7 @@ public class MapOperator {
 			}
 			break;
 		}
-
+		
 		state.transition(event);
 	}
 
